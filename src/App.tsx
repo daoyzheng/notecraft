@@ -1,11 +1,10 @@
 import Editor from "./components/Editor"
 
 function App() {
-
   return (
     <div>
-      <Editor />
       Home
+      <Editor />
     </div>
   )
 }

@@ -1,18 +1,22 @@
-import { EditorState } from '@codemirror/state'
-import { EditorView, keymap } from '@codemirror/view'
-import { defaultKeymap } from '@codemirror/commands'
+import { useCallback, useEffect } from 'react'
+import useCodeMirror from '../hooks/useCodeMirror'
 
-const Editor: React.FC = () => {
-  const startState = EditorState.create({
-    doc: 'Hello World',
-    extensions: [keymap.of(defaultKeymap)]
+interface Props {
+
+}
+
+const Editor: React.FC<Props> = (props) => {
+  const [refContainer, editorView] = useCodeMirror<HTMLDivElement>({
+    initialDoc: 'HELLO WORLD',
+    onChange: () => {}
   })
 
-  const view = new EditorView({
-    state: startState,
-    parent: document.body
-  })
-  return <div>Editor</div>
+  useEffect(() => {
+    if (editorView) {
+      // do nothing for now
+    }
+  }, [editorView])
+  return <div ref={refContainer}>Editor</div>
 }
 
 export default Editor
