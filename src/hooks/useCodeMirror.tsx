@@ -2,6 +2,8 @@ import { useEffect, useState, useRef } from 'react'
 import { EditorState } from '@codemirror/state'
 import { EditorView, keymap } from '@codemirror/view'
 import { defaultKeymap } from '@codemirror/commands'
+import { markdown, markdownLanguage } from '@codemirror/lang-markdown'
+import { languages } from '@codemirror/language-data'
 import type React from 'react'
 
 interface Props {
@@ -25,6 +27,11 @@ const useCodeMirror = <T extends Element>(props : Props) : [React.MutableRefObje
           if (update.changes) {
             onChange && onChange(update.state)
           }
+        }),
+        markdown({
+          base: markdownLanguage,
+          codeLanguages: languages,
+          addKeymap: true
         })
       ],
     })
