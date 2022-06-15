@@ -1,9 +1,12 @@
-import NoteList from "../pages/home/noteList/NoteList"
+import { ReactNode } from "react"
+import { Outlet } from "react-router-dom"
 
-const HomeLayout = () => {
+const HomeLayout: React.FC = () => {
   return (
     <div>
-      <NoteList/>
+      <main>
+        <Outlet />
+      </main>
     </div>
   )
 }

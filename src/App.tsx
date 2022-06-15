@@ -1,6 +1,7 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom"
 import HomeLayout from "./layouts/HomeLayout"
 import Error from "./pages/error/Error"
+import Notebook from "./pages/notebook/Notebook"
 
 function App() {
   // const [doc, setDoc] = useState<string>('# hello world')
@@ -11,9 +12,10 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HomeLayout/>}/>
-        {/* <Route path="/login" element={<Login/>}/>
-        <Route path="/signup" element={<Signup/>}/> */}
+        <Route element={<HomeLayout/>}>
+          <Route path="/" />
+          <Route path="/notebook" element={<Notebook/>}/>
+        </Route>
         <Route path="*" element={<Error/>}/>
       </Routes>
     </Router>
