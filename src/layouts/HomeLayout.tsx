@@ -1,10 +1,9 @@
-import { ReactNode } from "react"
 import { Outlet } from "react-router-dom"
 
 const HomeLayout: React.FC = () => {
   return (
     <div>
-      <header>
+      <header className="bg-red-300">
         Hello
       </header>
       <main>
