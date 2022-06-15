@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react'
-import useCodeMirror from '../hooks/useCodeMirror'
+import useCodeMirror from '../../hooks/useCodeMirror'
 import { EditorState } from '@codemirror/state'
 
 interface Props {
