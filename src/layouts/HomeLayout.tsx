@@ -6,7 +6,7 @@ const HomeLayout: React.FC = () => {
       <header className="bg-red-300 col-span-2">
         Header
       </header>
-      <main className="bg-blue-400 col-span-10">
+      <main className="col-span-10">
         <Outlet />
       </main>
     </div>
