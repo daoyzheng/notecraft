@@ -1,3 +1,4 @@
+import NoteDetails from "../../components/noteDetails/NoteDetails"
 import Notelist from "../../components/notelist/Notelist"
 
 const Notebook = () => {
@@ -6,8 +7,8 @@ const Notebook = () => {
   }
   return (
     <div className="grid grid-cols-10 h-full w-full">
-      <Notelist className="col-span-3" onCreateNewNote={handleCreateNewNote}/>
-      <div className="col-span-7 bg-red-500">Note details</div>
+      <Notelist className="col-span-3 border-r border-gray-500" onCreateNewNote={handleCreateNewNote}/>
+      <NoteDetails className="col-span-7" />
     </div>
   )
 }
