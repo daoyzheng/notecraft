@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import { INoteList } from '../../interfaces/note'
+import { INote } from '../../interfaces/note'
 interface Props {
   className?: string
   onCreateNewNote: () => void
 }
 const Notelist = ({ className, onCreateNewNote } : Props) => {
-  const [noteList, setNoteList] = useState<INoteList[]>([
+  const [noteList, setNoteList] = useState<INote[]>([
     {
       id: 1,
       title: 'How to create markdown file',
@@ -48,7 +48,7 @@ const Notelist = ({ className, onCreateNewNote } : Props) => {
         {
           noteList.map(note =>
             (
-              <div key={note.id}>
+              <div key={note.id} className="cursor-pointer">
                 {note.title}
               </div>
             )

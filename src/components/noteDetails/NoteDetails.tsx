@@ -1,9 +1,11 @@
 import { useCallback, useState } from "react"
+import { INote } from "../../interfaces/note"
 import Editor from "../editor/Editor"
 import Preview from "../preview/Preview"
 
 interface Props {
   className?: string
+  currentNote: INote | null
 }
 
 const NoteDetails = ({ className } : Props) => {

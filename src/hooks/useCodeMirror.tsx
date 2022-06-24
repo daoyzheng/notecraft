@@ -4,7 +4,33 @@ import { EditorView, basicSetup } from 'codemirror'
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown'
 import { oneDark } from '@codemirror/theme-one-dark'
 import { languages } from '@codemirror/language-data'
+import { tags } from '@lezer/highlight'
+import { HighlightStyle, syntaxHighlighting } from '@codemirror/language'
 import type React from 'react'
+
+const highlightStyle = HighlightStyle.define([
+  {
+    tag: tags.heading1,
+    fontSize: '1.2em',
+    fontWeight: 'bold'
+  }
+])
+
+const theme = EditorView.theme({
+  '&': {
+    backgroundColor: 'transparent !important',
+    height: '100%'
+  },
+  '.cm-gutters': {
+    backgroundColor: 'transparent !important'
+  },
+  "&.cm-focused .cm-cursor": {
+    borderLeftColor: 'white'
+  },
+  ".cm-content": {
+    color: 'white'
+  },
+}, {dark: true})
 
 interface Props {
   initialDoc: string,
@@ -18,12 +44,6 @@ const useCodeMirror = <T extends Element>(props : Props) : [React.MutableRefObje
 
   useEffect(() => {
     if (!refContainer.current) return
-    const theme = EditorView.theme({
-      '&': {
-        backgroundColor: 'transparent !important',
-        height: '100%'
-      }
-    }, {dark: true})
 
     const startState = EditorState.create({
       doc: props.initialDoc,
@@ -31,6 +51,7 @@ const useCodeMirror = <T extends Element>(props : Props) : [React.MutableRefObje
         basicSetup,
         oneDark,
         theme,
+        syntaxHighlighting(highlightStyle),
         EditorView.updateListener.of(update => {
           if (update.changes) {
             onChange && onChange(update.state)

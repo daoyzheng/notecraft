@@ -1,4 +1,4 @@
-export interface INoteList {
+export interface INote {
   id: number
   title: string
   date: string

@@ -19,7 +19,7 @@ const Editor: React.FC<Props> = ({ onChange, initialDoc }) => {
       // do nothing for now
     }
   }, [editorView])
-  return <div ref={refContainer}/>
+  return <div ref={refContainer} className="h-96"/>
 }
 
 export default Editor
