@@ -1,8 +1,8 @@
 import { useEffect, useState, useRef } from 'react'
 import { EditorState } from '@codemirror/state'
-import { EditorView, keymap } from '@codemirror/view'
-import { defaultKeymap } from '@codemirror/commands'
+import { EditorView, basicSetup } from 'codemirror'
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown'
+import { oneDark } from '@codemirror/theme-one-dark'
 import { languages } from '@codemirror/language-data'
 import type React from 'react'
 
@@ -18,11 +18,19 @@ const useCodeMirror = <T extends Element>(props : Props) : [React.MutableRefObje
 
   useEffect(() => {
     if (!refContainer.current) return
+    const theme = EditorView.theme({
+      '&': {
+        backgroundColor: 'transparent !important',
+        height: '100%'
+      }
+    }, {dark: true})
 
     const startState = EditorState.create({
       doc: props.initialDoc,
       extensions: [
-        keymap.of(defaultKeymap),
+        basicSetup,
+        oneDark,
+        theme,
         EditorView.updateListener.of(update => {
           if (update.changes) {
             onChange && onChange(update.state)
