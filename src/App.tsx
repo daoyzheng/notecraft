@@ -4,11 +4,6 @@ import Error from "./pages/error/Error"
 import Notebook from "./pages/notebook/Notebook"
 
 function App() {
-  // const [doc, setDoc] = useState<string>('# hello world')
-
-  // const handleDocChange = useCallback((newDoc: string) => {
-  //   setDoc(newDoc)
-  // }, [])
   return (
     <Router>
       <Routes>

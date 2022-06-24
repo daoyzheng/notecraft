@@ -1,32 +1,40 @@
+import { useState } from 'react'
+import { INoteList } from '../../interfaces/note'
 interface Props {
   className?: string
   onCreateNewNote: () => void
 }
-const noteLists = [
-  {
-    id: 1,
-    title: 'How to create markdown file',
-    date: '2020-06-14',
-    body: 'testing note here'
-  },
-  {
-    id: 2,
-    title: 'How to create markdown file',
-    date: '2020-06-14'
-  },
-  {
-    id: 3,
-    title: 'How to create markdown file',
-    date: '2020-06-14'
-  },
-  {
-    id: 4,
-    title: 'How to create markdown file',
-    date: '2020-06-14'
-  }
-]
 const Notelist = ({ className, onCreateNewNote } : Props) => {
+  const [noteList, setNoteList] = useState<INoteList[]>([
+    {
+      id: 1,
+      title: 'How to create markdown file',
+      date: '2020-06-14',
+      body: 'testing note here'
+    },
+    {
+      id: 2,
+      title: 'How to create markdown file',
+      date: '2020-06-14'
+    },
+    {
+      id: 3,
+      title: 'How to create markdown file',
+      date: '2020-06-14'
+    },
+    {
+      id: 4,
+      title: 'How to create markdown file',
+      date: '2020-06-14'
+    }
+  ])
   function handleOnClick () {
+    const newNote = {
+      id: noteList.length + 1,
+      title: 'How to create markdown file',
+      date: '2020-06-14'
+    }
+    setNoteList(oldNoteList => [...oldNoteList, newNote])
     onCreateNewNote()
   }
 
@@ -38,7 +46,7 @@ const Notelist = ({ className, onCreateNewNote } : Props) => {
       </div>
       <div className="space-y-2">
         {
-          noteLists.map(note =>
+          noteList.map(note =>
             (
               <div key={note.id}>
                 {note.title}
