@@ -31,10 +31,10 @@ const Notelist = ({ className, onCreateNewNote } : Props) => {
   }
 
   return (
-    <div className={`px-2 pt-1 bg-stone-800 text-white ${className}`}>
-      <div className="flex flex row items-center justify-between my-2 border-buttom border-b pb-1 border-gray-400">
-        <div>New Notebook</div>
-        <i className="material-icons-outlined text-md cursor-pointer" onClick={handleOnClick}>add_box</i>
+    <div className={`px-2 pt-1 bg-zinc-800 text-white ${className}`}>
+      <div className="flex flex row items-center justify-between my-2 pb-1">
+        <div className="text-lg">New Notebook</div>
+        <i className="material-icons-outlined text-sm cursor-pointer" onClick={handleOnClick}>launch</i>
       </div>
       <div className="space-y-2">
         {

@@ -5,7 +5,10 @@ const HomeLayout: React.FC = () => {
     <div className="grid grid-cols-12 h-screen w-screen">
       <header className="bg-zinc-900 col-span-2 text-white pt-4 px-2 justify-between flex flex-col">
         <div>
-          <div>Notebooks</div>
+          <div className="flex justify-between items-center">
+            <div>Notebooks</div>
+            <i className="material-icons-outlined text-sm cursor-pointer">add_circle_outline</i>
+          </div>
           <div className="ml-4 space-y-1 mt-1">
             <div>NoteBook1</div>
             <div>NoteBook2</div>
