@@ -31,7 +31,7 @@ const Notelist = ({ className, onCreateNewNote } : Props) => {
   function handleOnClick () {
     const newNote = {
       id: noteList.length + 1,
-      title: 'How to create markdown file',
+      title: 'New Note',
       date: '2020-06-14'
     }
     setNoteList(oldNoteList => [...oldNoteList, newNote])

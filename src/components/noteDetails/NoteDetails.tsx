@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react"
 import Editor from "../editor/Editor"
+import Preview from "../preview/Preview"
 
 interface Props {
   className?: string
@@ -33,7 +34,7 @@ const NoteDetails = ({ className } : Props) => {
         {
           isEditMode ?
             <Editor initialDoc={doc} onChange={handleDocChange}/> :
-            'Body'
+            <Preview doc={doc}/>
         }
       </div>
     </div>
