@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { INote } from '../../interfaces/note'
+import Note from '../note/Note'
 interface Props {
   className?: string
   onCreateNewNote: () => void
 }
 const Notelist = ({ className, onCreateNewNote } : Props) => {
+  const [selectedNote, setSelectedNote] = useState<INote>()
   const [noteList, setNoteList] = useState<INote[]>([
     {
       id: 1,
@@ -28,7 +30,7 @@ const Notelist = ({ className, onCreateNewNote } : Props) => {
       date: '2020-06-14'
     }
   ])
-  function handleOnClick () {
+  function handleCreateNewNote () {
     const newNote = {
       id: noteList.length + 1,
       title: 'New Note',
@@ -38,19 +40,21 @@ const Notelist = ({ className, onCreateNewNote } : Props) => {
     onCreateNewNote()
   }
 
+  function handleClick () {
+    console.log('her')
+  }
+
   return (
     <div className={`px-2 pt-1 bg-zinc-800 text-white ${className}`}>
       <div className="flex flex row items-center justify-between my-2 pb-1">
         <div className="text-lg">New Notebook</div>
-        <i className="material-icons-outlined text-sm cursor-pointer" onClick={handleOnClick}>launch</i>
+        <i className="material-icons-outlined text-sm cursor-pointer" onClick={handleCreateNewNote}>launch</i>
       </div>
       <div className="space-y-2">
         {
           noteList.map(note =>
             (
-              <div key={note.id} className="cursor-pointer">
-                {note.title}
-              </div>
+              <Note key={note.id} note={note}/>
             )
           )
         }

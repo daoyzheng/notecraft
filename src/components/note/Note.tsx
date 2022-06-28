@@ -1,7 +1,13 @@
-const Note = () => {
+import { INote } from "../../interfaces/note"
+
+interface Props {
+  className?: string
+  note: INote
+}
+const Note = ({ className, note }: Props) => {
   return (
-    <div>
-      Note
+    <div className={`${className}`}>
+      {note.title}
     </div>
   )
 }
