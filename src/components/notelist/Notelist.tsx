@@ -3,16 +3,17 @@ import { INote } from '../../interfaces/note'
 import Note from '../note/Note'
 interface Props {
   className?: string
-  onCreateNewNote: () => void
+  onCreateNewNote?: () => void
+  onSelectNote?: (note: INote) => void
 }
-const Notelist = ({ className, onCreateNewNote } : Props) => {
+const Notelist = ({ className, onCreateNewNote, onSelectNote } : Props) => {
   const [selectedNote, setSelectedNote] = useState<INote>()
   const [noteList, setNoteList] = useState<INote[]>([
     {
       id: 1,
       title: 'How to create markdown file',
       date: '2020-06-14',
-      body: 'loremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremlorem'
+      body: 'loremloremloremloremloremlor emloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremlorem'
     },
     {
       id: 2,
@@ -37,11 +38,12 @@ const Notelist = ({ className, onCreateNewNote } : Props) => {
       date: '2020-06-14'
     }
     setNoteList(oldNoteList => [...oldNoteList, newNote])
-    onCreateNewNote()
+    onCreateNewNote && onCreateNewNote()
   }
 
-  function handleClick () {
-    console.log('her')
+  function handleSelectNote (note: INote) {
+    setSelectedNote(note)
+    onSelectNote && onSelectNote(note)
   }
 
   return (
@@ -54,7 +56,7 @@ const Notelist = ({ className, onCreateNewNote } : Props) => {
         {
           noteList.map(note =>
             (
-              <Note key={note.id} note={note}/>
+              <Note key={note.id} note={note} onClick={handleSelectNote} className={`${selectedNote?.id === note.id ? 'bg-blue-500' : ''}`}/>
             )
           )
         }
