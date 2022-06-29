@@ -12,7 +12,7 @@ const Notelist = ({ className, onCreateNewNote } : Props) => {
       id: 1,
       title: 'How to create markdown file',
       date: '2020-06-14',
-      body: 'testing note here'
+      body: 'loremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremlorem'
     },
     {
       id: 2,
