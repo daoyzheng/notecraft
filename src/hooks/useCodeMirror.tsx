@@ -16,10 +16,12 @@ const highlightStyle = HighlightStyle.define([
   }
 ])
 
+const lineWrap = EditorView.lineWrapping
+
 const theme = EditorView.theme({
   '&': {
     backgroundColor: 'transparent !important',
-    height: '100%'
+    height: '100%',
   },
   '.cm-gutters': {
     backgroundColor: 'transparent !important'
@@ -51,6 +53,7 @@ const useCodeMirror = <T extends Element>(props : Props) : [React.MutableRefObje
         basicSetup,
         oneDark,
         theme,
+        lineWrap,
         syntaxHighlighting(highlightStyle),
         EditorView.updateListener.of(update => {
           if (update.changes) {

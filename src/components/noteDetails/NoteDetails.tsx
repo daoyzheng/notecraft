@@ -13,7 +13,8 @@ const NoteDetails = ({ className, note } : Props) => {
   const [doc, setDoc] = useState<string>('# hello world')
 
   const handleDocChange = useCallback((newDoc: string) => {
-    setDoc(newDoc)
+    if (note?.body)
+      note.body = newDoc
   }, [])
 
   return (

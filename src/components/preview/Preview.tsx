@@ -7,7 +7,7 @@ interface Props {
 }
 const Preview: React.FC<Props> = ({ className, doc }) => {
   return (
-    <div className="break-all">
+    <div className="break-words">
       <ReactMarkdown children={doc} remarkPlugins={[remarkGfm]}/>
     </div>
   )
