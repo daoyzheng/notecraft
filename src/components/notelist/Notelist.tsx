@@ -2,47 +2,23 @@ import { useState } from 'react'
 import { INote } from '../../interfaces/note'
 import Note from '../note/Note'
 interface Props {
+  noteList: INote[],
+  currentNote: INote|null,
   className?: string
-  onCreateNewNote?: () => void
+  onCreateNewNote?: (newNote: INote) => void
   onSelectNote?: (note: INote) => void
 }
-const Notelist = ({ className, onCreateNewNote, onSelectNote } : Props) => {
-  const [selectedNote, setSelectedNote] = useState<INote>()
-  const [noteList, setNoteList] = useState<INote[]>([
-    {
-      id: 1,
-      title: 'How to create markdown file',
-      date: '2020-06-14',
-      body: 'loremloremloremloremloremlor emloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremlorem'
-    },
-    {
-      id: 2,
-      title: 'How to create markdown file',
-      date: '2020-06-14'
-    },
-    {
-      id: 3,
-      title: 'How to create markdown file',
-      date: '2020-06-14'
-    },
-    {
-      id: 4,
-      title: 'How to create markdown file',
-      date: '2020-06-14'
-    }
-  ])
+const Notelist = ({ className, onCreateNewNote, onSelectNote, noteList, currentNote } : Props) => {
   function handleCreateNewNote () {
     const newNote = {
-      id: noteList.length + 1,
+      id: 0,
       title: 'New Note',
       date: '2020-06-14'
     }
-    setNoteList(oldNoteList => [...oldNoteList, newNote])
-    onCreateNewNote && onCreateNewNote()
+    onCreateNewNote && onCreateNewNote(newNote)
   }
 
   function handleSelectNote (note: INote) {
-    setSelectedNote(note)
     onSelectNote && onSelectNote(note)
   }
 
@@ -56,7 +32,7 @@ const Notelist = ({ className, onCreateNewNote, onSelectNote } : Props) => {
         {
           noteList.map(note =>
             (
-              <Note key={note.id} note={note} onClick={handleSelectNote} className={`${selectedNote?.id === note.id ? 'bg-blue-500' : ''}`}/>
+              <Note key={note.id} note={note} onClick={handleSelectNote} className={`${currentNote?.id === note.id ? 'bg-blue-500' : ''}`}/>
             )
           )
         }
