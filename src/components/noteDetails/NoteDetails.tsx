@@ -6,15 +6,16 @@ import Preview from "../preview/Preview"
 interface Props {
   className?: string
   note: INote | null
+  onDocChange?: (doc: string) => void
 }
 
-const NoteDetails = ({ className, note } : Props) => {
+const NoteDetails = ({ className, note, onDocChange } : Props) => {
   const [isEditMode, setIsEditMode] = useState<boolean>(false)
   const [doc, setDoc] = useState<string>('# hello world')
 
   const handleDocChange = useCallback((newDoc: string) => {
-    if (note?.body)
-      note.body = newDoc
+    setDoc(doc)
+    onDocChange &&  onDocChange(newDoc)
   }, [])
 
   return (

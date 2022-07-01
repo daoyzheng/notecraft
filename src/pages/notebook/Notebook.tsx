@@ -11,6 +11,12 @@ const Notebook = () => {
   function handleSelectNote (note: INote) {
     setCurrentNote(note)
   }
+  function handleNoteChange (doc: string) {
+    if (currentNote) {
+      currentNote.body = doc
+      setCurrentNote(currentNote)
+    }
+  }
   return (
     <div className="grid grid-cols-10 h-full w-full">
       <Notelist
@@ -18,7 +24,10 @@ const Notebook = () => {
         onCreateNewNote={handleCreateNewNote}
         onSelectNote={handleSelectNote}
       />
-      <NoteDetails className="col-span-7" note={currentNote}/>
+      <NoteDetails className="col-span-7"
+        note={currentNote}
+        onDocChange={handleNoteChange}
+      />
     </div>
   )
 }
