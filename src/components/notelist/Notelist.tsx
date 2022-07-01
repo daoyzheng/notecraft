@@ -19,7 +19,8 @@ const Notelist = ({ className, onCreateNewNote, onSelectNote, noteList, currentN
   }
 
   function handleSelectNote (note: INote) {
-    onSelectNote && onSelectNote(note)
+    if (note.id != currentNote?.id)
+      onSelectNote && onSelectNote(note)
   }
 
   return (

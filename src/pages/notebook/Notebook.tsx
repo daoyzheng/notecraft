@@ -40,6 +40,14 @@ const Notebook = () => {
     if (currentNote) {
       currentNote.body = doc
       setCurrentNote(currentNote)
+      setNoteList(oldNoteList => {
+        return oldNoteList.map(note => {
+          if (note.id === currentNote.id) {
+            return { ...note, body: doc}
+          }
+          return note
+        })
+      })
     }
   }
   return (
@@ -52,7 +60,7 @@ const Notebook = () => {
         onSelectNote={handleSelectNote}
       />
       <NoteDetails className="col-span-7"
-        note={currentNote}
+        currentNote={currentNote}
         onDocChange={handleDocChange}
       />
     </div>
