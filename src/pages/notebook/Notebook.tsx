@@ -14,7 +14,8 @@ const Notebook = () => {
     {
       id: 2,
       title: 'How to create markdown file',
-      date: '2020-06-14'
+      date: '2020-06-14',
+      body: 'hey body'
     },
     {
       id: 3,

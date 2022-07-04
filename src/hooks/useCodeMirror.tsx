@@ -35,19 +35,36 @@ const theme = EditorView.theme({
 }, {dark: true})
 
 interface Props {
-  initialDoc: string,
+  docKey: string
+  initialDoc: string
   onChange?: (state: EditorState) => void
 }
 
 const useCodeMirror = <T extends Element>(props : Props) : [React.MutableRefObject<T | null>, EditorView?] => {
   const refContainer = useRef<T>(null)
   const [editorView, setEditorView] = useState<EditorView>()
-  const { onChange } = props
+  const { onChange, docKey } = props
 
   useEffect(() => {
     if (!refContainer.current) return
+    const startState = CreateEditorState()
+    const view = new EditorView({
+      state: startState,
+      parent: refContainer.current
+    })
+    setEditorView(view)
+    return () => view.destroy()
+  }, [refContainer])
 
-    const startState = EditorState.create({
+  useEffect(() => {
+    if (docKey) {
+      const startState = CreateEditorState()
+      editorView?.setState(startState)
+    }
+  }, [docKey])
+
+  function CreateEditorState () {
+    return EditorState.create({
       doc: props.initialDoc,
       extensions: [
         basicSetup,
@@ -67,15 +84,11 @@ const useCodeMirror = <T extends Element>(props : Props) : [React.MutableRefObje
         })
       ],
     })
-    const view = new EditorView({
-      state: startState,
-      parent: refContainer.current
-    })
-    setEditorView(view)
-  }, [refContainer])
+  }
 
   return [refContainer, editorView]
 }
+
 
 export default useCodeMirror
 

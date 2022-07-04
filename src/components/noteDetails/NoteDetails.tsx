@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { INote } from "../../interfaces/note"
 import Editor from "../editor/Editor"
 import Preview from "../preview/Preview"
@@ -35,8 +35,14 @@ const NoteDetails = ({ className, currentNote, onDocChange } : Props) => {
       <div className="mt-5">
         {
           isEditMode ?
-            <Editor initialDoc={currentNote?.body ? currentNote.body : ''} onChange={handleDocChange}/> :
-            <Preview doc={currentNote?.body ? currentNote.body : ''}/>
+            <Editor
+              initialDoc={currentNote?.body ? currentNote.body : ''}
+              docKey={currentNote?.id ? `${currentNote.id}` : ''}
+              onChange={handleDocChange}
+            /> :
+            <Preview
+              doc={currentNote?.body ? currentNote.body : ''}
+            />
         }
       </div>
     </div>
