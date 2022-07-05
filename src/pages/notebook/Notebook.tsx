@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import NoteDetails from "../../components/noteDetails/NoteDetails"
 import Notelist from "../../components/notelist/Notelist"
 import { INote } from "../../interfaces/note"
@@ -29,6 +29,12 @@ const Notebook = () => {
     }
   ])
   const [currentNote, setCurrentNote] = useState<INote|null>(null)
+  useEffect(() => {
+    // if (!currentNote && noteList.length > 0) {
+    //   setCurrentNote(noteList[0])
+    // }
+  }, [])
+
   function handleCreateNewNote (newNote: INote) {
     newNote.id = noteList.length + 1
     setNoteList(oldNoteList => [...oldNoteList, newNote])

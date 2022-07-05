@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { INote } from '../../interfaces/note'
 import Note from '../note/Note'
 interface Props {

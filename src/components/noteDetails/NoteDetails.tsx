@@ -17,34 +17,47 @@ const NoteDetails = ({ className, currentNote, onDocChange } : Props) => {
   }, [currentNote])
 
   return (
-    <div className={`px-2 pt-2 bg-zinc-800 text-white ${className}`}>
-      <div className="flex flex-row gap-x-10 items-center">
-        <div className="text-xl">{currentNote?.title}</div>
-      </div>
-      <div className="text-xs mt-2 flex flex-row items-center gap-x-2">
-        <div>Tag1</div>
-        <div>Tag2</div>
-        <div>Tag3</div>
-      </div>
-      <div className="flex justify-end">
-        { !isEditMode ?
-            <i className="material-icons-outlined text-md cursor-pointer" onClick={() => setIsEditMode(true)}>edit_note</i> :
-            <i className="material-icons-outlined text-md cursor-pointer" onClick={() => setIsEditMode(false)}>done</i>
-        }
-      </div>
-      <div className="mt-5">
-        {
-          isEditMode ?
-            <Editor
-              initialDoc={currentNote?.body ? currentNote.body : ''}
-              docKey={currentNote?.id ? `${currentNote.id}` : ''}
-              onChange={handleDocChange}
-            /> :
-            <Preview
-              doc={currentNote?.body ? currentNote.body : ''}
-            />
-        }
-      </div>
+    <div className={`${className} px-2 pt-2 bg-zinc-800 text-white`}>
+      {
+        !currentNote ?
+        <div className="flex justify-center items-center h-full text-gray-400">
+          <div className="flex flex-col items-center">
+            <div className="w-24">
+              <img src="/src/assets/imgs/notebook.png" alt="notebook"/>
+            </div>
+            <div className="mt-4">Create a new note or select a note and craft on</div>
+          </div>
+        </div> :
+        <div>
+          <div className="flex flex-row gap-x-10 items-center">
+            <div className="text-xl">{currentNote?.title}</div>
+          </div>
+          <div className="text-xs mt-2 flex flex-row items-center gap-x-2">
+            <div>Tag1</div>
+            <div>Tag2</div>
+            <div>Tag3</div>
+          </div>
+          <div className="flex justify-end">
+            { !isEditMode ?
+                <i className="material-icons-outlined text-md cursor-pointer" onClick={() => setIsEditMode(true)}>edit_note</i> :
+                <i className="material-icons-outlined text-md cursor-pointer" onClick={() => setIsEditMode(false)}>done</i>
+            }
+          </div>
+          <div className="mt-5">
+            {
+              isEditMode ?
+                <Editor
+                  initialDoc={currentNote?.body ? currentNote.body : ''}
+                  docKey={currentNote?.id ? `${currentNote.id}` : ''}
+                  onChange={handleDocChange}
+                /> :
+                <Preview
+                  doc={currentNote?.body ? currentNote.body : ''}
+                />
+            }
+          </div>
+        </div>
+      }
     </div>
   )
 }
