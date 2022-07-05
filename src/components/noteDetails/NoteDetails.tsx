@@ -1,6 +1,7 @@
-import { ChangeEvent, FocusEventHandler, useCallback, useState } from "react"
+import { ChangeEvent, KeyboardEvent, useCallback, useState } from "react"
 import { INote } from "../../interfaces/note"
 import Editor from "../editor/Editor"
+import NoteTag from "../noteTag/NoteTag"
 import Preview from "../preview/Preview"
 
 interface Props {
@@ -29,6 +30,13 @@ const NoteDetails = ({
     setIsEditingTitle(true)
   }
 
+  function handleKeyDown (e: KeyboardEvent) {
+    if (e.key === 'Enter') {
+      onFinishEditTitle && onFinishEditTitle()
+      setIsEditingTitle(false)
+    }
+  }
+
   const handleOnBlur = useCallback(() => {
     onFinishEditTitle && onFinishEditTitle()
     setIsEditingTitle(false)
@@ -51,7 +59,7 @@ const NoteDetails = ({
           </div>
         </div> :
         <div>
-          <div className="flex flex-row gap-x-10 items-center">
+          <div className="flex flex-row gap-x-10 items-center w-full cursor-pointer" onClick={handleOnClick}>
             {
               isEditingTitle ?
               <input
@@ -59,15 +67,18 @@ const NoteDetails = ({
                 className="focus:outline-none py-2 bg-transparent w-full placeholder-white focus:placeholder-white"
                 onBlur={handleOnBlur}
                 onChange={handleTitleChange}
+                onKeyDown={handleKeyDown}
                 autoFocus
               /> :
-              <div className="text-xl cursor-pointer" onClick={handleOnClick}>{currentNote.title}</div>
+              <div className="text-xl">{currentNote.title}</div>
             }
           </div>
           <div className="text-xs mt-2 flex flex-row items-center gap-x-2">
-            <div>Tag1</div>
-            <div>Tag2</div>
-            <div>Tag3</div>
+            {
+              currentNote.tags.map((tag, index) =>
+                <NoteTag tag={tag} key={index}/>
+              )
+            }
           </div>
           <div className="flex justify-end">
             { !isEditMode ?
