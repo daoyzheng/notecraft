@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react"
+import React, { useCallback, useEffect, useRef, useState } from "react"
 import { INote } from "../../interfaces/note"
 import Editor from "../editor/Editor"
 import Preview from "../preview/Preview"
@@ -11,10 +11,19 @@ interface Props {
 
 const NoteDetails = ({ className, currentNote, onDocChange } : Props) => {
   const [isEditMode, setIsEditMode] = useState<boolean>(false)
+  const [isEditingTitle, setIsEditingTitle] = useState<boolean>(false)
 
   const handleDocChange = useCallback((newDoc: string) => {
     onDocChange &&  onDocChange(newDoc)
   }, [currentNote])
+
+  function handleOnClick () {
+    setIsEditingTitle(true)
+  }
+
+  function handleOnBlur () {
+    setIsEditingTitle(false)
+  }
 
   return (
     <div className={`${className} px-2 pt-2 bg-zinc-800 text-white`}>
@@ -22,7 +31,7 @@ const NoteDetails = ({ className, currentNote, onDocChange } : Props) => {
         !currentNote ?
         <div className="flex justify-center items-center h-full text-gray-400">
           <div className="flex flex-col items-center">
-            <div className="w-24">
+            <div className="w-16">
               <img src="/src/assets/imgs/notebook.png" alt="notebook"/>
             </div>
             <div className="mt-4">Create a new note or select a note and craft on</div>
@@ -30,7 +39,11 @@ const NoteDetails = ({ className, currentNote, onDocChange } : Props) => {
         </div> :
         <div>
           <div className="flex flex-row gap-x-10 items-center">
-            <div className="text-xl">{currentNote?.title}</div>
+            {
+              isEditingTitle ?
+              <textarea defaultValue={currentNote.title} className="focus:outline-none py-2 bg-red-300 w-full placeholder-white focus:placeholder-white" onBlur={handleOnBlur} autoFocus /> :
+              <div className="text-xl cursor-pointer" onClick={handleOnClick}>{currentNote.title}</div>
+            }
           </div>
           <div className="text-xs mt-2 flex flex-row items-center gap-x-2">
             <div>Tag1</div>

@@ -1,5 +1,5 @@
 import { INote } from '../../interfaces/note'
-import Note from '../note/Note'
+import NoteDisplay from '../noteDisplay/NoteDisplay'
 interface Props {
   noteList: INote[],
   currentNote: INote|null,
@@ -32,7 +32,7 @@ const Notelist = ({ className, onCreateNewNote, onSelectNote, noteList, currentN
         {
           noteList.map(note =>
             (
-              <Note key={note.id} note={note} onClick={handleSelectNote} className={`${currentNote?.id === note.id ? 'bg-blue-500' : ''}`}/>
+              <NoteDisplay key={note.id} note={note} onClick={handleSelectNote} className={`${currentNote?.id === note.id ? 'bg-blue-500' : ''}`}/>
             )
           )
         }
