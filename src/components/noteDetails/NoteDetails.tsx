@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react"
+import { ChangeEvent, FocusEventHandler, useCallback, useState } from "react"
 import { INote } from "../../interfaces/note"
 import Editor from "../editor/Editor"
 import Preview from "../preview/Preview"
@@ -7,23 +7,29 @@ interface Props {
   className?: string
   currentNote: INote | null
   onDocChange?: (doc: string) => void
+  onTitleChange?: (title: string) => void
 }
 
-const NoteDetails = ({ className, currentNote, onDocChange } : Props) => {
+const NoteDetails = ({ className, currentNote, onDocChange, onTitleChange } : Props) => {
   const [isEditMode, setIsEditMode] = useState<boolean>(false)
   const [isEditingTitle, setIsEditingTitle] = useState<boolean>(false)
 
   const handleDocChange = useCallback((newDoc: string) => {
-    onDocChange &&  onDocChange(newDoc)
+    onDocChange && onDocChange(newDoc)
   }, [currentNote])
 
   function handleOnClick () {
     setIsEditingTitle(true)
   }
 
-  function handleOnBlur () {
+  const handleOnBlur = useCallback(() => {
+    // onTitleChange && onTitleChange()
     setIsEditingTitle(false)
-  }
+  }, [onTitleChange])
+
+  const handleTitleChange = useCallback((e: ChangeEvent) => {
+    onTitleChange && onTitleChange((e.target as HTMLInputElement).value)
+  }, [onTitleChange])
 
   return (
     <div className={`${className} px-2 pt-2 bg-zinc-800 text-white`}>
@@ -41,7 +47,13 @@ const NoteDetails = ({ className, currentNote, onDocChange } : Props) => {
           <div className="flex flex-row gap-x-10 items-center">
             {
               isEditingTitle ?
-              <textarea defaultValue={currentNote.title} className="focus:outline-none py-2 bg-red-300 w-full placeholder-white focus:placeholder-white" onBlur={handleOnBlur} autoFocus /> :
+              <input
+                defaultValue={currentNote.title}
+                className="focus:outline-none py-2 bg-transparent w-full placeholder-white focus:placeholder-white"
+                onBlur={handleOnBlur}
+                onChange={handleTitleChange}
+                autoFocus
+              /> :
               <div className="text-xl cursor-pointer" onClick={handleOnClick}>{currentNote.title}</div>
             }
           </div>

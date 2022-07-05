@@ -38,6 +38,7 @@ const Notebook = () => {
   function handleSelectNote (note: INote) {
     setCurrentNote(note)
   }
+
   function handleDocChange (doc: string) {
     if (currentNote) {
       currentNote.body = doc
@@ -46,6 +47,21 @@ const Notebook = () => {
         return oldNoteList.map(note => {
           if (note.id === currentNote.id) {
             return { ...note, body: doc}
+          }
+          return note
+        })
+      })
+    }
+  }
+
+  function handleTitleChange (title: string) {
+    if (currentNote) {
+      currentNote.title = title
+      setCurrentNote(currentNote)
+      setNoteList(oldNoteList => {
+        return oldNoteList.map(note => {
+          if (note.id === currentNote.id) {
+            return { ...note, title }
           }
           return note
         })
@@ -64,6 +80,7 @@ const Notebook = () => {
       <NoteDetails className="col-span-7"
         currentNote={currentNote}
         onDocChange={handleDocChange}
+        onTitleChange={handleTitleChange}
       />
     </div>
   )
