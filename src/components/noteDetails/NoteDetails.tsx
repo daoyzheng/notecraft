@@ -8,9 +8,16 @@ interface Props {
   currentNote: INote | null
   onDocChange?: (doc: string) => void
   onTitleChange?: (title: string) => void
+  onFinishEditTitle?: () => void
 }
 
-const NoteDetails = ({ className, currentNote, onDocChange, onTitleChange } : Props) => {
+const NoteDetails = ({
+  className,
+  currentNote,
+  onDocChange,
+  onTitleChange,
+  onFinishEditTitle
+} : Props) => {
   const [isEditMode, setIsEditMode] = useState<boolean>(false)
   const [isEditingTitle, setIsEditingTitle] = useState<boolean>(false)
 
@@ -23,9 +30,9 @@ const NoteDetails = ({ className, currentNote, onDocChange, onTitleChange } : Pr
   }
 
   const handleOnBlur = useCallback(() => {
-    // onTitleChange && onTitleChange()
+    onFinishEditTitle && onFinishEditTitle()
     setIsEditingTitle(false)
-  }, [onTitleChange])
+  }, [onFinishEditTitle])
 
   const handleTitleChange = useCallback((e: ChangeEvent) => {
     onTitleChange && onTitleChange((e.target as HTMLInputElement).value)

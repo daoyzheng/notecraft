@@ -9,23 +9,27 @@ const Notebook = () => {
       id: 1,
       title: 'How to create markdown file How to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown file',
       date: '2020-06-14',
-      body: 'loremloremloremloremloremlor emloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremlorem'
+      body: 'loremloremloremloremloremlor emloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremlorem',
+      tags: ['new', 'hey', 'ho']
     },
     {
       id: 2,
       title: 'How to create markdown file',
       date: '2020-06-14',
-      body: 'hey body'
+      body: 'hey body',
+      tags: ['new', 'hey', 'ho']
     },
     {
       id: 3,
       title: 'How to create markdown file',
-      date: '2020-06-14'
+      date: '2020-06-14',
+      tags: []
     },
     {
       id: 4,
       title: 'How to create markdown file',
-      date: '2020-06-14'
+      date: '2020-06-14',
+      tags: []
     }
   ])
   const [currentNote, setCurrentNote] = useState<INote|null>(null)
@@ -68,6 +72,10 @@ const Notebook = () => {
       })
     }
   }
+
+  function handleFinishEditTitle () {
+    console.log('save note')
+  }
   return (
     <div className="grid grid-cols-10 h-full w-full">
       <Notelist
@@ -81,6 +89,7 @@ const Notebook = () => {
         currentNote={currentNote}
         onDocChange={handleDocChange}
         onTitleChange={handleTitleChange}
+        onFinishEditTitle={handleFinishEditTitle}
       />
     </div>
   )

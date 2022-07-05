@@ -12,7 +12,8 @@ const Notelist = ({ className, onCreateNewNote, onSelectNote, noteList, currentN
     const newNote = {
       id: 0,
       title: 'New Note',
-      date: '2020-06-14'
+      date: '2020-06-14',
+      tags: []
     }
     onCreateNewNote && onCreateNewNote(newNote)
   }

@@ -1,6 +1,7 @@
 export interface INote {
-  id: number
+  id?: number
   title: string
   date: string
   body?: string
+  tags: string[]
 }
