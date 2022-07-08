@@ -1,8 +1,8 @@
 import { ChangeEvent, KeyboardEvent, useCallback, useState } from "react"
 import { INote } from "../../interfaces/note"
 import Editor from "../editor/Editor"
-import NoteTag from "../noteTag/NoteTag"
 import Preview from "../preview/Preview"
+import TagList from "../tagList/TagList"
 
 interface Props {
   className?: string
@@ -52,7 +52,7 @@ const NoteDetails = ({
         !currentNote ?
         <div className="flex justify-center items-center h-full text-gray-400">
           <div className="flex flex-col items-center">
-            <div className="w-16">
+            <div className="w-12">
               <img src="/src/assets/imgs/notebook.png" alt="notebook"/>
             </div>
             <div className="mt-4">Create a new note or select a note and craft on</div>
@@ -70,16 +70,10 @@ const NoteDetails = ({
                 onKeyDown={handleKeyDown}
                 autoFocus
               /> :
-              <div className="text-xl">{currentNote.title}</div>
+              <div className="text-xl hover:text-blue-300">{currentNote.title}</div>
             }
           </div>
-          <div className="text-xs mt-2 flex flex-row items-center gap-x-2">
-            {
-              currentNote.tags.map((tag, index) =>
-                <NoteTag tag={tag} key={index}/>
-              )
-            }
-          </div>
+          <TagList className="mt-2" tags={currentNote.tags}/>
           <div className="flex justify-end">
             { !isEditMode ?
                 <i className="material-icons-outlined text-md cursor-pointer" onClick={() => setIsEditMode(true)}>edit_note</i> :

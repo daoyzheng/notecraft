@@ -1,9 +1,10 @@
 interface Props {
   tag: string
+  className?: string
 }
-const NoteTag = ({ tag }: Props) => {
+const NoteTag = ({ tag, className }: Props) => {
   return (
-    <div>{tag}</div>
+    <div className={`${className} cursor-pointer hover:text-blue-300`}>{tag}</div>
   )
 }
 
