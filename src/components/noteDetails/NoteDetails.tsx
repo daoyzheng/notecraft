@@ -10,6 +10,7 @@ interface Props {
   onDocChange?: (doc: string) => void
   onTitleChange?: (title: string) => void
   onFinishEditTitle?: () => void
+  onTagsChange: (tags: string[]) => void
 }
 
 const NoteDetails = ({
@@ -17,6 +18,7 @@ const NoteDetails = ({
   currentNote,
   onDocChange,
   onTitleChange,
+  onTagsChange,
   onFinishEditTitle
 } : Props) => {
   const [isEditMode, setIsEditMode] = useState<boolean>(false)
@@ -46,6 +48,10 @@ const NoteDetails = ({
     onTitleChange && onTitleChange((e.target as HTMLInputElement).value)
   }, [onTitleChange])
 
+  const handleTagsChange = useCallback((tags: string[]) => {
+    onTagsChange && onTagsChange(tags)
+  }, [onTagsChange])
+
   return (
     <div className={`${className} px-2 pt-2 bg-zinc-800 text-white`}>
       {
@@ -64,7 +70,7 @@ const NoteDetails = ({
               isEditingTitle ?
               <input
                 defaultValue={currentNote.title}
-                className="focus:outline-none py-2 bg-transparent w-full placeholder-white focus:placeholder-white"
+                className="focus:outline-none bg-transparent w-full placeholder-white focus:placeholder-white"
                 onBlur={handleOnBlur}
                 onChange={handleTitleChange}
                 onKeyDown={handleKeyDown}
@@ -73,7 +79,7 @@ const NoteDetails = ({
               <div className="text-xl hover:text-blue-300">{currentNote.title}</div>
             }
           </div>
-          <TagList className="mt-2" tags={currentNote.tags}/>
+          <TagList className="mt-2" tags={currentNote.tags} onFinishEditTags={handleTagsChange}/>
           <div className="flex justify-end">
             { !isEditMode ?
                 <i className="material-icons-outlined text-md cursor-pointer" onClick={() => setIsEditMode(true)}>edit_note</i> :
