@@ -15,10 +15,13 @@ const TagList = ({ tags, className, onFinishEditTags }: Props) => {
     setNewTag(newTag)
   }
   const handleAddNewTagOnBlur = useCallback(() => {
-    const updatedTags = [...tags, newTag]
-    onFinishEditTags && onFinishEditTags(updatedTags)
+    if (newTag) {
+      const updatedTags = [...tags, newTag]
+      onFinishEditTags && onFinishEditTags(updatedTags)
+      setNewTag('')
+    }
     setIsAddingTag(false)
-  }, [onFinishEditTags])
+  }, [onFinishEditTags, newTag])
   const handleTagUpdate = useCallback((tag: string, index: number) => {
     tags[index] = tag
     onFinishEditTags && onFinishEditTags(tags)

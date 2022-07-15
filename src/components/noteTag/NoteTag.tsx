@@ -47,7 +47,7 @@ const NoteTag = ({ tag, index, className, onChange }: Props) => {
   const handleSaveTag = useCallback(() => {
     onChange && onChange(updatedTag, index)
     setIsEditingTag(false)
-  }, [onChange])
+  }, [onChange, updatedTag])
   function handleTagChange (e: ChangeEvent) {
     const tag = (e.target as HTMLInputElement).value
     tagInputChange(tag)
