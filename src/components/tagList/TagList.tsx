@@ -27,14 +27,14 @@ const TagList = ({ tags, className, onFinishEditTags }: Props) => {
     <div className={`${className} text-xs flex flex-row items-center gap-x-2`}>
       {
         tags.map((tag, index) =>
-          <NoteTag tag={tag} key={index} onChange={handleTagUpdate}/>
+          <NoteTag tag={tag} key={index} index={index} onChange={handleTagUpdate}/>
         )
       }
       {
         isAddingTag ?
           <input
             placeholder="add tag"
-            className="focus:outline-none py-2 bg-transparent w-full placeholder-gray-400 focus:placeholder-gray-400"
+            className="focus:outline-none bg-transparent w-fit placeholder-gray-400 focus:placeholder-gray-400"
             onBlur={handleAddNewTagOnBlur}
             onChange={handleNewTagOnChange}
             autoFocus
