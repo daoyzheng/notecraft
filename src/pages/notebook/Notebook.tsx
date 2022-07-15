@@ -73,8 +73,24 @@ const Notebook = () => {
     }
   }
 
+  function handleFinishEditTags (tags: string[]) {
+    if (currentNote) {
+      currentNote.tags = tags
+      setNoteList(oldNoteList => {
+        return oldNoteList.map(note => {
+          if (note.id === currentNote.id) {
+            return { ...note, tags }
+          }
+          return note
+        })
+      })
+      console.log('save tag', currentNote.tags)
+    }
+  }
+
   function handleFinishEditTitle () {
-    console.log('save note')
+    if (currentNote)
+      console.log('save note', currentNote.title)
   }
   return (
     <div className="grid grid-cols-10 h-full w-full">
@@ -90,6 +106,7 @@ const Notebook = () => {
         onDocChange={handleDocChange}
         onTitleChange={handleTitleChange}
         onFinishEditTitle={handleFinishEditTitle}
+        onTagsChange={handleFinishEditTags}
       />
     </div>
   )

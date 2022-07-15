@@ -36,11 +36,12 @@ const NoteTag = ({ tag, index, className, onChange }: Props) => {
         hiddenTag.current.style.paddingRight = styles.paddingRight;
       }
     }
-    tagInputChange(tag)
-  }, [hiddenTag, tagInput])
+    tagInputChange(updatedTag)
+  }, [updatedTag])
 
   useEffect(() => {
-    setupHiddenTag()
+    if (isEditingTag)
+      setupHiddenTag()
   }, [isEditingTag])
 
   const handleSaveTag = useCallback(() => {
