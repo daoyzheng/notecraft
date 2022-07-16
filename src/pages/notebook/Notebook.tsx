@@ -10,26 +10,30 @@ const Notebook = () => {
       title: 'How to create markdown file How to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown file',
       date: '2020-06-14',
       body: 'loremloremloremloremloremlor emloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremlorem',
-      tags: ['new', 'hey', 'ho', 'here']
+      tags: ['new', 'hey', 'ho', 'here'],
+      isPrivate: true
     },
     {
       id: 2,
       title: 'How to create markdown file',
       date: '2020-06-14',
       body: 'hey body',
-      tags: ['new', 'hey', 'ho']
+      tags: ['new', 'hey', 'ho'],
+      isPrivate: true
     },
     {
       id: 3,
       title: 'How to create markdown file',
       date: '2020-06-14',
-      tags: []
+      tags: [],
+      isPrivate: true
     },
     {
       id: 4,
       title: 'How to create markdown file',
       date: '2020-06-14',
-      tags: []
+      tags: [],
+      isPrivate: true
     }
   ])
   const [currentNote, setCurrentNote] = useState<INote|null>(null)

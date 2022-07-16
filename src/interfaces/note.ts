@@ -4,4 +4,5 @@ export interface INote {
   date: string
   body?: string
   tags: string[]
+  isPrivate: boolean
 }
