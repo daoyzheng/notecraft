@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { KeyboardEvent, useRef, useState } from 'react'
 import useOutsideAlerter from '../../hooks/useOutsideAlerter'
 import { INote } from '../../interfaces/note'
 import NoteDisplay from '../noteDisplay/NoteDisplay'
@@ -24,6 +24,7 @@ const Notelist = ({ className, onCreateNewNote, onSelectNote, noteList, currentN
       tags: [],
       isPrivate: true
     }
+    setShowPopup(false)
     onCreateNewNote && onCreateNewNote(newNote)
   }
 
@@ -36,15 +37,22 @@ const Notelist = ({ className, onCreateNewNote, onSelectNote, noteList, currentN
       onSelectNote && onSelectNote(note)
   }
 
+  function handleKeyDown (e: KeyboardEvent) {
+    if (e.key === 'Enter') {
+      handleCreateNewNote()
+    }
+  }
+
   const popup = () => (
     <div ref={popupRef} className="bg-white rounded absolute text-black p-2 right-0">
       <input
         className="focus:outline-none"
         autoFocus
         placeholder="Title"
+        onKeyDown={handleKeyDown}
       />
       <div>Make note private</div>
-      <div className="flex justify-end">
+      <div className="flex justify-end" onClick={handleClickOutside}>
         <button>Create Note</button>
       </div>
     </div>
@@ -54,8 +62,8 @@ const Notelist = ({ className, onCreateNewNote, onSelectNote, noteList, currentN
     <div className={`px-2 pt-1 bg-zinc-800 text-white ${className}`}>
       <div className="flex flex row items-center justify-between my-2 pb-1">
         <div className="text-lg">New Notebook</div>
-        <div className="cursor-pointer relative" onClick={() => setShowPopup(true)}>
-          <i className="material-icons-outlined text-sm">launch</i>
+        <div className="relative">
+          <i className="material-icons-outlined text-sm cursor-pointer" onClick={() => setShowPopup(true)}>launch</i>
           {
             showPopup && popup()
           }
