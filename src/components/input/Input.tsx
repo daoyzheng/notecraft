@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { KeyboardEvent, useState } from "react"
 import { InputErrorMessage } from "./Input.styled"
 
 interface IInput {
@@ -7,20 +7,22 @@ interface IInput {
   className?: string
   errorMessage?: string | undefined
   register: any
+  autoFocus?: boolean
+  onKeyDown?: (e: KeyboardEvent) => void
 }
 
 const Input = ({ className, register, errorMessage, ...rest }: IInput) => {
   return (
-    <div className={className}>
+    <>
       <input
         {...register}
-        className="focus:outline-none py-2 bg-transparent w-full placeholder-gray-400 focus:placeholder-gray-400"
+        className={`${className}`}
         {...rest}
       />
       <div className="h-5 text-sm">
-        <InputErrorMessage opacity={errorMessage ? 1 : 0} className="text-amber-800">{errorMessage}</InputErrorMessage>
+        <InputErrorMessage opacity={errorMessage ? 1 : 0} className="text-red-500">{errorMessage}</InputErrorMessage>
       </div>
-    </div>
+    </>
   )
 }
 

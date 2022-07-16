@@ -1,8 +1,8 @@
 export interface INote {
   id?: number
   title: string
-  date: string
+  createdAt: string
   body?: string
   tags: string[]
-  isPrivate: boolean
+  isPublic: boolean
 }
