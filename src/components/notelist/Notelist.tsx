@@ -58,7 +58,7 @@ const Notelist = ({ className, onCreateNewNote, onSelectNote, noteList, currentN
             required: 'Please enter a title for your note'
           })}
           placeholder="Title"
-          className="focus:outline-none py-2 bg-transparent w-full placeholder-gray-400 focus:placeholder-gray-400 w-52"
+          className="focus:outline-none border-b-2 py-2 bg-transparent w-full placeholder-gray-400 focus:placeholder-gray-400 w-52"
           errorMessage={errors.title?.message}
           autoFocus
         />
