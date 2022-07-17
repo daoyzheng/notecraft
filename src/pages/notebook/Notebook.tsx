@@ -19,7 +19,7 @@ const Notebook = () => {
     setNoteList(oldNoteList => [...oldNoteList, newNote])
     setCurrentNote(newNote)
   }
-  function handleSelectNote (note: INote) {
+  function handleSelectNote (note: INote|null) {
     setCurrentNote(note)
   }
 

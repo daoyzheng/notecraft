@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react'
+import { KeyboardEvent, useCallback, useEffect, useRef, useState } from 'react'
 import useOutsideAlerter from '../../hooks/useOutsideAlerter'
 import useRegisterForm from '../../hooks/useRegisterForm'
 import { INote } from '../../interfaces/note'
@@ -10,11 +10,11 @@ interface Props {
   className?: string
   isActive: boolean
   onCreateNewNote?: (newNote: INote) => void
-  onSelectNote?: (note: INote) => void
+  onSelectNote?: (note: INote|null) => void
   onMouseEnter?: () => void
 }
 
-const Notelist = ({ className, onCreateNewNote, onSelectNote, noteList, currentNote, onMouseEnter } : Props) => {
+const Notelist = ({ className, onCreateNewNote, onSelectNote, noteList, currentNote, onMouseEnter, isActive } : Props) => {
   const [showPopup, setShowPopup] = useState<boolean>(false)
   const popupRef = useRef<HTMLDivElement>(null)
   const defaultValue = {
@@ -47,6 +47,46 @@ const Notelist = ({ className, onCreateNewNote, onSelectNote, noteList, currentN
   const handleEnterNodeList = useCallback(() => {
     onMouseEnter && onMouseEnter()
   }, [onMouseEnter])
+
+  function handleKeyPress (e: KeyboardEvent) {
+    switch(e.key.toLocaleLowerCase()) {
+      case 'j': {
+        if (!currentNote) {
+          onSelectNote && onSelectNote(noteList[0])
+        } else {
+          const currentIndex = noteList.findIndex(note => note.id === currentNote.id)
+          if (currentIndex < noteList.length) {
+            onSelectNote && onSelectNote(noteList[currentIndex + 1])
+          } else {
+            onSelectNote && onSelectNote(null)
+          }
+        }
+        break
+      }
+      case 'k': {
+        if (!currentNote) {
+          onSelectNote && onSelectNote(noteList[noteList.length - 1])
+        } else {
+          const currentIndex = noteList.findIndex(note => note.id === currentNote.id)
+          if (currentIndex > 0) {
+            onSelectNote && onSelectNote(noteList[currentIndex - 1])
+          } else {
+            onSelectNote && onSelectNote(null)
+          }
+        }
+        break
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (isActive) {
+      document.addEventListener('keypress', handleKeyPress)
+    }
+    return () => {
+      document.removeEventListener('keypress', handleKeyPress)
+    }
+  }, [isActive, currentNote])
 
   const popup = () => (
     <div ref={popupRef} className="bg-white rounded absolute text-black p-2 right-0 h-fit" >
