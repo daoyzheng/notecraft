@@ -10,7 +10,8 @@ interface Props {
   onDocChange?: (doc: string) => void
   onTitleChange?: (title: string) => void
   onFinishEditTitle?: () => void
-  onTagsChange: (tags: string[]) => void
+  onTagsChange?: (tags: string[]) => void
+  onMouseEnter?: () => void
 }
 
 const NoteDetails = ({
@@ -19,7 +20,8 @@ const NoteDetails = ({
   onDocChange,
   onTitleChange,
   onTagsChange,
-  onFinishEditTitle
+  onFinishEditTitle,
+  onMouseEnter
 } : Props) => {
   const [isEditMode, setIsEditMode] = useState<boolean>(false)
   const [isEditingTitle, setIsEditingTitle] = useState<boolean>(false)
@@ -52,8 +54,12 @@ const NoteDetails = ({
     onTagsChange && onTagsChange(tags)
   }, [onTagsChange])
 
+  const handleEnterNodeDetails = useCallback(() => {
+    onMouseEnter && onMouseEnter()
+  }, [onMouseEnter])
+
   return (
-    <div className={`${className} px-2 pt-2 bg-zinc-800 text-white`}>
+    <div className={`${className} px-2 pt-2 bg-zinc-800 text-white`} onMouseEnter={handleEnterNodeDetails}>
       {
         !currentNote ?
         <div className="flex justify-center items-center h-full text-gray-400">

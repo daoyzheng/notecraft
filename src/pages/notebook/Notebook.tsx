@@ -3,7 +3,13 @@ import NoteDetails from "../../components/noteDetails/NoteDetails"
 import Notelist from "../../components/notelist/Notelist"
 import { INote } from "../../interfaces/note"
 
+enum focusOptions {
+  notelist,
+  notedetails
+}
+
 const Notebook = () => {
+  const [currentFocus, setCurrentFocus] = useState<focusOptions>(focusOptions.notelist)
   const [noteList, setNoteList] = useState<INote[]>([
     {
       id: 1,
@@ -96,21 +102,28 @@ const Notebook = () => {
     if (currentNote)
       console.log('save note', currentNote.title)
   }
+  function handleEnterElement (el: focusOptions) {
+    setCurrentFocus(el)
+  }
+  const inactiveNodeListBorderColor = 'border-r-gray-500 border-l-transparent border-t-transparent border-b-transparent'
   return (
     <div className="grid grid-cols-10 h-full w-full">
       <Notelist
-        className="col-span-3 border-r border-gray-500"
+        className={`${currentFocus === focusOptions.notelist ? 'border-blue-500' : inactiveNodeListBorderColor} col-span-3 border`}
         noteList={noteList}
         currentNote={currentNote}
         onCreateNewNote={handleCreateNewNote}
         onSelectNote={handleSelectNote}
+        onMouseEnter={() => handleEnterElement(focusOptions.notelist)}
       />
-      <NoteDetails className="col-span-7"
+      <NoteDetails
+        className={`${currentFocus === focusOptions.notedetails && currentNote ? 'border-blue-500' : 'border-transparent'} col-span-7 border`}
         currentNote={currentNote}
         onDocChange={handleDocChange}
         onTitleChange={handleTitleChange}
         onFinishEditTitle={handleFinishEditTitle}
         onTagsChange={handleFinishEditTags}
+        onMouseEnter={() => handleEnterElement(focusOptions.notedetails)}
       />
     </div>
   )

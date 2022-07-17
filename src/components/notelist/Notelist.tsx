@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import useOutsideAlerter from '../../hooks/useOutsideAlerter'
 import { INote } from '../../interfaces/note'
@@ -10,9 +10,10 @@ interface Props {
   className?: string
   onCreateNewNote?: (newNote: INote) => void
   onSelectNote?: (note: INote) => void
+  onMouseEnter?: () => void
 }
 
-const Notelist = ({ className, onCreateNewNote, onSelectNote, noteList, currentNote } : Props) => {
+const Notelist = ({ className, onCreateNewNote, onSelectNote, noteList, currentNote, onMouseEnter } : Props) => {
   const [showPopup, setShowPopup] = useState<boolean>(false)
   const {
     register,
@@ -50,8 +51,12 @@ const Notelist = ({ className, onCreateNewNote, onSelectNote, noteList, currentN
       onSelectNote && onSelectNote(note)
   }
 
+  const handleEnterNodeList = useCallback(() => {
+    onMouseEnter && onMouseEnter()
+  }, [onMouseEnter])
+
   const popup = () => (
-    <div ref={popupRef} className="bg-white rounded absolute text-black p-2 right-0 h-fit">
+    <div ref={popupRef} className="bg-white rounded absolute text-black p-2 right-0 h-fit" >
       <form onSubmit={handleSubmit(data => handleCreateNewNote(data))}>
         <Input register={register('title', {
             required: 'Please enter a title for your note'
@@ -77,7 +82,7 @@ const Notelist = ({ className, onCreateNewNote, onSelectNote, noteList, currentN
   )
 
   return (
-    <div className={`px-2 pt-1 bg-zinc-800 text-white ${className}`}>
+    <div className={`px-2 pt-1 bg-zinc-800 text-white ${className}`} onMouseEnter={handleEnterNodeList}>
       <div className="flex flex row items-center justify-between my-2 pb-1">
         <div className="text-lg">New Notebook</div>
         <div className="relative">
