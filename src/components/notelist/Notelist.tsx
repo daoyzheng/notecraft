@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from 'react'
-import { useForm } from 'react-hook-form'
 import useOutsideAlerter from '../../hooks/useOutsideAlerter'
+import useRegisterForm from '../../hooks/useRegisterForm'
 import { INote } from '../../interfaces/note'
 import Input from '../input/Input'
 import NoteDisplay from '../noteDisplay/NoteDisplay'
@@ -8,6 +8,7 @@ interface Props {
   noteList: INote[],
   currentNote: INote|null,
   className?: string
+  isActive: boolean
   onCreateNewNote?: (newNote: INote) => void
   onSelectNote?: (note: INote) => void
   onMouseEnter?: () => void
@@ -15,22 +16,14 @@ interface Props {
 
 const Notelist = ({ className, onCreateNewNote, onSelectNote, noteList, currentNote, onMouseEnter } : Props) => {
   const [showPopup, setShowPopup] = useState<boolean>(false)
-  const {
-    register,
-    reset,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<INote>({
-    reValidateMode: 'onBlur',
-    shouldUseNativeValidation: false,
-    defaultValues: {
-      title: '',
-      isPublic: false,
-      tags: [],
-      createdAt: new Date().toISOString()
-    }
-  })
   const popupRef = useRef<HTMLDivElement>(null)
+  const defaultValue = {
+    title: '',
+    isPublic: false,
+    tags: [],
+    createdAt: new Date().toISOString()
+  }
+  const [register, reset, handleSubmit, errors] = useRegisterForm<INote>({defaultValue})
   useOutsideAlerter({
     ref: popupRef,
     onClickOutside: handleClickOutside

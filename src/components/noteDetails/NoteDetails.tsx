@@ -7,6 +7,7 @@ import TagList from "../tagList/TagList"
 interface Props {
   className?: string
   currentNote: INote | null
+  isActive: boolean
   onDocChange?: (doc: string) => void
   onTitleChange?: (title: string) => void
   onFinishEditTitle?: () => void

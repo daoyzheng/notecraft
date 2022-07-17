@@ -2,6 +2,7 @@ import { useState } from "react"
 import NoteDetails from "../../components/noteDetails/NoteDetails"
 import Notelist from "../../components/notelist/Notelist"
 import { INote } from "../../interfaces/note"
+import { notesMock } from "../../utils/mock"
 
 enum focusOptions {
   notelist,
@@ -10,38 +11,7 @@ enum focusOptions {
 
 const Notebook = () => {
   const [currentFocus, setCurrentFocus] = useState<focusOptions>(focusOptions.notelist)
-  const [noteList, setNoteList] = useState<INote[]>([
-    {
-      id: 1,
-      title: 'How to create markdown file How to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown file',
-      createdAt: '2020-06-14',
-      body: 'loremloremloremloremloremlor emloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremlorem',
-      tags: ['new', 'hey', 'ho', 'here'],
-      isPublic: true
-    },
-    {
-      id: 2,
-      title: 'How to create markdown file',
-      createdAt: '2020-06-14',
-      body: 'hey body',
-      tags: ['new', 'hey', 'ho'],
-      isPublic: false
-    },
-    {
-      id: 3,
-      title: 'How to create markdown file',
-      createdAt: '2020-06-14',
-      tags: [],
-      isPublic: false
-    },
-    {
-      id: 4,
-      title: 'How to create markdown file',
-      createdAt: '2020-06-14',
-      tags: [],
-      isPublic: true
-    }
-  ])
+  const [noteList, setNoteList] = useState<INote[]>(notesMock)
   const [currentNote, setCurrentNote] = useState<INote|null>(null)
 
   function handleCreateNewNote (newNote: INote) {
@@ -115,6 +85,7 @@ const Notebook = () => {
         onCreateNewNote={handleCreateNewNote}
         onSelectNote={handleSelectNote}
         onMouseEnter={() => handleEnterElement(focusOptions.notelist)}
+        isActive={currentFocus === focusOptions.notelist}
       />
       <NoteDetails
         className={`${currentFocus === focusOptions.notedetails && currentNote ? 'border-blue-500' : 'border-transparent'} col-span-7 border`}
@@ -124,6 +95,7 @@ const Notebook = () => {
         onFinishEditTitle={handleFinishEditTitle}
         onTagsChange={handleFinishEditTags}
         onMouseEnter={() => handleEnterElement(focusOptions.notedetails)}
+        isActive={currentFocus === focusOptions.notedetails}
       />
     </div>
   )
