@@ -3,7 +3,7 @@ import { InputErrorMessage } from "./Input.styled"
 
 interface IInput {
   type?: string
-  placeholder: string
+  placeholder?: string
   className?: string
   errorMessage?: string | undefined
   register: any
@@ -19,9 +19,12 @@ const Input = ({ className, register, errorMessage, ...rest }: IInput) => {
         className={`${className}`}
         {...rest}
       />
-      <div className="h-5 text-sm">
-        <InputErrorMessage opacity={errorMessage ? 1 : 0} className="text-red-500">{errorMessage}</InputErrorMessage>
-      </div>
+      {
+        rest.type !== 'checkbox' &&
+        <div className="h-5 text-sm">
+          <InputErrorMessage opacity={errorMessage ? 1 : 0} className="text-red-500">{errorMessage}</InputErrorMessage>
+        </div>
+      }
     </>
   )
 }

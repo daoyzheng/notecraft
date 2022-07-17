@@ -2,6 +2,7 @@ import { KeyboardEvent, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import useOutsideAlerter from '../../hooks/useOutsideAlerter'
 import { INote } from '../../interfaces/note'
+import Checkbox from '../checkbox/Checkbox'
 import Input from '../input/Input'
 import NoteDisplay from '../noteDisplay/NoteDisplay'
 interface Props {
@@ -61,7 +62,14 @@ const Notelist = ({ className, onCreateNewNote, onSelectNote, noteList, currentN
           errorMessage={errors.title?.message}
           autoFocus
         />
-        <div>Make note public</div>
+        <div className="flex items-center justify-between">
+          <div>Make note public</div>
+          <Input
+            className="w-4 h-4"
+            register={register('isPublic')}
+            type="checkbox"
+          />
+        </div>
         <div className="flex justify-end mt-4 mb-1">
           <button type="submit" className="bg-blue-500 text-white px-2 rounded text-sm hover:bg-blue-600">Craft</button>
         </div>
