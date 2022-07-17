@@ -1,8 +1,7 @@
-import { KeyboardEvent, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import useOutsideAlerter from '../../hooks/useOutsideAlerter'
 import { INote } from '../../interfaces/note'
-import Checkbox from '../checkbox/Checkbox'
 import Input from '../input/Input'
 import NoteDisplay from '../noteDisplay/NoteDisplay'
 interface Props {
@@ -88,7 +87,7 @@ const Notelist = ({ className, onCreateNewNote, onSelectNote, noteList, currentN
           }
         </div>
       </div>
-      <div className="space-y-2">
+      <div className="space-y-4">
         {
           noteList.map(note =>
             (
