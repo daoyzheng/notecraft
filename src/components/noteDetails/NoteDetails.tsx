@@ -43,9 +43,12 @@ const NoteDetails = ({
   const [currentElementIndex, setCurrentElementIndex] = useNoteDetailsKeybind({
     isActive,
     isEditMode,
-    onBlur,
+    isEditingTitle,
     numberOfElements,
-    setIsEditMode
+    onFinishEditTitle,
+    onBlur,
+    setIsEditMode,
+    setIsEditingTitle
   })
 
   const handleDocChange = useCallback((newDoc: string) => {
@@ -55,13 +58,6 @@ const NoteDetails = ({
   function handleOnClick () {
     setIsEditingTitle(true)
     setCurrentElementIndex(0)
-  }
-
-  function handleKeyDown (e: KeyboardEvent) {
-    if (e.key === 'Enter') {
-      onFinishEditTitle && onFinishEditTitle()
-      setIsEditingTitle(false)
-    }
   }
 
   const handleOnBlur = useCallback(() => {
@@ -111,7 +107,6 @@ const NoteDetails = ({
                 className="focus:outline-none bg-transparent w-full placeholder-white focus:placeholder-white"
                 onBlur={handleOnBlur}
                 onChange={handleTitleChange}
-                onKeyDown={handleKeyDown}
                 autoFocus
               /> :
               <div className={`${currentElementIndex === 0 ? 'text-blue-300' : ''} text-xl hover:text-blue-300`}>{currentNote.title}</div>

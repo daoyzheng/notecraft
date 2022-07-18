@@ -3,22 +3,28 @@ import { createContext, Dispatch, SetStateAction, useEffect, useState } from "re
 interface Props {
   isActive: boolean
   isEditMode: boolean
+  isEditingTitle: boolean
   numberOfElements: number
   onBlur?: () => void
   setIsEditMode?: Dispatch<SetStateAction<boolean>>
+  setIsEditingTitle?: Dispatch<SetStateAction<boolean>>
+  onFinishEditTitle?: () => void
 }
 
 const useNoteDetailsKeybind = ({
   isActive,
   isEditMode,
+  isEditingTitle,
   numberOfElements,
   onBlur,
-  setIsEditMode
+  setIsEditMode,
+  setIsEditingTitle,
+  onFinishEditTitle
 }: Props): [number, React.Dispatch<React.SetStateAction<number>>] => {
   const [currentElementIndex, setCurrentElementIndex] = useState<number>(0)
   function handleKeyPress (e: KeyboardEvent) {
     console.log(e)
-    if (!isEditMode) {
+    if (!isEditMode && !isEditingTitle) {
       switch(e.key.toLocaleLowerCase()) {
         case 'arrowdown':
         case 'j' : {
@@ -41,8 +47,13 @@ const useNoteDetailsKeybind = ({
         }
         case 'enter':
         case 'i': {
+          if (currentElementIndex === 0) {
+            setIsEditingTitle && setIsEditingTitle(true)
+            e.preventDefault()
+          }
           if (currentElementIndex === numberOfElements)
             setIsEditMode && setIsEditMode(true)
+          break
         }
       }
     } else {
@@ -50,6 +61,18 @@ const useNoteDetailsKeybind = ({
         case 'escape': {
           if (currentElementIndex === numberOfElements)
             setIsEditMode && setIsEditMode(false)
+          if (currentElementIndex === 0) {
+            onFinishEditTitle && onFinishEditTitle()
+            setIsEditingTitle && setIsEditingTitle(false)
+          }
+          break
+        }
+        case 'enter': {
+          if (currentElementIndex === 0) {
+            onFinishEditTitle && onFinishEditTitle()
+            setIsEditingTitle && setIsEditingTitle(false)
+          }
+          break
         }
       }
     }
@@ -61,7 +84,7 @@ const useNoteDetailsKeybind = ({
     return () => {
       document.removeEventListener('keydown', handleKeyPress)
     }
-  }, [isActive, currentElementIndex, isEditMode])
+  }, [isActive, currentElementIndex, isEditMode, isEditingTitle])
   return [currentElementIndex, setCurrentElementIndex]
 }
 
