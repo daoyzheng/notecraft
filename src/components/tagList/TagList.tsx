@@ -1,16 +1,17 @@
-import { ChangeEvent, useCallback, useState } from "react"
+import { ChangeEvent, useCallback, useContext, useState } from "react"
 import Input from "../input/Input"
+import { NoteDetailsCurrentElementContext } from "../noteDetails/CurrentElementIndexContext"
 import NoteTag from "../noteTag/NoteTag"
 
 interface Props {
   tags: string[]
   className?: string,
-  focusTagIndex?: number,
   onFinishEditTags?: (tags: string[]) => void
 }
-const TagList = ({ tags, className, focusTagIndex, onFinishEditTags }: Props) => {
+const TagList = ({ tags, className, onFinishEditTags }: Props) => {
   const [isAddingTag, setIsAddingTag] = useState<Boolean>(false)
   const [newTag, setNewTag] = useState<string>('')
+  const { currentElementIndex, setCurrentElementIndex } = useContext(NoteDetailsCurrentElementContext)
   function handleNewTagOnChange (e: ChangeEvent) {
     const newTag = (e.target as HTMLInputElement).value
     setNewTag(newTag)
@@ -28,7 +29,11 @@ const TagList = ({ tags, className, focusTagIndex, onFinishEditTags }: Props) =>
     onFinishEditTags && onFinishEditTags(tags)
   }, [onFinishEditTags])
   function isTagFocused (index: number) : boolean {
-    return !!(focusTagIndex && focusTagIndex - 1 === index && focusTagIndex - 1 <= tags.length)
+    return currentElementIndex - 1 === index && currentElementIndex - 1 <= tags.length
+  }
+  function handleAddTag() {
+    setIsAddingTag(true)
+    setCurrentElementIndex(tags.length + 1)
   }
   return (
     <div className={`${className} text-xs flex flex-row items-center gap-x-2`}>
@@ -47,7 +52,7 @@ const TagList = ({ tags, className, focusTagIndex, onFinishEditTags }: Props) =>
             autoFocus
           /> :
           (
-            <div className={`${focusTagIndex === tags.length + 1 ? 'text-blue-300' : ''} text-xs cursor-pointer`} onClick={() => setIsAddingTag(true)}>
+            <div className={`${currentElementIndex === tags.length + 1 ? 'text-blue-300' : ''} text-xs cursor-pointer hover:text-blue-300`} onClick={handleAddTag}>
               Add Tag
             </div>
           )

@@ -1,8 +1,9 @@
-import { ChangeEvent, KeyboardEvent, useCallback, useMemo, useState } from "react"
+import { ChangeEvent, KeyboardEvent, useCallback, useEffect, useMemo, useState } from "react"
 import { INote } from "../../interfaces/note"
 import Editor from "../editor/Editor"
 import Preview from "../preview/Preview"
 import TagList from "../tagList/TagList"
+import { NoteDetailsCurrentElementContextProvider } from "./CurrentElementIndexContext"
 import useNoteDetailsKeybind from "./useNoteDetailsKeybind"
 
 interface Props {
@@ -43,7 +44,8 @@ const NoteDetails = ({
     isActive,
     isEditMode,
     onBlur,
-    numberOfElements
+    numberOfElements,
+    setIsEditMode
   })
 
   const handleDocChange = useCallback((newDoc: string) => {
@@ -52,6 +54,7 @@ const NoteDetails = ({
 
   function handleOnClick () {
     setIsEditingTitle(true)
+    setCurrentElementIndex(0)
   }
 
   function handleKeyDown (e: KeyboardEvent) {
@@ -77,6 +80,15 @@ const NoteDetails = ({
   const handleEnterNodeDetails = useCallback(() => {
     onMouseEnter && onMouseEnter()
   }, [onMouseEnter])
+
+  function handleEditBody () {
+    setIsEditMode(true)
+    setCurrentElementIndex(numberOfElements)
+  }
+
+  function handleEditorOnBlur () {
+    setIsEditMode(false)
+  }
 
   return (
     <div className={`${className} px-2 pt-2 bg-zinc-800 text-white`} onMouseEnter={handleEnterNodeDetails}>
@@ -105,7 +117,9 @@ const NoteDetails = ({
               <div className={`${currentElementIndex === 0 ? 'text-blue-300' : ''} text-xl hover:text-blue-300`}>{currentNote.title}</div>
             }
           </div>
-          <TagList className="mt-2" tags={currentNote.tags} onFinishEditTags={handleTagsChange} focusTagIndex={currentElementIndex}/>
+          <NoteDetailsCurrentElementContextProvider currentElementIndex={currentElementIndex} setCurrentElementIndex={setCurrentElementIndex}>
+            <TagList className="mt-2" tags={currentNote.tags} onFinishEditTags={handleTagsChange} />
+          </NoteDetailsCurrentElementContextProvider>
           <div className="mt-5">
             {
               isEditMode ?
@@ -113,10 +127,11 @@ const NoteDetails = ({
                   initialDoc={currentNote?.body ? currentNote.body : ''}
                   docKey={currentNote?.id ? `${currentNote.id}` : ''}
                   onChange={handleDocChange}
+                  onBlur={handleEditorOnBlur}
                 /> :
                 <Preview
                   className={`${currentElementIndex === numberOfElements ? 'text-blue-300' : ''} cursor-pointer hover:text-blue-300`}
-                  onClick={() => setIsEditMode(true)}
+                  onClick={handleEditBody}
                   doc={currentNote?.body ? currentNote.body : ''}
                 />
             }

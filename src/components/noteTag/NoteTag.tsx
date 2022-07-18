@@ -1,4 +1,5 @@
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react"
+import { ChangeEvent, useCallback, useContext, useEffect, useRef, useState } from "react"
+import { NoteDetailsCurrentElementContext } from "../noteDetails/CurrentElementIndexContext"
 
 interface Props {
   tag: string
@@ -10,6 +11,7 @@ interface Props {
 const NoteTag = ({ tag, index, className, isFocus, onChange }: Props) => {
   const [isEditingTag, setIsEditingTag] = useState<Boolean>(false)
   const [updatedTag, setUpdatedTag] = useState<string>(tag)
+  const { setCurrentElementIndex } = useContext(NoteDetailsCurrentElementContext)
   const tagInput = useRef<HTMLInputElement>(null)
   const hiddenTag = useRef<HTMLDivElement>(null)
 
@@ -64,6 +66,7 @@ const NoteTag = ({ tag, index, className, isFocus, onChange }: Props) => {
   }
   function handleClick () {
     setIsEditingTag(true)
+    setCurrentElementIndex(index + 1)
   }
   return (
     isEditingTag ?

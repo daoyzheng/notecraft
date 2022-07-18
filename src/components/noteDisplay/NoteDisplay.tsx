@@ -13,10 +13,10 @@ const NoteDisplay = ({ className, note, onClick }: Props) => {
   return (
     <div className={`${className} hover:bg-blue-500 cursor-pointer rounded-sm`} onClick={handleOnClick}>
       <div className="flex items-center">
-        {
+        {/* {
           note.isPublic && <div className="px-1 bg-green-500 text-sm text-center rounded-sm">P</div>
-        }
-        <div className="truncate ml-1">{note.title}</div>
+        } */}
+        <div className="truncate">{note.title}</div>
       </div>
       <div className="text-gray-400 line-clamp-3">
         <Preview doc={note.body ? note.body : ''}/>

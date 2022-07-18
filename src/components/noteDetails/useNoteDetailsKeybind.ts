@@ -1,20 +1,23 @@
-import { useEffect, useState } from "react"
+import { createContext, Dispatch, SetStateAction, useEffect, useState } from "react"
 
 interface Props {
   isActive: boolean
   isEditMode: boolean
-  onBlur?: () => void
   numberOfElements: number
+  onBlur?: () => void
+  setIsEditMode?: Dispatch<SetStateAction<boolean>>
 }
 
 const useNoteDetailsKeybind = ({
   isActive,
   isEditMode,
+  numberOfElements,
   onBlur,
-  numberOfElements
+  setIsEditMode
 }: Props): [number, React.Dispatch<React.SetStateAction<number>>] => {
   const [currentElementIndex, setCurrentElementIndex] = useState<number>(0)
   function handleKeyPress (e: KeyboardEvent) {
+    console.log(e)
     if (!isEditMode) {
       switch(e.key.toLocaleLowerCase()) {
         case 'arrowdown':
@@ -32,11 +35,22 @@ const useNoteDetailsKeybind = ({
         case 'arrowleft':
         case 'backspace':
         case 'h': {
-          if (!isEditMode) {
-            onBlur && onBlur()
-            setCurrentElementIndex(0)
-          }
+          onBlur && onBlur()
+          setCurrentElementIndex(0)
           break
+        }
+        case 'enter':
+        case 'i': {
+          if (currentElementIndex === numberOfElements)
+            setIsEditMode && setIsEditMode(true)
+        }
+      }
+    } else {
+      switch(e.key.toLocaleLowerCase()) {
+        case 'enter':
+        case 'escape': {
+          if (currentElementIndex === numberOfElements)
+            setIsEditMode && setIsEditMode(false)
         }
       }
     }
@@ -48,7 +62,7 @@ const useNoteDetailsKeybind = ({
     return () => {
       document.removeEventListener('keydown', handleKeyPress)
     }
-  }, [isActive, currentElementIndex])
+  }, [isActive, currentElementIndex, isEditMode])
   return [currentElementIndex, setCurrentElementIndex]
 }
 
