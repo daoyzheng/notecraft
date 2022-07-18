@@ -87,7 +87,7 @@ const NoteDetails = ({
   }
 
   return (
-    <div className={`${className} px-2 pt-2 bg-zinc-800 text-white`} onMouseEnter={handleEnterNodeDetails}>
+    <div className={`${className} px-2 pt-2 bg-zinc-800 text-white`} onMouseEnter={handleEnterNodeDetails} onMouseLeave={() => setCurrentElementIndex(0)}>
       {
         !currentNote ?
         <div className="flex justify-center items-center h-full text-gray-400">

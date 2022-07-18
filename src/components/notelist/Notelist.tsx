@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import useOutsideAlerter from '../../hooks/useOutsideAlerter'
 import useRegisterForm from '../../hooks/useRegisterForm'
 import { INote } from '../../interfaces/note'
@@ -58,14 +58,14 @@ const Notelist = ({
   }
 
   function handleSelectNote (note: INote) {
-    if (note.id != currentNote?.id)
+    if (note.id != currentNote?.id) {
       onSelectNote && onSelectNote(note)
+    }
   }
 
   const handleEnterNodeList = useCallback(() => {
     onMouseEnter && onMouseEnter()
   }, [onMouseEnter])
-
 
   const popup = () => (
     <div ref={popupRef} className="bg-white rounded absolute text-black p-2 right-0 h-fit" >
