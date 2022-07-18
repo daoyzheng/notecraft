@@ -47,7 +47,6 @@ const useNoteDetailsKeybind = ({
       }
     } else {
       switch(e.key.toLocaleLowerCase()) {
-        case 'enter':
         case 'escape': {
           if (currentElementIndex === numberOfElements)
             setIsEditMode && setIsEditMode(false)
