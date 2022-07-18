@@ -1,8 +1,9 @@
-import { ChangeEvent, KeyboardEvent, useCallback, useState } from "react"
+import { ChangeEvent, KeyboardEvent, useCallback, useMemo, useState } from "react"
 import { INote } from "../../interfaces/note"
 import Editor from "../editor/Editor"
 import Preview from "../preview/Preview"
 import TagList from "../tagList/TagList"
+import useNoteDetailsKeybind from "./useNoteDetailsKeybind"
 
 interface Props {
   className?: string
@@ -13,19 +14,37 @@ interface Props {
   onFinishEditTitle?: () => void
   onTagsChange?: (tags: string[]) => void
   onMouseEnter?: () => void
+  onBlur?: () => void
 }
 
 const NoteDetails = ({
   className,
   currentNote,
+  isActive,
   onDocChange,
   onTitleChange,
   onTagsChange,
   onFinishEditTitle,
-  onMouseEnter
+  onMouseEnter,
+  onBlur
 } : Props) => {
   const [isEditMode, setIsEditMode] = useState<boolean>(false)
   const [isEditingTitle, setIsEditingTitle] = useState<boolean>(false)
+
+  const numberOfElements = useMemo(() => {
+    let elementsCount = 2
+    if (currentNote) {
+      elementsCount += currentNote.tags.length
+    }
+    return elementsCount
+  }, [currentNote?.tags])
+
+  const currentElementIndex = useNoteDetailsKeybind({
+    isActive,
+    isEditMode,
+    onBlur,
+    numberOfElements
+  })
 
   const handleDocChange = useCallback((newDoc: string) => {
     onDocChange && onDocChange(newDoc)
@@ -83,10 +102,10 @@ const NoteDetails = ({
                 onKeyDown={handleKeyDown}
                 autoFocus
               /> :
-              <div className="text-xl hover:text-blue-300">{currentNote.title}</div>
+              <div className={`${currentElementIndex === 0 ? 'text-blue-300' : ''} text-xl hover:text-blue-300`}>{currentNote.title}</div>
             }
           </div>
-          <TagList className="mt-2" tags={currentNote.tags} onFinishEditTags={handleTagsChange}/>
+          <TagList className="mt-2" tags={currentNote.tags} onFinishEditTags={handleTagsChange} focusTagIndex={currentElementIndex}/>
           <div className="flex justify-end">
             { !isEditMode ?
                 <i className="material-icons-outlined text-md cursor-pointer" onClick={() => setIsEditMode(true)}>edit_note</i> :

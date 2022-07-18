@@ -85,6 +85,7 @@ const Notebook = () => {
         onCreateNewNote={handleCreateNewNote}
         onSelectNote={handleSelectNote}
         onMouseEnter={() => handleEnterElement(focusOptions.notelist)}
+        onBlur={() => handleEnterElement(focusOptions.notedetails)}
         isActive={currentFocus === focusOptions.notelist}
       />
       <NoteDetails
@@ -96,6 +97,7 @@ const Notebook = () => {
         onTagsChange={handleFinishEditTags}
         onMouseEnter={() => handleEnterElement(focusOptions.notedetails)}
         isActive={currentFocus === focusOptions.notedetails}
+        onBlur={() => handleEnterElement(focusOptions.notelist)}
       />
     </div>
   )

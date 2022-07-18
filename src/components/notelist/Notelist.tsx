@@ -13,9 +13,19 @@ interface Props {
   onCreateNewNote?: (newNote: INote) => void
   onSelectNote?: (note: INote|null) => void
   onMouseEnter?: () => void
+  onBlur?: () => void
 }
 
-const Notelist = ({ className, onCreateNewNote, onSelectNote, noteList, currentNote, onMouseEnter, isActive } : Props) => {
+const Notelist = ({
+    className,
+    noteList,
+    currentNote,
+    isActive,
+    onCreateNewNote,
+    onSelectNote,
+    onMouseEnter,
+    onBlur
+  } : Props) => {
   const [showPopup, setShowPopup] = useState<boolean>(false)
   const popupRef = useRef<HTMLDivElement>(null)
   const defaultValue = {
@@ -29,7 +39,8 @@ const Notelist = ({ className, onCreateNewNote, onSelectNote, noteList, currentN
     isActive,
     noteList,
     currentNote,
-    onSelectNote
+    onSelectNote,
+    onBlur
   })
   useOutsideAlerter({
     ref: popupRef,

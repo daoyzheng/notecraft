@@ -4,9 +4,10 @@ interface Props {
   tag: string
   index: number
   className?: string
+  isFocus?: boolean
   onChange?: (tag: string, index: number) => void
 }
-const NoteTag = ({ tag, index, className, onChange }: Props) => {
+const NoteTag = ({ tag, index, className, isFocus, onChange }: Props) => {
   const [isEditingTag, setIsEditingTag] = useState<Boolean>(false)
   const [updatedTag, setUpdatedTag] = useState<string>(tag)
   const tagInput = useRef<HTMLInputElement>(null)
@@ -77,7 +78,7 @@ const NoteTag = ({ tag, index, className, onChange }: Props) => {
         />
         <div ref={hiddenTag}>{updatedTag}</div>
       </> :
-      <div className={`${className} hover:text-blue-300 cursor-pointer`} onClick={handleClick}>{updatedTag}</div>
+      <div className={`${className} ${isFocus ? 'text-blue-300' : ''} hover:text-blue-300 cursor-pointer`} onClick={handleClick}>{updatedTag}</div>
   )
 }
 

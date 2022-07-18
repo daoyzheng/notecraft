@@ -5,9 +5,10 @@ import NoteTag from "../noteTag/NoteTag"
 interface Props {
   tags: string[]
   className?: string,
+  focusTagIndex?: number,
   onFinishEditTags?: (tags: string[]) => void
 }
-const TagList = ({ tags, className, onFinishEditTags }: Props) => {
+const TagList = ({ tags, className, focusTagIndex, onFinishEditTags }: Props) => {
   const [isAddingTag, setIsAddingTag] = useState<Boolean>(false)
   const [newTag, setNewTag] = useState<string>('')
   function handleNewTagOnChange (e: ChangeEvent) {
@@ -26,11 +27,14 @@ const TagList = ({ tags, className, onFinishEditTags }: Props) => {
     tags[index] = tag
     onFinishEditTags && onFinishEditTags(tags)
   }, [onFinishEditTags])
+  function isTagFocused (index: number) : boolean {
+    return !!(focusTagIndex && focusTagIndex - 1 === index && focusTagIndex - 1 <= tags.length)
+  }
   return (
     <div className={`${className} text-xs flex flex-row items-center gap-x-2`}>
       {
         tags.map((tag, index) =>
-          <NoteTag tag={tag} key={index} index={index} onChange={handleTagUpdate}/>
+          <NoteTag tag={tag} key={index} index={index} onChange={handleTagUpdate} isFocus={isTagFocused(index)}/>
         )
       }
       {
