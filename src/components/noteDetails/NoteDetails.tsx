@@ -39,7 +39,7 @@ const NoteDetails = ({
     return elementsCount
   }, [currentNote?.tags])
 
-  const currentElementIndex = useNoteDetailsKeybind({
+  const [currentElementIndex, setCurrentElementIndex] = useNoteDetailsKeybind({
     isActive,
     isEditMode,
     onBlur,
@@ -121,6 +121,7 @@ const NoteDetails = ({
                   onChange={handleDocChange}
                 /> :
                 <Preview
+                  className={`${currentElementIndex === numberOfElements ? 'text-blue-300' : ''}`}
                   doc={currentNote?.body ? currentNote.body : ''}
                 />
             }

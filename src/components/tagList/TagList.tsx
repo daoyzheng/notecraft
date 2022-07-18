@@ -47,7 +47,7 @@ const TagList = ({ tags, className, focusTagIndex, onFinishEditTags }: Props) =>
             autoFocus
           /> :
           (
-            <div className="text-xs cursor-pointer" onClick={() => setIsAddingTag(true)}>
+            <div className={`${focusTagIndex === tags.length + 1 ? 'text-blue-300' : ''} text-xs cursor-pointer`} onClick={() => setIsAddingTag(true)}>
               Add Tag
             </div>
           )
