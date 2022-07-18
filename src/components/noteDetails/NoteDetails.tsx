@@ -106,12 +106,6 @@ const NoteDetails = ({
             }
           </div>
           <TagList className="mt-2" tags={currentNote.tags} onFinishEditTags={handleTagsChange} focusTagIndex={currentElementIndex}/>
-          <div className="flex justify-end">
-            { !isEditMode ?
-                <i className="material-icons-outlined text-md cursor-pointer" onClick={() => setIsEditMode(true)}>edit_note</i> :
-                <i className="material-icons-outlined text-md cursor-pointer" onClick={() => setIsEditMode(false)}>done</i>
-            }
-          </div>
           <div className="mt-5">
             {
               isEditMode ?
@@ -121,7 +115,8 @@ const NoteDetails = ({
                   onChange={handleDocChange}
                 /> :
                 <Preview
-                  className={`${currentElementIndex === numberOfElements ? 'text-blue-300' : ''}`}
+                  className={`${currentElementIndex === numberOfElements ? 'text-blue-300' : ''} cursor-pointer hover:text-blue-300`}
+                  onClick={() => setIsEditMode(true)}
                   doc={currentNote?.body ? currentNote.body : ''}
                 />
             }
