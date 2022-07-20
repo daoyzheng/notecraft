@@ -20,8 +20,16 @@ const useNoteDetailsKeybind = ({
   setIsEditMode,
   setIsEditingTitle,
   onFinishEditTitle
-}: Props): [number, React.Dispatch<React.SetStateAction<number>>] => {
+}: Props): [
+  number, React.Dispatch<React.SetStateAction<number>>,
+  number, React.Dispatch<React.SetStateAction<number>>,
+  boolean, React.Dispatch<React.SetStateAction<boolean>>,
+  boolean, React.Dispatch<React.SetStateAction<boolean>>
+] => {
   const [currentElementIndex, setCurrentElementIndex] = useState<number>(0)
+  const [currentTagIndex, setCurrentTagIndex] = useState<number>(0)
+  const [isEditingTag, setIsEditingTag] = useState<boolean>(false)
+  const [isEditingSingleTag, setIsEditingSingleTag] = useState<boolean>(false)
   function handleKeyPress (e: KeyboardEvent) {
     console.log(e)
     if (!isEditMode && !isEditingTitle) {
@@ -85,7 +93,12 @@ const useNoteDetailsKeybind = ({
       document.removeEventListener('keydown', handleKeyPress)
     }
   }, [isActive, currentElementIndex, isEditMode, isEditingTitle])
-  return [currentElementIndex, setCurrentElementIndex]
+  return [
+    currentElementIndex, setCurrentElementIndex,
+    currentTagIndex, setCurrentTagIndex,
+    isEditingTag, setIsEditingTag,
+    isEditingSingleTag, setIsEditingSingleTag
+  ]
 }
 
 export default useNoteDetailsKeybind

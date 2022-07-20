@@ -1,4 +1,4 @@
-import { ChangeEvent, KeyboardEvent, useCallback, useEffect, useMemo, useState } from "react"
+import { ChangeEvent, useCallback, useState } from "react"
 import { INote } from "../../interfaces/note"
 import Editor from "../editor/Editor"
 import Preview from "../preview/Preview"
@@ -32,15 +32,14 @@ const NoteDetails = ({
   const [isEditMode, setIsEditMode] = useState<boolean>(false)
   const [isEditingTitle, setIsEditingTitle] = useState<boolean>(false)
 
-  const numberOfElements = useMemo(() => {
-    let elementsCount = 2
-    if (currentNote) {
-      elementsCount += currentNote.tags.length
-    }
-    return elementsCount
-  }, [currentNote?.tags])
+  const numberOfElements = 3
 
-  const [currentElementIndex, setCurrentElementIndex] = useNoteDetailsKeybind({
+  const [
+    currentElementIndex, setCurrentElementIndex,
+    currentTagIndex, setCurrentTagIndex,
+    isEditingTag, setIsEditingTag,
+    isEditingSingleTag, setIsEditingSingleTag
+  ] = useNoteDetailsKeybind({
     isActive,
     isEditMode,
     isEditingTitle,
@@ -112,7 +111,11 @@ const NoteDetails = ({
               <div className={`${currentElementIndex === 0 ? 'text-blue-300' : ''} text-xl hover:text-blue-300`}>{currentNote.title}</div>
             }
           </div>
-          <NoteDetailsCurrentElementContextProvider currentElementIndex={currentElementIndex} setCurrentElementIndex={setCurrentElementIndex}>
+          <NoteDetailsCurrentElementContextProvider
+            currentTagIndex={currentTagIndex} setCurrentTagIndex={setCurrentTagIndex}
+            isEditingTag={isEditingTag} setIsEditingTag={setIsEditingTag}
+            isEditingSingleTag={isEditingSingleTag} setIsEditingSingleTag={setIsEditingSingleTag}
+          >
             <TagList className="mt-2" tags={currentNote.tags} onFinishEditTags={handleTagsChange} />
           </NoteDetailsCurrentElementContextProvider>
           <div className="mt-5">
