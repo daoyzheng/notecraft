@@ -6,8 +6,8 @@ interface Props {
   isEditingTitle: boolean
   numberOfElements: number
   onBlur?: () => void
-  setIsEditMode?: Dispatch<SetStateAction<boolean>>
-  setIsEditingTitle?: Dispatch<SetStateAction<boolean>>
+  setIsEditMode: Dispatch<SetStateAction<boolean>>
+  setIsEditingTitle: Dispatch<SetStateAction<boolean>>
   onFinishEditTitle?: () => void
 }
 
@@ -32,11 +32,11 @@ const useNoteDetailsKeybind = ({
   const [isEditingSingleTag, setIsEditingSingleTag] = useState<boolean>(false)
   function handleKeyPress (e: KeyboardEvent) {
     console.log(e)
-    if (!isEditMode && !isEditingTitle) {
+    if (isGlobalNavigating()) {
       switch(e.key.toLocaleLowerCase()) {
         case 'arrowdown':
         case 'j' : {
-          if (currentElementIndex < numberOfElements)
+          if (currentElementIndex < numberOfElements - 1)
             setCurrentElementIndex(currentElementIndex+1)
           break
         }
@@ -59,31 +59,73 @@ const useNoteDetailsKeybind = ({
             setIsEditingTitle && setIsEditingTitle(true)
             e.preventDefault()
           }
-          if (currentElementIndex === numberOfElements)
-            setIsEditMode && setIsEditMode(true)
+          if (currentElementIndex === 1) {
+            setCurrentTagIndex(0)
+            setIsEditingTag(true)
+          }
+          if (currentElementIndex === numberOfElements - 1)
+            setIsEditMode(true)
           break
         }
       }
     } else {
-      switch(e.key.toLocaleLowerCase()) {
-        case 'escape': {
-          if (currentElementIndex === numberOfElements)
-            setIsEditMode && setIsEditMode(false)
-          if (currentElementIndex === 0) {
-            onFinishEditTitle && onFinishEditTitle()
-            setIsEditingTitle && setIsEditingTitle(false)
+      if (isEditingTag) {
+        if (!isEditingSingleTag) {
+          switch(e.key.toLocaleLowerCase()) {
+            case 'arrowdown':
+            case 'j': {
+              setCurrentTagIndex(currentTagIndex+1)
+              break
+            }
+            case 'arrowup':
+            case 'k': {
+              setCurrentTagIndex(currentTagIndex-1)
+              break
+            }
+            case 'enter':
+            case 'i': {
+              setIsEditingSingleTag(true)
+              break
+            }
+            case 'escape': {
+              setIsEditingTag(false)
+              break
+            }
           }
-          break
+        } else {
+          switch(e.key.toLocaleLowerCase()) {
+            case 'escape': {
+              setIsEditingSingleTag(false)
+              break
+            }
+          }
         }
-        case 'enter': {
-          if (currentElementIndex === 0) {
-            onFinishEditTitle && onFinishEditTitle()
-            setIsEditingTitle && setIsEditingTitle(false)
+      } else {
+        switch(e.key.toLocaleLowerCase()) {
+          case 'escape': {
+            if (currentElementIndex === numberOfElements - 1)
+              setIsEditMode && setIsEditMode(false)
+            if (currentElementIndex === 1)
+              setIsEditingTag(false)
+            if (currentElementIndex === 0) {
+              onFinishEditTitle && onFinishEditTitle()
+              setIsEditingTitle && setIsEditingTitle(false)
+            }
+            break
           }
-          break
+          case 'enter': {
+            if (currentElementIndex === 0) {
+              onFinishEditTitle && onFinishEditTitle()
+              setIsEditingTitle && setIsEditingTitle(false)
+            }
+            break
+          }
         }
       }
     }
+  }
+  function isGlobalNavigating () {
+    return !isEditMode && !isEditingTitle && !isEditingTag
   }
   useEffect(() => {
     if (isActive) {
@@ -92,7 +134,7 @@ const useNoteDetailsKeybind = ({
     return () => {
       document.removeEventListener('keydown', handleKeyPress)
     }
-  }, [isActive, currentElementIndex, isEditMode, isEditingTitle])
+  }, [isActive, currentElementIndex, isEditMode, isEditingTitle, isEditingTag, isEditingSingleTag])
   return [
     currentElementIndex, setCurrentElementIndex,
     currentTagIndex, setCurrentTagIndex,

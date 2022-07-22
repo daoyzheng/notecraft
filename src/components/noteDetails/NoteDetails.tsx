@@ -113,10 +113,13 @@ const NoteDetails = ({
           </div>
           <NoteDetailsCurrentElementContextProvider
             currentTagIndex={currentTagIndex} setCurrentTagIndex={setCurrentTagIndex}
-            isEditingTag={isEditingTag} setIsEditingTag={setIsEditingTag}
             isEditingSingleTag={isEditingSingleTag} setIsEditingSingleTag={setIsEditingSingleTag}
           >
-            <TagList className="mt-2" tags={currentNote.tags} onFinishEditTags={handleTagsChange} />
+            <TagList
+              className={`mt-2 ${currentElementIndex === 1 && !isEditingTag ? 'text-blue-300' : ''}`}
+              tags={currentNote.tags}
+              onFinishEditTags={handleTagsChange}
+            />
           </NoteDetailsCurrentElementContextProvider>
           <div className="mt-5">
             {
@@ -128,7 +131,7 @@ const NoteDetails = ({
                   onBlur={handleEditorOnBlur}
                 /> :
                 <Preview
-                  className={`${currentElementIndex === numberOfElements ? 'text-blue-300' : ''} cursor-pointer hover:text-blue-300`}
+                  className={`${currentElementIndex === numberOfElements - 1 ? 'text-blue-300' : ''} cursor-pointer hover:text-blue-300`}
                   onClick={handleEditBody}
                   doc={currentNote?.body ? currentNote.body : ''}
                 />
