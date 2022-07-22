@@ -29,10 +29,6 @@ const TagList = ({ tags, className, onFinishEditTags }: Props) => {
     }
     setIsAddingTag(false)
   }, [onFinishEditTags, newTag])
-  const handleTagUpdate = useCallback((tag: string, index: number) => {
-    tags[index] = tag
-    onFinishEditTags && onFinishEditTags(tags)
-  }, [onFinishEditTags])
   const isTagFocused = useCallback((index: number) : boolean => {
     return currentTagIndex === index && isEditingTag
   }, [currentTagIndex, isEditingTag])
@@ -45,7 +41,7 @@ const TagList = ({ tags, className, onFinishEditTags }: Props) => {
     <div className={`${className} text-xs flex flex-row items-center gap-x-2`}>
       {
         tags.map((tag, index) =>
-          <NoteTag tag={tag} key={index} index={index} onChange={handleTagUpdate} isFocus={isTagFocused(index)}/>
+          <NoteTag tag={tag} key={index} index={index} isFocus={isTagFocused(index)}/>
         )
       }
       {

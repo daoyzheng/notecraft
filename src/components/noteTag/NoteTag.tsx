@@ -6,17 +6,18 @@ interface Props {
   index: number
   className?: string
   isFocus?: boolean
-  onChange?: (tag: string, index: number) => void
 }
-const NoteTag = ({ tag, index, className, isFocus, onChange }: Props) => {
-  const [isEditingTag, setIsEditingTag] = useState<Boolean>(false)
+const NoteTag = ({ tag, index, className, isFocus }: Props) => {
   const [updatedTag, setUpdatedTag] = useState<string>(tag)
   const {
     setCurrentTagIndex,
     setIsEditingTag: setGlobalEditTag,
-    setIsEditingSingleTag,
     isEditingSingleTag,
-    currentTagIndex
+    currentTagIndex,
+    setIsEditingTag,
+    setIsEditingSingleTag,
+    setCurrentElementIndex,
+    handleEditTag
   } = useContext(NoteDetailsCurrentElementContext)
   const tagInput = useRef<HTMLInputElement>(null)
   const hiddenTag = useRef<HTMLDivElement>(null)
@@ -49,15 +50,17 @@ const NoteTag = ({ tag, index, className, isFocus, onChange }: Props) => {
   }, [updatedTag])
 
   useEffect(() => {
-    if (isEditingSingleTag || isEditingTag)
+    if (isEditingSingleTag)
       setupHiddenTag()
-  }, [isEditingTag, isEditingSingleTag])
+    else
+      handleEditTag(updatedTag, index)
+  }, [isEditingSingleTag])
 
   const handleSaveTag = useCallback(() => {
-    onChange && onChange(updatedTag, index)
+    setIsEditingSingleTag(false)
     setIsEditingTag(false)
-    // setIsEditingSingleTag(false)
-  }, [onChange, updatedTag])
+    handleEditTag(updatedTag, index)
+  }, [updatedTag])
   function handleTagChange (e: ChangeEvent) {
     const tag = (e.target as HTMLInputElement).value
     tagInputChange(tag)
@@ -72,13 +75,13 @@ const NoteTag = ({ tag, index, className, isFocus, onChange }: Props) => {
     }
   }
   function handleClick () {
-    setIsEditingTag(true)
     setGlobalEditTag(true)
     setIsEditingSingleTag(true)
     setCurrentTagIndex(index)
+    setCurrentElementIndex(1)
   }
   return (
-    (isEditingSingleTag && currentTagIndex === index) || isEditingTag ?
+    (isEditingSingleTag && currentTagIndex === index) ?
       <>
         <input
           className="focus:outline-none bg-transparent placeholder-gray-400 focus:placeholder-gray-400"

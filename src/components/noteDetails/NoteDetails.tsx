@@ -69,6 +69,13 @@ const NoteDetails = ({
     onTitleChange && onTitleChange((e.target as HTMLInputElement).value)
   }, [onTitleChange])
 
+  const handleEditTag = useCallback((tag: string, index: number) => {
+    if (currentNote) {
+      currentNote.tags[index] = tag
+      onTagsChange && onTagsChange(currentNote.tags)
+    }
+  }, [onTagsChange])
+
   const handleTagsChange = useCallback((tags: string[]) => {
     onTagsChange && onTagsChange(tags)
   }, [onTagsChange])
@@ -90,6 +97,7 @@ const NoteDetails = ({
     setIsEditMode(true)
     setCurrentElementIndex(numberOfElements)
   }
+
 
   function handleEditorOnBlur () {
     setIsEditMode(false)
@@ -121,10 +129,13 @@ const NoteDetails = ({
               <div className={`${currentElementIndex === 0 ? 'text-blue-300' : ''} text-xl hover:text-blue-300`}>{currentNote.title}</div>
             }
           </div>
+          {currentNote.tags}
           <NoteDetailsCurrentElementContextProvider
             currentTagIndex={currentTagIndex} setCurrentTagIndex={setCurrentTagIndex}
             isEditingTag={isEditingTag} setIsEditingTag={setIsEditingTag}
             isEditingSingleTag={isEditingSingleTag} setIsEditingSingleTag={setIsEditingSingleTag}
+            setCurrentElementIndex={setCurrentElementIndex}
+            handleEditTag={handleEditTag}
           >
             <TagList
               className={`mt-2 ${currentElementIndex === 1 && !isEditingTag ? 'text-blue-300' : ''}`}

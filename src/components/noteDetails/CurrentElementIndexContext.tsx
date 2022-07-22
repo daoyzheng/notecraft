@@ -7,6 +7,8 @@ interface INoteDetailsTagContext {
   setCurrentTagIndex: Dispatch<SetStateAction<number>>
   setIsEditingTag: Dispatch<SetStateAction<boolean>>
   setIsEditingSingleTag: Dispatch<SetStateAction<boolean>>
+  setCurrentElementIndex: Dispatch<SetStateAction<number>>
+  handleEditTag: (tag: string, index: number) => void
 }
 const NoteDetailsCurrentElementContext = createContext<INoteDetailsTagContext>({
   currentTagIndex: 0,
@@ -14,7 +16,9 @@ const NoteDetailsCurrentElementContext = createContext<INoteDetailsTagContext>({
   isEditingSingleTag: false,
   setCurrentTagIndex: () => {},
   setIsEditingTag: () => {},
-  setIsEditingSingleTag: () => {}
+  setIsEditingSingleTag: () => {},
+  setCurrentElementIndex: () => {},
+  handleEditTag: () => {}
 })
 
 interface Props extends INoteDetailsTagContext{
@@ -28,7 +32,9 @@ const NoteDetailsCurrentElementContextProvider: React.FC<Props> = ({
   currentTagIndex,
   setCurrentTagIndex,
   setIsEditingSingleTag,
-  setIsEditingTag
+  setIsEditingTag,
+  setCurrentElementIndex,
+  handleEditTag
 }) => {
   return (
     <NoteDetailsCurrentElementContext.Provider value={{
@@ -37,7 +43,9 @@ const NoteDetailsCurrentElementContextProvider: React.FC<Props> = ({
       currentTagIndex,
       setCurrentTagIndex,
       setIsEditingSingleTag,
-      setIsEditingTag
+      setIsEditingTag,
+      setCurrentElementIndex,
+      handleEditTag
     }}>
       {children}
     </NoteDetailsCurrentElementContext.Provider>

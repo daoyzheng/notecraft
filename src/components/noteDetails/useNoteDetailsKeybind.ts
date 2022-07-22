@@ -78,17 +78,20 @@ const useNoteDetailsKeybind = ({
             case 'l': {
               if (currentTagIndex < numberOfTags)
                 setCurrentTagIndex(currentTagIndex+1)
+              if (currentTagIndex === numberOfTags)
+                setCurrentTagIndex(0)
               break
             }
             case 'arrowleft':
             case 'h': {
               if (currentTagIndex > 0)
                 setCurrentTagIndex(currentTagIndex-1)
+              if (currentTagIndex === 0)
+                setCurrentTagIndex(numberOfTags)
               break
             }
             case 'enter':
             case 'i': {
-              console.log('here')
               setIsEditingSingleTag(true)
               e.preventDefault()
               break
@@ -101,6 +104,7 @@ const useNoteDetailsKeybind = ({
           }
         } else {
           switch(e.key.toLocaleLowerCase()) {
+            case 'enter':
             case 'escape': {
               setIsEditingSingleTag(false)
               break
