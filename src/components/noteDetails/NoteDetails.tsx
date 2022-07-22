@@ -44,6 +44,7 @@ const NoteDetails = ({
     isEditMode,
     isEditingTitle,
     numberOfElements,
+    numberOfTags: currentNote ? currentNote.tags.length : 0,
     onFinishEditTitle,
     onBlur,
     setIsEditMode,
@@ -113,6 +114,7 @@ const NoteDetails = ({
           </div>
           <NoteDetailsCurrentElementContextProvider
             currentTagIndex={currentTagIndex} setCurrentTagIndex={setCurrentTagIndex}
+            isEditingTag={isEditingTag} setIsEditingTag={setIsEditingTag}
             isEditingSingleTag={isEditingSingleTag} setIsEditingSingleTag={setIsEditingSingleTag}
           >
             <TagList

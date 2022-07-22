@@ -5,6 +5,7 @@ interface Props {
   isEditMode: boolean
   isEditingTitle: boolean
   numberOfElements: number
+  numberOfTags: number
   onBlur?: () => void
   setIsEditMode: Dispatch<SetStateAction<boolean>>
   setIsEditingTitle: Dispatch<SetStateAction<boolean>>
@@ -16,6 +17,7 @@ const useNoteDetailsKeybind = ({
   isEditMode,
   isEditingTitle,
   numberOfElements,
+  numberOfTags,
   onBlur,
   setIsEditMode,
   setIsEditingTitle,
@@ -74,12 +76,14 @@ const useNoteDetailsKeybind = ({
           switch(e.key.toLocaleLowerCase()) {
             case 'arrowdown':
             case 'j': {
-              setCurrentTagIndex(currentTagIndex+1)
+              if (currentTagIndex < numberOfTags)
+                setCurrentTagIndex(currentTagIndex+1)
               break
             }
             case 'arrowup':
             case 'k': {
-              setCurrentTagIndex(currentTagIndex-1)
+              if (currentTagIndex > 0)
+                setCurrentTagIndex(currentTagIndex-1)
               break
             }
             case 'enter':
@@ -134,7 +138,14 @@ const useNoteDetailsKeybind = ({
     return () => {
       document.removeEventListener('keydown', handleKeyPress)
     }
-  }, [isActive, currentElementIndex, isEditMode, isEditingTitle, isEditingTag, isEditingSingleTag])
+  }, [
+    isActive,
+    currentElementIndex,
+    currentTagIndex,
+    isEditMode,
+    isEditingTitle,
+    isEditingTag,
+    isEditingSingleTag])
   return [
     currentElementIndex, setCurrentElementIndex,
     currentTagIndex, setCurrentTagIndex,

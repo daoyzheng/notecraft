@@ -11,7 +11,11 @@ interface Props {
 const TagList = ({ tags, className, onFinishEditTags }: Props) => {
   const [isAddingTag, setIsAddingTag] = useState<Boolean>(false)
   const [newTag, setNewTag] = useState<string>('')
-  const { currentElementIndex, setCurrentElementIndex } = useContext(NoteDetailsCurrentElementContext)
+  const {
+    isEditingTag,
+    currentTagIndex,
+    isEditingSingleTag
+  } = useContext(NoteDetailsCurrentElementContext)
   function handleNewTagOnChange (e: ChangeEvent) {
     const newTag = (e.target as HTMLInputElement).value
     setNewTag(newTag)
@@ -28,12 +32,11 @@ const TagList = ({ tags, className, onFinishEditTags }: Props) => {
     tags[index] = tag
     onFinishEditTags && onFinishEditTags(tags)
   }, [onFinishEditTags])
-  function isTagFocused (index: number) : boolean {
-    return currentElementIndex - 1 === index && currentElementIndex - 1 <= tags.length
-  }
+  const isTagFocused = useCallback((index: number) : boolean => {
+    return currentTagIndex === index && isEditingTag
+  }, [currentTagIndex, isEditingTag])
   function handleAddTag() {
     setIsAddingTag(true)
-    setCurrentElementIndex(tags.length + 1)
   }
   return (
     <div className={`${className} text-xs flex flex-row items-center gap-x-2`}>
@@ -52,7 +55,7 @@ const TagList = ({ tags, className, onFinishEditTags }: Props) => {
             autoFocus
           /> :
           (
-            <div className={`${currentElementIndex === tags.length + 1 ? 'text-blue-300' : ''} text-xs cursor-pointer hover:text-blue-300`} onClick={handleAddTag}>
+            <div className={`${currentTagIndex === tags.length && isEditingTag ? 'text-blue-300' : ''} text-xs cursor-pointer hover:text-blue-300`} onClick={handleAddTag}>
               Add Tag
             </div>
           )
