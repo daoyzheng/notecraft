@@ -14,7 +14,8 @@ const TagList = ({ tags, className, onFinishEditTags }: Props) => {
   const {
     isEditingTag,
     currentTagIndex,
-    isEditingSingleTag
+    setCurrentTagIndex,
+    setIsEditingTag
   } = useContext(NoteDetailsCurrentElementContext)
   function handleNewTagOnChange (e: ChangeEvent) {
     const newTag = (e.target as HTMLInputElement).value
@@ -36,7 +37,9 @@ const TagList = ({ tags, className, onFinishEditTags }: Props) => {
     return currentTagIndex === index && isEditingTag
   }, [currentTagIndex, isEditingTag])
   function handleAddTag() {
+    setCurrentTagIndex(tags.length)
     setIsAddingTag(true)
+    setIsEditingTag(true)
   }
   return (
     <div className={`${className} text-xs flex flex-row items-center gap-x-2`}>

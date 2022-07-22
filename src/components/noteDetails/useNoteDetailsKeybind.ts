@@ -74,25 +74,28 @@ const useNoteDetailsKeybind = ({
       if (isEditingTag) {
         if (!isEditingSingleTag) {
           switch(e.key.toLocaleLowerCase()) {
-            case 'arrowdown':
-            case 'j': {
+            case 'arrowright':
+            case 'l': {
               if (currentTagIndex < numberOfTags)
                 setCurrentTagIndex(currentTagIndex+1)
               break
             }
-            case 'arrowup':
-            case 'k': {
+            case 'arrowleft':
+            case 'h': {
               if (currentTagIndex > 0)
                 setCurrentTagIndex(currentTagIndex-1)
               break
             }
             case 'enter':
             case 'i': {
+              console.log('here')
               setIsEditingSingleTag(true)
+              e.preventDefault()
               break
             }
             case 'escape': {
               setIsEditingTag(false)
+              e.preventDefault()
               break
             }
           }

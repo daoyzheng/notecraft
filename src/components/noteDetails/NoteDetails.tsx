@@ -77,6 +77,15 @@ const NoteDetails = ({
     onMouseEnter && onMouseEnter()
   }, [onMouseEnter])
 
+  function handleMouseLeave () {
+    setCurrentElementIndex(0)
+    setCurrentTagIndex(0)
+    setIsEditingSingleTag(false)
+    setIsEditingTag(false)
+    setIsEditMode(false)
+    setIsEditingTitle(false)
+  }
+
   function handleEditBody () {
     setIsEditMode(true)
     setCurrentElementIndex(numberOfElements)
@@ -87,7 +96,7 @@ const NoteDetails = ({
   }
 
   return (
-    <div className={`${className} px-2 pt-2 bg-zinc-800 text-white`} onMouseEnter={handleEnterNodeDetails} onMouseLeave={() => setCurrentElementIndex(0)}>
+    <div className={`${className} px-2 pt-2 bg-zinc-800 text-white`} onMouseEnter={handleEnterNodeDetails} onMouseLeave={handleMouseLeave}>
       {
         !currentNote ?
         <div className="flex justify-center items-center h-full text-gray-400">

@@ -11,7 +11,13 @@ interface Props {
 const NoteTag = ({ tag, index, className, isFocus, onChange }: Props) => {
   const [isEditingTag, setIsEditingTag] = useState<Boolean>(false)
   const [updatedTag, setUpdatedTag] = useState<string>(tag)
-  const { setCurrentElementIndex } = useContext(NoteDetailsCurrentElementContext)
+  const {
+    setCurrentTagIndex,
+    setIsEditingTag: setGlobalEditTag,
+    setIsEditingSingleTag,
+    isEditingSingleTag,
+    currentTagIndex
+  } = useContext(NoteDetailsCurrentElementContext)
   const tagInput = useRef<HTMLInputElement>(null)
   const hiddenTag = useRef<HTMLDivElement>(null)
 
@@ -43,13 +49,14 @@ const NoteTag = ({ tag, index, className, isFocus, onChange }: Props) => {
   }, [updatedTag])
 
   useEffect(() => {
-    if (isEditingTag)
+    if (isEditingSingleTag || isEditingTag)
       setupHiddenTag()
-  }, [isEditingTag])
+  }, [isEditingTag, isEditingSingleTag])
 
   const handleSaveTag = useCallback(() => {
     onChange && onChange(updatedTag, index)
     setIsEditingTag(false)
+    // setIsEditingSingleTag(false)
   }, [onChange, updatedTag])
   function handleTagChange (e: ChangeEvent) {
     const tag = (e.target as HTMLInputElement).value
@@ -66,10 +73,12 @@ const NoteTag = ({ tag, index, className, isFocus, onChange }: Props) => {
   }
   function handleClick () {
     setIsEditingTag(true)
-    setCurrentElementIndex(index + 1)
+    setGlobalEditTag(true)
+    setIsEditingSingleTag(true)
+    setCurrentTagIndex(index)
   }
   return (
-    isEditingTag ?
+    (isEditingSingleTag && currentTagIndex === index) || isEditingTag ?
       <>
         <input
           className="focus:outline-none bg-transparent placeholder-gray-400 focus:placeholder-gray-400"
