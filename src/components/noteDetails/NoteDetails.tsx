@@ -11,9 +11,11 @@ interface Props {
   currentNote: INote | null
   isActive: boolean
   onDocChange?: (doc: string) => void
+  onFinishEditDoc?: () => void
   onTitleChange?: (title: string) => void
   onFinishEditTitle?: () => void
   onTagsChange?: (tags: string[]) => void
+  onFinishEditTags?: () => void
   onMouseEnter?: () => void
   onBlur?: () => void
 }
@@ -23,9 +25,11 @@ const NoteDetails = ({
   currentNote,
   isActive,
   onDocChange,
+  onFinishEditDoc,
   onTitleChange,
   onTagsChange,
   onFinishEditTitle,
+  onFinishEditTags,
   onMouseEnter,
   onBlur
 } : Props) => {
@@ -69,12 +73,9 @@ const NoteDetails = ({
     onTitleChange && onTitleChange((e.target as HTMLInputElement).value)
   }, [onTitleChange])
 
-  const handleEditTag = useCallback((tag: string, index: number) => {
-    if (currentNote) {
-      currentNote.tags[index] = tag
-      onTagsChange && onTagsChange(currentNote.tags)
-    }
-  }, [onTagsChange])
+  const handleFinishEditTags = useCallback(() => {
+    onFinishEditTags && onFinishEditTags()
+  }, [onFinishEditTags])
 
   const handleTagsChange = useCallback((tags: string[]) => {
     onTagsChange && onTagsChange(tags)
@@ -98,10 +99,10 @@ const NoteDetails = ({
     setCurrentElementIndex(numberOfElements)
   }
 
-
-  function handleEditorOnBlur () {
+  const handleEditorOnBlur = useCallback(() => {
     setIsEditMode(false)
-  }
+    onFinishEditDoc && onFinishEditDoc()
+  },[currentNote])
 
   return (
     <div className={`${className} px-2 pt-2 bg-zinc-800 text-white`} onMouseEnter={handleEnterNodeDetails} onMouseLeave={handleMouseLeave}>
@@ -129,18 +130,17 @@ const NoteDetails = ({
               <div className={`${currentElementIndex === 0 ? 'text-blue-300' : ''} text-xl hover:text-blue-300`}>{currentNote.title}</div>
             }
           </div>
-          {currentNote.tags}
           <NoteDetailsCurrentElementContextProvider
             currentTagIndex={currentTagIndex} setCurrentTagIndex={setCurrentTagIndex}
             isEditingTag={isEditingTag} setIsEditingTag={setIsEditingTag}
             isEditingSingleTag={isEditingSingleTag} setIsEditingSingleTag={setIsEditingSingleTag}
             setCurrentElementIndex={setCurrentElementIndex}
-            handleEditTag={handleEditTag}
           >
             <TagList
               className={`mt-2 ${currentElementIndex === 1 && !isEditingTag ? 'text-blue-300' : ''}`}
               tags={currentNote.tags}
-              onFinishEditTags={handleTagsChange}
+              onTagsChange={handleTagsChange}
+              onFinishEditTags={handleFinishEditTags}
             />
           </NoteDetailsCurrentElementContextProvider>
           <div className="mt-5">

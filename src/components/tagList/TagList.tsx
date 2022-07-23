@@ -5,10 +5,11 @@ import NoteTag from "../noteTag/NoteTag"
 
 interface Props {
   tags: string[]
-  className?: string,
-  onFinishEditTags?: (tags: string[]) => void
+  className?: string
+  onTagsChange: (tags: string[]) => void
+  onFinishEditTags: () => void
 }
-const TagList = ({ tags, className, onFinishEditTags }: Props) => {
+const TagList = ({ tags, className, onTagsChange, onFinishEditTags }: Props) => {
   const [isAddingTag, setIsAddingTag] = useState<Boolean>(false)
   const [newTag, setNewTag] = useState<string>('')
   const {
@@ -23,15 +24,25 @@ const TagList = ({ tags, className, onFinishEditTags }: Props) => {
   }
   const handleAddNewTagOnBlur = useCallback(() => {
     if (newTag) {
-      const updatedTags = [...tags, newTag]
-      onFinishEditTags && onFinishEditTags(updatedTags)
+      tags[tags.length] = newTag
+      onTagsChange(tags)
       setNewTag('')
     }
     setIsAddingTag(false)
-  }, [onFinishEditTags, newTag])
+  }, [newTag])
   const isTagFocused = useCallback((index: number) : boolean => {
     return currentTagIndex === index && isEditingTag
   }, [currentTagIndex, isEditingTag])
+  const handleOnTagChange = useCallback((tag: string, index: number) => {
+    if (tag === '')
+      tags.splice(index, 1)
+    else
+      tags[index] = tag
+    onTagsChange(tags)
+  }, [onTagsChange])
+  const handleFinishEditTag = useCallback(() => {
+    onFinishEditTags()
+  }, [onFinishEditTags])
   function handleAddTag() {
     setCurrentTagIndex(tags.length)
     setIsAddingTag(true)
@@ -41,7 +52,14 @@ const TagList = ({ tags, className, onFinishEditTags }: Props) => {
     <div className={`${className} text-xs flex flex-row items-center gap-x-2`}>
       {
         tags.map((tag, index) =>
-          <NoteTag tag={tag} key={index} index={index} isFocus={isTagFocused(index)}/>
+          <NoteTag
+            tag={tag}
+            key={index}
+            index={index}
+            isFocus={isTagFocused(index)}
+            onTagChange={handleOnTagChange}
+            onFinishEditTag={handleFinishEditTag}
+          />
         )
       }
       {

@@ -53,7 +53,7 @@ const Notebook = () => {
     }
   }
 
-  function handleFinishEditTags (tags: string[]) {
+  function handleTagsChange (tags: string[]) {
     if (currentNote) {
       currentNote.tags = tags
       setNoteList(oldNoteList => {
@@ -64,8 +64,17 @@ const Notebook = () => {
           return note
         })
       })
-      console.log('save tag', currentNote.tags)
     }
+  }
+
+  function handleFinishEditDoc () {
+    if (currentNote)
+      console.log('save doc', currentNote.tags)
+  }
+
+  function handleFinishEditTags () {
+    if (currentNote)
+      console.log('save tags', currentNote.tags)
   }
 
   function handleFinishEditTitle () {
@@ -92,9 +101,11 @@ const Notebook = () => {
         className={`${currentFocus === focusOptions.notedetails && currentNote ? 'border-blue-500' : 'border-transparent'} col-span-7 border`}
         currentNote={currentNote}
         onDocChange={handleDocChange}
+        onFinishEditDoc={handleFinishEditDoc}
         onTitleChange={handleTitleChange}
         onFinishEditTitle={handleFinishEditTitle}
-        onTagsChange={handleFinishEditTags}
+        onTagsChange={handleTagsChange}
+        onFinishEditTags={handleFinishEditTags}
         onMouseEnter={() => handleEnterElement(focusOptions.notedetails)}
         isActive={currentFocus === focusOptions.notedetails}
         onBlur={() => handleEnterElement(focusOptions.notelist)}
