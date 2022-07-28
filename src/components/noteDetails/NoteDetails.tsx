@@ -87,19 +87,25 @@ const NoteDetails = ({
   }, [onMouseEnter])
 
   function handleMouseLeave () {
+    saveNoteOnMouseLeave()
     setCurrentElementIndex(0)
     setCurrentTagIndex(0)
     setIsEditingSingleTag(false)
     setIsEditingTag(false)
     setIsEditMode(false)
     setIsEditingTitle(false)
-    saveNoteOnMouseLeave()
   }
 
   function saveNoteOnMouseLeave () {
-    onFinishEditTitle && onFinishEditTitle()
-    onFinishEditDoc && onFinishEditDoc()
-    onFinishEditTags && onFinishEditTags()
+    if (isEditingSingleTag) {
+      onFinishEditTags && onFinishEditTags()
+    }
+    if (isEditingTitle) {
+      onFinishEditTitle && onFinishEditTitle()
+    }
+    if (isEditMode) {
+      onFinishEditDoc && onFinishEditDoc()
+    }
   }
 
   function handleEditBody () {
