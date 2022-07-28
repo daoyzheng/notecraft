@@ -50,6 +50,7 @@ const NoteDetails = ({
     numberOfElements,
     numberOfTags: currentNote ? currentNote.tags.length : 0,
     onFinishEditTitle,
+    onFinishEditTags,
     onBlur,
     setIsEditMode,
     setIsEditingTitle
@@ -92,6 +93,13 @@ const NoteDetails = ({
     setIsEditingTag(false)
     setIsEditMode(false)
     setIsEditingTitle(false)
+    saveNoteOnMouseLeave()
+  }
+
+  function saveNoteOnMouseLeave () {
+    onFinishEditTitle && onFinishEditTitle()
+    onFinishEditDoc && onFinishEditDoc()
+    onFinishEditTags && onFinishEditTags()
   }
 
   function handleEditBody () {

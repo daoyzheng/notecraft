@@ -69,7 +69,7 @@ const Notebook = () => {
 
   function handleFinishEditDoc () {
     if (currentNote)
-      console.log('save doc', currentNote.tags)
+      console.log('save doc', currentNote.body)
   }
 
   function handleFinishEditTags () {

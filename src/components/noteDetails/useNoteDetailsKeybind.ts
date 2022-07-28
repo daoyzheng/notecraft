@@ -10,6 +10,7 @@ interface Props {
   setIsEditMode: Dispatch<SetStateAction<boolean>>
   setIsEditingTitle: Dispatch<SetStateAction<boolean>>
   onFinishEditTitle?: () => void
+  onFinishEditTags?: () => void
 }
 
 const useNoteDetailsKeybind = ({
@@ -21,7 +22,8 @@ const useNoteDetailsKeybind = ({
   onBlur,
   setIsEditMode,
   setIsEditingTitle,
-  onFinishEditTitle
+  onFinishEditTitle,
+  onFinishEditTags
 }: Props): [
   number, React.Dispatch<React.SetStateAction<number>>,
   number, React.Dispatch<React.SetStateAction<number>>,
@@ -107,6 +109,7 @@ const useNoteDetailsKeybind = ({
             case 'enter':
             case 'escape': {
               setIsEditingSingleTag(false)
+              onFinishEditTags && onFinishEditTags()
               break
             }
           }
