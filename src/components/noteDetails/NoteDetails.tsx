@@ -144,17 +144,22 @@ const NoteDetails = ({
           </div>
         </div> :
         <div>
-          <div className="flex flex-row gap-x-10 items-center w-full cursor-pointer" onClick={handleOnClick}>
+          <div className="flex flex-row gap-x-10 items-center w-full">
             {
               isEditingTitle ?
-              <input
-                defaultValue={currentNote.title}
-                className="focus:outline-none bg-transparent w-full placeholder-white focus:placeholder-white"
-                onBlur={handleOnBlur}
-                onChange={handleTitleChange}
-                autoFocus
-              /> :
-              <div className={`${currentElementIndex === 0 ? 'text-blue-300' : ''} text-xl hover:text-blue-300`}>{currentNote.title}</div>
+              <div className="flex items-center w-full">
+                <input
+                  defaultValue={currentNote.title}
+                  className="focus:outline-none bg-transparent w-full placeholder-white focus:placeholder-white"
+                  onBlur={handleOnBlur}
+                  onChange={handleTitleChange}
+                  autoFocus
+                />
+                <button className="mx-2 w-6 rounded bg-zinc-600 hover:bg-zinc-700" onClick={() => handleOnBlur()}>
+                  <i className="material-icons-outlined text-xs text-green-300 hover:text-green-400">done</i>
+                </button>
+              </div> :
+              <div className={`${currentElementIndex === 0 ? 'text-blue-300' : ''} text-xl hover:text-blue-300 cursor-pointer`} onClick={handleOnClick}>{currentNote.title}</div>
             }
           </div>
           <NoteDetailsCurrentElementContextProvider

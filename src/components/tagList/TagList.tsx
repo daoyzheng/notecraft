@@ -69,7 +69,7 @@ const TagList = ({ tags, className, onTagsChange, onFinishEditTags }: Props) => 
             autoFocus
           /> :
           (
-            <div className={`${currentTagIndex === tags.length && isEditingTag ? 'text-blue-300' : ''} text-xs cursor-pointer hover:text-blue-300`} onClick={handleAddTag}>
+            <div className={`${currentTagIndex === tags.length && isEditingTag ? 'text-blue-300' : ''} italic text-xs cursor-pointer hover:text-blue-300`} onClick={handleAddTag}>
               Add Tag
             </div>
           )
