@@ -42,7 +42,9 @@ const NoteDetails = ({
     currentElementIndex, setCurrentElementIndex,
     currentTagIndex, setCurrentTagIndex,
     isEditingTag, setIsEditingTag,
-    isEditingSingleTag, setIsEditingSingleTag
+    isAddingTag, setIsAddingTag,
+    isEditingSingleTag, setIsEditingSingleTag,
+    newTag, setNewTag
   ] = useNoteDetailsKeybind({
     isActive,
     isEditMode,
@@ -51,6 +53,7 @@ const NoteDetails = ({
     numberOfTags: currentNote ? currentNote.tags.length : 0,
     onFinishEditTitle,
     onFinishEditTags,
+    handleFinishAddingNewTag,
     onBlur,
     setIsEditMode,
     setIsEditingTitle
@@ -78,6 +81,15 @@ const NoteDetails = ({
     onFinishEditTags && onFinishEditTags()
   }, [onFinishEditTags])
 
+  function handleFinishAddingNewTag () {
+    if (currentNote && newTag) {
+      const tags = [...currentNote.tags, newTag]
+      onTagsChange && onTagsChange(tags)
+      onFinishEditTags && onFinishEditTags()
+      setNewTag('')
+    }
+  }
+
   const handleTagsChange = useCallback((tags: string[]) => {
     onTagsChange && onTagsChange(tags)
   }, [onTagsChange])
@@ -91,6 +103,7 @@ const NoteDetails = ({
     setCurrentElementIndex(0)
     setCurrentTagIndex(0)
     setIsEditingSingleTag(false)
+    setIsAddingTag(false)
     setIsEditingTag(false)
     setIsEditMode(false)
     setIsEditingTitle(false)
@@ -147,7 +160,9 @@ const NoteDetails = ({
           <NoteDetailsCurrentElementContextProvider
             currentTagIndex={currentTagIndex} setCurrentTagIndex={setCurrentTagIndex}
             isEditingTag={isEditingTag} setIsEditingTag={setIsEditingTag}
+            isAddingTag={isAddingTag} setIsAddingTag={setIsAddingTag}
             isEditingSingleTag={isEditingSingleTag} setIsEditingSingleTag={setIsEditingSingleTag}
+            handleFinishAddingNewTag={handleFinishAddingNewTag} setNewTag={setNewTag}
             setCurrentElementIndex={setCurrentElementIndex}
           >
             <TagList

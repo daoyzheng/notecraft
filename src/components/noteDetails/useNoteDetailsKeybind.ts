@@ -1,4 +1,4 @@
-import { createContext, Dispatch, SetStateAction, useEffect, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useState } from "react"
 
 interface Props {
   isActive: boolean
@@ -11,6 +11,7 @@ interface Props {
   setIsEditingTitle: Dispatch<SetStateAction<boolean>>
   onFinishEditTitle?: () => void
   onFinishEditTags?: () => void
+  handleFinishAddingNewTag: () => void
 }
 
 const useNoteDetailsKeybind = ({
@@ -23,17 +24,22 @@ const useNoteDetailsKeybind = ({
   setIsEditMode,
   setIsEditingTitle,
   onFinishEditTitle,
-  onFinishEditTags
+  onFinishEditTags,
+  handleFinishAddingNewTag
 }: Props): [
   number, React.Dispatch<React.SetStateAction<number>>,
   number, React.Dispatch<React.SetStateAction<number>>,
   boolean, React.Dispatch<React.SetStateAction<boolean>>,
-  boolean, React.Dispatch<React.SetStateAction<boolean>>
+  boolean, React.Dispatch<React.SetStateAction<boolean>>,
+  boolean, React.Dispatch<React.SetStateAction<boolean>>,
+  string, React.Dispatch<React.SetStateAction<string>>
 ] => {
   const [currentElementIndex, setCurrentElementIndex] = useState<number>(0)
   const [currentTagIndex, setCurrentTagIndex] = useState<number>(0)
   const [isEditingTag, setIsEditingTag] = useState<boolean>(false)
   const [isEditingSingleTag, setIsEditingSingleTag] = useState<boolean>(false)
+  const [isAddingTag, setIsAddingTag] = useState<boolean>(false)
+  const [newTag, setNewTag] = useState<string>('')
   function handleKeyPress (e: KeyboardEvent) {
     console.log(e)
     if (isGlobalNavigating()) {
@@ -74,7 +80,7 @@ const useNoteDetailsKeybind = ({
       }
     } else {
       if (isEditingTag) {
-        if (!isEditingSingleTag) {
+        if (!isEditingSingleTag && !isAddingTag) {
           switch(e.key.toLocaleLowerCase()) {
             case 'arrowright':
             case 'l': {
@@ -94,12 +100,17 @@ const useNoteDetailsKeybind = ({
             }
             case 'enter':
             case 'i': {
-              setIsEditingSingleTag(true)
+              if (numberOfTags === currentTagIndex) {
+                setIsAddingTag(true)
+              } else {
+                setIsEditingSingleTag(true)
+              }
               e.preventDefault()
               break
             }
             case 'escape': {
               setIsEditingTag(false)
+              setIsAddingTag(false)
               e.preventDefault()
               break
             }
@@ -108,8 +119,13 @@ const useNoteDetailsKeybind = ({
           switch(e.key.toLocaleLowerCase()) {
             case 'enter':
             case 'escape': {
-              setIsEditingSingleTag(false)
-              onFinishEditTags && onFinishEditTags()
+              if (!isAddingTag) {
+                setIsEditingSingleTag(false)
+                onFinishEditTags && onFinishEditTags()
+              } else {
+                handleFinishAddingNewTag()
+                setIsAddingTag(false)
+              }
               break
             }
           }
@@ -150,17 +166,21 @@ const useNoteDetailsKeybind = ({
     }
   }, [
     isActive,
-    currentElementIndex,
-    currentTagIndex,
     isEditMode,
     isEditingTitle,
+    newTag,
+    currentElementIndex,
+    currentTagIndex,
     isEditingTag,
+    isAddingTag,
     isEditingSingleTag])
   return [
     currentElementIndex, setCurrentElementIndex,
     currentTagIndex, setCurrentTagIndex,
     isEditingTag, setIsEditingTag,
-    isEditingSingleTag, setIsEditingSingleTag
+    isAddingTag, setIsAddingTag,
+    isEditingSingleTag, setIsEditingSingleTag,
+    newTag, setNewTag
   ]
 }
 

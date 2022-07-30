@@ -1,5 +1,4 @@
-import { ChangeEvent, useCallback, useContext, useState } from "react"
-import Input from "../input/Input"
+import { ChangeEvent, useCallback, useContext } from "react"
 import { NoteDetailsCurrentElementContext } from "../noteDetails/CurrentElementIndexContext"
 import NoteTag from "../noteTag/NoteTag"
 
@@ -10,26 +9,24 @@ interface Props {
   onFinishEditTags: () => void
 }
 const TagList = ({ tags, className, onTagsChange, onFinishEditTags }: Props) => {
-  const [isAddingTag, setIsAddingTag] = useState<Boolean>(false)
-  const [newTag, setNewTag] = useState<string>('')
   const {
     isEditingTag,
+    isAddingTag,
     currentTagIndex,
     setCurrentTagIndex,
-    setIsEditingTag
+    setIsEditingTag,
+    setIsAddingTag,
+    setNewTag,
+    handleFinishAddingNewTag
   } = useContext(NoteDetailsCurrentElementContext)
   function handleNewTagOnChange (e: ChangeEvent) {
     const newTag = (e.target as HTMLInputElement).value
     setNewTag(newTag)
   }
   const handleAddNewTagOnBlur = useCallback(() => {
-    if (newTag) {
-      tags[tags.length] = newTag
-      onTagsChange(tags)
-      setNewTag('')
-    }
     setIsAddingTag(false)
-  }, [newTag])
+    handleFinishAddingNewTag()
+  }, [setIsAddingTag, handleFinishAddingNewTag])
   const isTagFocused = useCallback((index: number) : boolean => {
     return currentTagIndex === index && isEditingTag
   }, [currentTagIndex, isEditingTag])
