@@ -1,11 +1,12 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react"
 
 interface Props {
   isActive: boolean
   isEditMode: boolean
   isEditingTitle: boolean
   numberOfElements: number
-  numberOfTags: number
+  tags: string[]
+  onTagsChange?: (tags: string[]) => void
   onBlur?: () => void
   setIsEditMode: Dispatch<SetStateAction<boolean>>
   setIsEditingTitle: Dispatch<SetStateAction<boolean>>
@@ -19,13 +20,14 @@ const useNoteDetailsKeybind = ({
   isEditMode,
   isEditingTitle,
   numberOfElements,
-  numberOfTags,
+  tags,
   onBlur,
   setIsEditMode,
   setIsEditingTitle,
   onFinishEditTitle,
   onFinishEditTags,
-  handleFinishAddingNewTag
+  handleFinishAddingNewTag,
+  onTagsChange
 }: Props): [
   number, React.Dispatch<React.SetStateAction<number>>,
   number, React.Dispatch<React.SetStateAction<number>>,
@@ -40,8 +42,10 @@ const useNoteDetailsKeybind = ({
   const [isEditingSingleTag, setIsEditingSingleTag] = useState<boolean>(false)
   const [isAddingTag, setIsAddingTag] = useState<boolean>(false)
   const [newTag, setNewTag] = useState<string>('')
+  const numberOfTags = useMemo(() => {
+    return tags.length
+  }, [tags])
   function handleKeyPress (e: KeyboardEvent) {
-    console.log(e)
     if (isGlobalNavigating()) {
       switch(e.key.toLocaleLowerCase()) {
         case 'arrowdown':
@@ -120,6 +124,10 @@ const useNoteDetailsKeybind = ({
             case 'enter':
             case 'escape': {
               if (!isAddingTag) {
+                if (tags.includes('')) {
+                  tags = tags.filter(tag => tag)
+                  onTagsChange && onTagsChange(tags)
+                }
                 setIsEditingSingleTag(false)
                 onFinishEditTags && onFinishEditTags()
               } else {

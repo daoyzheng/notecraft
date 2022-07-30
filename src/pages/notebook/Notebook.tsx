@@ -73,8 +73,9 @@ const Notebook = () => {
   }
 
   function handleFinishEditTags () {
-    if (currentNote)
+    if (currentNote) {
       console.log('save tags', currentNote.tags)
+    }
   }
 
   function handleFinishEditTitle () {

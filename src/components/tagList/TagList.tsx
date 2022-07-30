@@ -31,10 +31,7 @@ const TagList = ({ tags, className, onTagsChange, onFinishEditTags }: Props) => 
     return currentTagIndex === index && isEditingTag
   }, [currentTagIndex, isEditingTag])
   const handleOnTagChange = useCallback((tag: string, index: number) => {
-    if (tag === '')
-      tags.splice(index, 1)
-    else
-      tags[index] = tag
+    tags[index] = tag
     onTagsChange(tags)
   }, [onTagsChange])
   const handleFinishEditTag = useCallback(() => {

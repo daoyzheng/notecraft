@@ -55,6 +55,10 @@ const NoteTag = ({ tag, index, className, isFocus, onTagChange, onFinishEditTag 
       setupHiddenTag()
   }, [isEditingSingleTag])
 
+  useEffect(() => {
+    setUpdatedTag(tag)
+  }, [tag])
+
   const handleSaveTag = () => {
     setIsEditingSingleTag(false)
     setIsEditingTag(false)
@@ -71,7 +75,7 @@ const NoteTag = ({ tag, index, className, isFocus, onTagChange, onFinishEditTag 
     if (hiddenTag.current && tagInput.current) {
       hiddenTag.current.innerHTML = tag.replace(/\s/g, '&' + 'nbsp;')
       const hiddenTagStyles = window.getComputedStyle(hiddenTag.current)
-      tagInput.current.style.minWidth="5px"
+      tagInput.current.style.minWidth="10px"
       tagInput.current.style.width = hiddenTagStyles.width
     }
   }
