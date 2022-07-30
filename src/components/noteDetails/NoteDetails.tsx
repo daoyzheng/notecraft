@@ -99,8 +99,8 @@ const NoteDetails = ({
   function handleDeleteTag (index: number) {
     if (currentNote) {
       if (index < currentNote.tags.length) {
-        currentNote.tags.splice(index, 1)
-        onTagsChange && onTagsChange(currentNote.tags)
+        const updatedTags = currentNote.tags.filter((_, i) => i !== index)
+        onTagsChange && onTagsChange(updatedTags)
         onFinishEditTags && onFinishEditTags()
       }
     }

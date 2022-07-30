@@ -118,7 +118,6 @@ const useNoteDetailsKeybind = ({
             case 'x':
             case 'delete': {
               handleDeleteTag(currentTagIndex)
-              onFinishEditTags && onFinishEditTags()
               break
             }
             case 'escape': {
@@ -185,6 +184,7 @@ const useNoteDetailsKeybind = ({
     isActive,
     isEditMode,
     isEditingTitle,
+    tags,
     newTag,
     currentElementIndex,
     currentTagIndex,
