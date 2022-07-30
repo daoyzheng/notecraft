@@ -18,7 +18,8 @@ const NoteTag = ({ tag, index, className, isFocus, onTagChange, onFinishEditTag 
     currentTagIndex,
     setIsEditingTag,
     setIsEditingSingleTag,
-    setCurrentElementIndex
+    setCurrentElementIndex,
+    handleDeleteTag
   } = useContext(NoteDetailsCurrentElementContext)
   const tagInput = useRef<HTMLInputElement>(null)
   const hiddenTag = useRef<HTMLDivElement>(null)
@@ -65,6 +66,10 @@ const NoteTag = ({ tag, index, className, isFocus, onTagChange, onFinishEditTag 
     onFinishEditTag && onFinishEditTag()
   }
 
+  const handleDeleteCurrentTag = useCallback(() => {
+    handleDeleteTag(index)
+  }, [handleDeleteTag])
+
   function handleTagChange (e: ChangeEvent) {
     const tag = (e.target as HTMLInputElement).value
     tagInputChange(tag)
@@ -79,6 +84,7 @@ const NoteTag = ({ tag, index, className, isFocus, onTagChange, onFinishEditTag 
       tagInput.current.style.width = hiddenTagStyles.width
     }
   }
+
   function handleClick () {
     setGlobalEditTag(true)
     setIsEditingSingleTag(true)
@@ -98,7 +104,17 @@ const NoteTag = ({ tag, index, className, isFocus, onTagChange, onFinishEditTag 
         />
         <div ref={hiddenTag}>{updatedTag}</div>
       </> :
-      <div className={`${className} ${isFocus ? 'text-blue-300' : ''} hover:text-blue-300 cursor-pointer`} onClick={handleClick}>{updatedTag}</div>
+      <div className={`${className} flex items-center gap-x-1`}>
+        <div className={`${isFocus ? 'text-blue-300' : ''} hover:text-blue-300 cursor-pointer flex items-center gap-x-1`} onClick={handleClick}>
+          <div className="mt-1">
+            <i className="material-icons-outlined text-xs">local_offer</i>
+          </div>
+          <div>{updatedTag}</div>
+        </div>
+        <div className="mt-1 cursor-pointer" onClick={handleDeleteCurrentTag}>
+          <i className="text-red-300 material-icons text-xs">clear</i>
+        </div>
+      </div>
   )
 }
 

@@ -13,6 +13,7 @@ interface Props {
   onFinishEditTitle?: () => void
   onFinishEditTags?: () => void
   handleFinishAddingNewTag: () => void
+  handleDeleteTag: (index: number) => void
 }
 
 const useNoteDetailsKeybind = ({
@@ -27,6 +28,7 @@ const useNoteDetailsKeybind = ({
   onFinishEditTitle,
   onFinishEditTags,
   handleFinishAddingNewTag,
+  handleDeleteTag,
   onTagsChange
 }: Props): [
   number, React.Dispatch<React.SetStateAction<number>>,
@@ -47,6 +49,7 @@ const useNoteDetailsKeybind = ({
   }, [tags])
   function handleKeyPress (e: KeyboardEvent) {
     if (isGlobalNavigating()) {
+      console.log(e)
       switch(e.key.toLocaleLowerCase()) {
         case 'arrowdown':
         case 'j' : {
@@ -110,6 +113,12 @@ const useNoteDetailsKeybind = ({
                 setIsEditingSingleTag(true)
               }
               e.preventDefault()
+              break
+            }
+            case 'x':
+            case 'delete': {
+              handleDeleteTag(currentTagIndex)
+              onFinishEditTags && onFinishEditTags()
               break
             }
             case 'escape': {

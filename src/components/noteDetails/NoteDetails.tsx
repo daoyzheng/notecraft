@@ -55,6 +55,7 @@ const NoteDetails = ({
     onFinishEditTitle,
     onFinishEditTags,
     handleFinishAddingNewTag,
+    handleDeleteTag,
     onBlur,
     setIsEditMode,
     setIsEditingTitle
@@ -79,6 +80,10 @@ const NoteDetails = ({
   }, [onTitleChange])
 
   const handleFinishEditTags = useCallback(() => {
+    if (currentNote && currentNote.tags.includes('')) {
+      const updatedTags = currentNote.tags.filter(tag => tag)
+      onTagsChange && onTagsChange(updatedTags)
+    }
     onFinishEditTags && onFinishEditTags()
   }, [onFinishEditTags])
 
@@ -88,6 +93,16 @@ const NoteDetails = ({
       onTagsChange && onTagsChange(tags)
       onFinishEditTags && onFinishEditTags()
       setNewTag('')
+    }
+  }
+
+  function handleDeleteTag (index: number) {
+    if (currentNote) {
+      if (index < currentNote.tags.length) {
+        currentNote.tags.splice(index, 1)
+        onTagsChange && onTagsChange(currentNote.tags)
+        onFinishEditTags && onFinishEditTags()
+      }
     }
   }
 
@@ -169,6 +184,7 @@ const NoteDetails = ({
             isAddingTag={isAddingTag} setIsAddingTag={setIsAddingTag}
             isEditingSingleTag={isEditingSingleTag} setIsEditingSingleTag={setIsEditingSingleTag}
             handleFinishAddingNewTag={handleFinishAddingNewTag} setNewTag={setNewTag}
+            handleDeleteTag={handleDeleteTag}
             setCurrentElementIndex={setCurrentElementIndex}
           >
             <TagList
