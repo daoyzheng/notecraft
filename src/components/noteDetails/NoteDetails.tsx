@@ -207,6 +207,7 @@ const NoteDetails = ({
                   className={`${currentElementIndex === numberOfElements - 1 ? 'text-blue-300' : ''} cursor-pointer hover:text-blue-300`}
                   onClick={handleEditBody}
                   doc={currentNote?.body ? currentNote.body : ''}
+                  showPlaceholder
                 />
             }
           </div>

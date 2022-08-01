@@ -5,15 +5,21 @@ import remarkGfm from 'remark-gfm'
 interface Props {
   className?: string
   doc: string
+  showPlaceholder?: boolean
   onClick?: () => void
 }
-const Preview: React.FC<Props> = ({ className, doc, onClick }) => {
+const Preview: React.FC<Props> = ({ className, doc, showPlaceholder, onClick }) => {
   const handleOnClick = useCallback(() => {
     onClick && onClick()
   }, [onClick])
   return (
     <div className={`${className} break-words`} onClick={handleOnClick}>
-      <ReactMarkdown children={doc} remarkPlugins={[remarkGfm]}/>
+      {
+        doc ?
+        <ReactMarkdown children={doc} remarkPlugins={[remarkGfm]}/> :
+        (showPlaceholder &&
+        <div className="italic text-sm text-zinc-300">Add Note</div>)
+      }
     </div>
   )
 }
