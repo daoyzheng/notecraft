@@ -18,7 +18,7 @@ const Preview: React.FC<Props> = ({ className, doc, showPlaceholder, onClick }) 
         doc ?
         <ReactMarkdown children={doc} remarkPlugins={[remarkGfm]}/> :
         (showPlaceholder &&
-        <div className="italic text-sm text-zinc-300">Add Note</div>)
+        <div className="italic text-sm">Add Note</div>)
       }
     </div>
   )

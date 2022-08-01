@@ -30,6 +30,7 @@ const Editor: React.FC<Props> = ({ onChange, initialDoc, docKey, onBlur }) => {
 
   useEffect(() => {
     if (editorView) {
+      editorView.focus()
       // do nothing for now
     }
   }, [editorView])
