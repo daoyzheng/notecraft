@@ -3,6 +3,7 @@ import useOutsideAlerter from '../../hooks/useOutsideAlerter'
 import useRegisterForm from '../../hooks/useRegisterForm'
 import { INote } from '../../interfaces/note'
 import Input from '../input/Input'
+import InputHint from '../inputHint/InputHint'
 import NoteDisplay from '../noteDisplay/NoteDisplay'
 import useNotelistKeybind from './useNotelistKeybind'
 interface Props {
@@ -37,10 +38,13 @@ const Notelist = ({
   const [register, reset, handleSubmit, errors] = useRegisterForm<INote>({defaultValue})
   useNotelistKeybind({
     isActive,
+    showPopup,
     noteList,
     currentNote,
     onSelectNote,
-    onBlur
+    setShowPopup,
+    onBlur,
+    reset
   })
   useOutsideAlerter({
     ref: popupRef,
@@ -68,7 +72,7 @@ const Notelist = ({
   }, [onMouseEnter])
 
   const popup = () => (
-    <div ref={popupRef} className="bg-white rounded absolute text-black p-2 right-0 h-fit" >
+    <div ref={popupRef} className="bg-white rounded absolute text-black p-2 right-0 h-fit top-5" >
       <form onSubmit={handleSubmit(data => handleCreateNewNote(data))}>
         <Input register={register('title', {
             required: 'Please enter a title for your note'
@@ -97,11 +101,12 @@ const Notelist = ({
     <div className={`px-2 pt-1 bg-zinc-800 text-white ${className}`} onMouseEnter={handleEnterNodeList}>
       <div className="flex flex row items-center justify-between my-2 pb-1">
         <div className="text-lg">New Notebook</div>
-        <div className="relative">
+        <div className="relative flex items-center gap-x-1">
           <i className="material-icons-outlined text-sm cursor-pointer" onClick={() => setShowPopup(true)}>launch</i>
           {
             showPopup && popup()
           }
+          <InputHint label="i"/>
         </div>
       </div>
       <div className="space-y-4">

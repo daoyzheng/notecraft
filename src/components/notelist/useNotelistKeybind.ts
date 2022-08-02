@@ -1,19 +1,26 @@
-import { useEffect } from "react"
+import { Dispatch, SetStateAction, useEffect } from "react"
+import { UseFormReset } from "react-hook-form"
 import { INote } from "../../interfaces/note"
 
 interface Props {
   noteList: INote[]
   currentNote: INote | null
   isActive: boolean
+  showPopup: boolean
   onSelectNote?: (note: INote|null) => void
+  setShowPopup: Dispatch<SetStateAction<boolean>>
   onBlur?: () => void
+  reset: UseFormReset<INote>
 }
 const useNotelistKeybind = ({
   isActive,
+  showPopup,
   noteList,
   currentNote,
   onSelectNote,
-  onBlur
+  setShowPopup,
+  onBlur,
+  reset
 }: Props) => {
   function incrementNote () {
     const currentIndex = noteList.findIndex(note => note.id === currentNote!.id)
@@ -36,6 +43,7 @@ const useNotelistKeybind = ({
     switch(e.key.toLocaleLowerCase()) {
       case 'arrowdown':
       case 'j': {
+        if (showPopup) break
         if (!currentNote) {
           onSelectNote && onSelectNote(noteList[0])
         } else
@@ -44,6 +52,7 @@ const useNotelistKeybind = ({
       }
       case 'arrowup':
       case 'k': {
+        if (showPopup) break
         if (!currentNote) {
           onSelectNote && onSelectNote(noteList[noteList.length - 1])
         } else
@@ -53,8 +62,21 @@ const useNotelistKeybind = ({
       case 'enter':
       case 'arrowright':
       case 'l': {
+        if (showPopup) break
         if (currentNote)
           onBlur && onBlur()
+      }
+      case 'i': {
+        if (showPopup) break
+        reset()
+        setShowPopup(true)
+        e.preventDefault()
+        break
+      }
+      case 'escape': {
+        if (showPopup)
+          setShowPopup(false)
+        break
       }
     }
   }
@@ -66,7 +88,7 @@ const useNotelistKeybind = ({
     return () => {
       document.removeEventListener('keydown', handleKeyPress)
     }
-  }, [isActive, currentNote])
+  }, [isActive, currentNote, showPopup])
 }
 
 export default useNotelistKeybind
