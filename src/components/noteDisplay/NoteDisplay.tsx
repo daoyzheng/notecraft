@@ -11,7 +11,7 @@ const NoteDisplay = ({ className, note, onClick }: Props) => {
     onClick && onClick(note)
   }
   return (
-    <div className={`${className} hover:bg-blue-500 cursor-pointer rounded-sm`} onClick={handleOnClick}>
+    <div className={`${className} hover:bg-blue-500 cursor-pointer rounded-sm px-1`} onClick={handleOnClick}>
       <div className="flex items-center">
         {/* {
           note.isPublic && <div className="px-1 bg-green-500 text-sm text-center rounded-sm">P</div>
