@@ -7,6 +7,7 @@ interface Props {
   currentNote: INote | null
   isActive: boolean
   showPopup: boolean
+  notelistRef: React.RefObject<HTMLDivElement>
   onSelectNote?: (note: INote|null) => void
   setShowPopup: Dispatch<SetStateAction<boolean>>
   onBlur?: () => void
@@ -17,17 +18,25 @@ const useNotelistKeybind = ({
   showPopup,
   noteList,
   currentNote,
+  notelistRef,
   onSelectNote,
   setShowPopup,
   onBlur,
   reset
 }: Props) => {
+  const offset = 0.8
+  const segment = notelistRef.current && (notelistRef.current.scrollHeight / noteList.length * offset)
   function incrementNote () {
     const currentIndex = noteList.findIndex(note => note.id === currentNote!.id)
     if (currentIndex < noteList.length - 1) {
       onSelectNote && onSelectNote(noteList[currentIndex + 1])
+      if (notelistRef.current) {
+        notelistRef.current.scrollTop += segment ? segment : 0
+      }
     } else {
       onSelectNote && onSelectNote(noteList[0])
+      if (notelistRef.current)
+        notelistRef.current.scrollTop = 0
     }
   }
 
@@ -35,8 +44,12 @@ const useNotelistKeybind = ({
     const currentIndex = noteList.findIndex(note => note.id === currentNote!.id)
     if (currentIndex > 0) {
       onSelectNote && onSelectNote(noteList[currentIndex - 1])
+      if (notelistRef.current)
+        notelistRef.current.scrollTop -= segment ? segment : 0
     } else {
       onSelectNote && onSelectNote(noteList[noteList.length - 1])
+      if (notelistRef.current)
+        notelistRef.current.scrollTop = notelistRef.current.scrollHeight
     }
   }
   function handleKeyPress (e: KeyboardEvent) {
@@ -44,6 +57,7 @@ const useNotelistKeybind = ({
       case 'arrowdown':
       case 'j': {
         if (showPopup) break
+        e.preventDefault()
         if (!currentNote) {
           onSelectNote && onSelectNote(noteList[0])
         } else
@@ -53,6 +67,7 @@ const useNotelistKeybind = ({
       case 'arrowup':
       case 'k': {
         if (showPopup) break
+        e.preventDefault()
         if (!currentNote) {
           onSelectNote && onSelectNote(noteList[noteList.length - 1])
         } else

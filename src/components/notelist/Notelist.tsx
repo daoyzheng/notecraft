@@ -30,6 +30,8 @@ const Notelist = ({
   } : Props) => {
   const [showPopup, setShowPopup] = useState<boolean>(false)
   const popupRef = useRef<HTMLDivElement>(null)
+  const notelistRef = useRef<HTMLDivElement>(null)
+
   const defaultValue = {
     title: '',
     isPublic: false,
@@ -42,6 +44,7 @@ const Notelist = ({
     showPopup,
     noteList,
     currentNote,
+    notelistRef,
     onSelectNote,
     setShowPopup,
     onBlur,
@@ -110,7 +113,7 @@ const Notelist = ({
           <InputHint label="i"/>
         </div>
       </div>
-      <NotelistContainer className="space-y-4">
+      <NotelistContainer className="space-y-4" ref={notelistRef}>
         {
           noteList.map(note =>
             (
