@@ -10,10 +10,19 @@ enum focusOptions {
   notedetails
 }
 
+enum possibleNoteDetailsStates {
+  navigating,
+  editingTitle,
+  editingTag,
+  editingSingleTag,
+  editingBody
+}
+
 const Notebook = () => {
   const [currentFocus, setCurrentFocus] = useState<focusOptions>(focusOptions.notelist)
   const [noteList, setNoteList] = useState<INote[]>(notesMock)
   const [currentNote, setCurrentNote] = useState<INote|null>(null)
+  const [currentNoteDetailsState, setCurrentNoteDetailsState] = useState<possibleNoteDetailsStates>(possibleNoteDetailsStates.navigating)
 
   function handleCreateNewNote (newNote: INote) {
     newNote.id = noteList.length + 1
@@ -87,6 +96,16 @@ const Notebook = () => {
     setCurrentFocus(el)
   }
   const inactiveNodeListBorderColor = 'border-r-gray-500 border-l-transparent border-t-transparent border-b-transparent'
+  function getKeybindingHints () {
+    if (currentFocus === focusOptions.notelist) return <NotelistKeyHints/>
+    else {
+      switch(currentNoteDetailsState) {
+        case possibleNoteDetailsStates.navigating: {
+          return <NoteDetailsNavigatingHints/>
+        }
+      }
+    }
+  }
   return (
     <div className="grid grid-cols-10 h-full w-full relative">
       <Notelist
@@ -113,24 +132,55 @@ const Notebook = () => {
         onBlur={() => handleEnterElement(focusOptions.notelist)}
       />
       <div className="absolute w-full bottom-0 bg-zinc-700 text-white flex items-center gap-x-4 px-2">
-        <div className="flex items-center">
-          <InputHint label="i"/>
-          <div className="ml-1 text-xs">: New Note</div>
-        </div>
-        <div className="flex items-center">
-          <InputHint label="l"/><span className="mx-1">/</span><InputHint icon="keyboard_arrow_right"/><span className="mx-1">/</span><InputHint label="Enter"/>
-          <div className="ml-1 text-xs">: Edit Note</div>
-        </div>
-        <div className="flex items-center">
-          <InputHint label="j"/><span className="mx-1">/</span><InputHint icon="keyboard_arrow_down"/>
-          <div className="ml-1 text-xs">: Next note</div>
-        </div>
-        <div className="flex items-center">
-          <InputHint label="k"/><span className="mx-1">/</span><InputHint icon="keyboard_arrow_up"/>
-          <div className="ml-1 text-xs">: Prev note</div>
-        </div>
+        {getKeybindingHints()}
       </div>
     </div>
+  )
+}
+
+const NotelistKeyHints = () => {
+  return (
+    <>
+      <div className="flex items-center">
+        <InputHint label="i"/>
+        <div className="ml-1 text-xs">: New Note</div>
+      </div>
+      <div className="flex items-center">
+        <InputHint label="l"/><span className="mx-1">/</span><InputHint icon="keyboard_arrow_right"/><span className="mx-1">/</span><InputHint label="Enter"/>
+        <div className="ml-1 text-xs">: Edit Note</div>
+      </div>
+      <div className="flex items-center">
+        <InputHint label="j"/><span className="mx-1">/</span><InputHint icon="keyboard_arrow_down"/>
+        <div className="ml-1 text-xs">: Next note</div>
+      </div>
+      <div className="flex items-center">
+        <InputHint label="k"/><span className="mx-1">/</span><InputHint icon="keyboard_arrow_up"/>
+        <div className="ml-1 text-xs">: Prev note</div>
+      </div>
+    </>
+  )
+}
+
+const NoteDetailsNavigatingHints = () => {
+  return (
+    <>
+      <div className="flex items-center">
+        <InputHint label="j"/><span className="mx-1">/</span><InputHint icon="keyboard_arrow_down"/>
+        <div className="ml-1 text-xs">: Next segment</div>
+      </div>
+      <div className="flex items-center">
+        <InputHint label="k"/><span className="mx-1">/</span><InputHint icon="keyboard_arrow_up"/>
+        <div className="ml-1 text-xs">: Prev segment</div>
+      </div>
+      <div className="flex items-center">
+        <InputHint label="i"/><span className="mx-1">/</span><InputHint label="Enter"/>
+        <div className="ml-1 text-xs">: Edit segment</div>
+      </div>
+      <div className="flex items-center">
+        <InputHint label="h"/><span className="mx-1">/</span><InputHint icon="keyboard_arrow_left"/>
+        <div className="ml-1 text-xs">: Return to notes selection</div>
+      </div>
+    </>
   )
 }
 
