@@ -5,6 +5,7 @@ import { INote } from '../../interfaces/note'
 import Input from '../input/Input'
 import InputHint from '../inputHint/InputHint'
 import NoteDisplay from '../noteDisplay/NoteDisplay'
+import { NotelistContainer } from './Notelist.styled'
 import useNotelistKeybind from './useNotelistKeybind'
 interface Props {
   noteList: INote[]
@@ -98,7 +99,7 @@ const Notelist = ({
   )
 
   return (
-    <div className={`px-2 pt-1 bg-zinc-800 text-white ${className}`} onMouseEnter={handleEnterNodeList}>
+    <div className={`px-2 pt-1 bg-zinc-800 text-white ${className} relative`} onMouseEnter={handleEnterNodeList}>
       <div className="flex flex row items-center justify-between my-2 pb-1">
         <div className="text-lg">New Notebook</div>
         <div className="relative flex items-center gap-x-1">
@@ -109,7 +110,7 @@ const Notelist = ({
           <InputHint label="i"/>
         </div>
       </div>
-      <div className="space-y-4">
+      <NotelistContainer className="space-y-4">
         {
           noteList.map(note =>
             (
@@ -117,6 +118,9 @@ const Notelist = ({
             )
           )
         }
+      </NotelistContainer>
+      <div className="absolute bottom-0 w-full left-0 border-t py-1 h-14">
+        hint
       </div>
     </div>
   )

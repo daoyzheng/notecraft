@@ -23,7 +23,7 @@ const HomeLayout: React.FC = () => {
           Dao Zheng
         </div>
       </header>
-      <main className="col-span-10">
+      <main className="col-span-10 overflow-hidden">
         <Outlet />
       </main>
     </div>

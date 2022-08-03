@@ -65,6 +65,7 @@ const useNotelistKeybind = ({
         if (showPopup) break
         if (currentNote)
           onBlur && onBlur()
+        break
       }
       case 'i': {
         if (showPopup) break
