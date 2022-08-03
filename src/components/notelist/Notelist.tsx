@@ -122,8 +122,27 @@ const Notelist = ({
           )
         }
       </NotelistContainer>
-      <div className="absolute bottom-0 w-full left-0 border-t py-1 h-14">
-        hint
+      <div className="absolute bottom-0 w-full left-0 border-t py-1 px-1 h-14">
+        <div className="flex justify-between items-center">
+          <div className="flex items-center">
+            <InputHint label="i"/>
+            <div className="ml-1 text-xs">: New Note</div>
+          </div>
+          <div className="flex items-center">
+            <InputHint label="l"/><span className="mx-1">/</span><InputHint icon="keyboard_arrow_right"/><span className="mx-1">/</span><InputHint label="Enter"/>
+            <div className="ml-1 text-xs">: Edit Note</div>
+          </div>
+        </div>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <InputHint label="j"/><span className="mx-1">/</span><InputHint icon="keyboard_arrow_down"/>
+            <div className="ml-1 text-xs">: Next note</div>
+          </div>
+          <div className="flex items-center">
+            <InputHint label="k"/><span className="mx-1">/</span><InputHint icon="keyboard_arrow_up"/>
+            <div className="ml-1 text-xs">: Prev note</div>
+          </div>
+        </div>
       </div>
     </div>
   )
