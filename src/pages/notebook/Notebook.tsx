@@ -1,4 +1,5 @@
 import { useState } from "react"
+import InputHint from "../../components/inputHint/InputHint"
 import NoteDetails from "../../components/noteDetails/NoteDetails"
 import Notelist from "../../components/notelist/Notelist"
 import { INote } from "../../interfaces/note"
@@ -87,7 +88,7 @@ const Notebook = () => {
   }
   const inactiveNodeListBorderColor = 'border-r-gray-500 border-l-transparent border-t-transparent border-b-transparent'
   return (
-    <div className="grid grid-cols-10 h-full w-full">
+    <div className="grid grid-cols-10 h-full w-full relative">
       <Notelist
         className={`${currentFocus === focusOptions.notelist ? 'border-blue-500' : inactiveNodeListBorderColor} col-span-3 border`}
         noteList={noteList}
@@ -111,6 +112,24 @@ const Notebook = () => {
         isActive={currentFocus === focusOptions.notedetails}
         onBlur={() => handleEnterElement(focusOptions.notelist)}
       />
+      <div className="absolute w-full bottom-0 bg-zinc-700 text-white flex items-center gap-x-4 px-2">
+        <div className="flex items-center">
+          <InputHint label="i"/>
+          <div className="ml-1 text-xs">: New Note</div>
+        </div>
+        <div className="flex items-center">
+          <InputHint label="l"/><span className="mx-1">/</span><InputHint icon="keyboard_arrow_right"/><span className="mx-1">/</span><InputHint label="Enter"/>
+          <div className="ml-1 text-xs">: Edit Note</div>
+        </div>
+        <div className="flex items-center">
+          <InputHint label="j"/><span className="mx-1">/</span><InputHint icon="keyboard_arrow_down"/>
+          <div className="ml-1 text-xs">: Next note</div>
+        </div>
+        <div className="flex items-center">
+          <InputHint label="k"/><span className="mx-1">/</span><InputHint icon="keyboard_arrow_up"/>
+          <div className="ml-1 text-xs">: Prev note</div>
+        </div>
+      </div>
     </div>
   )
 }

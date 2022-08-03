@@ -6,7 +6,7 @@ interface Props {
 }
 const InputHint = ({ label, icon }: Props) => {
   return (
-    <HintInputContainer className="text-zinc-300 w-fit text-xs">
+    <HintInputContainer className="text-zinc-300 w-fit text-xs p-1">
       {label ? label : (
         <i className="material-icons text-sm">{icon}</i>
       )}

@@ -7,7 +7,7 @@ export const HintInputContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px outset lightgray;
+  border: 1px solid darkgray;
   box-shadow: 5px 5px 15px rgba(0,0,0,0.4);
   font-family: "Times New Roman", Times, serif;
 `
