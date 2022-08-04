@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useContext, useEffect, useState } from "react"
+import { ChangeEvent, MouseEvent, useCallback, useContext, useEffect, useState } from "react"
 import { possibleNoteDetailsStates } from "../../constants/noteDetails"
 import { INote } from "../../interfaces/note"
 import { NoteDetailsStateContext } from "../../pages/notebook/useNoteDetailsStateContext"
@@ -84,10 +84,18 @@ const NoteDetails = ({
   }
 
   const handleOnBlur = useCallback(() => {
-    console.log('lkjsdf', originalTitle)
+    console.log('bl')
     onTitleChange && onTitleChange(originalTitle)
     setCurrentNoteDetailsState(possibleNoteDetailsStates.navigating)
     setIsEditingTitle(false)
+  }, [onTitleChange])
+
+  const handleSaveTitle = useCallback((e: MouseEvent) => {
+    console.log('here')
+    e.preventDefault()
+    onFinishEditTitle && onFinishEditTitle()
+    setIsEditingTitle(false)
+    setCurrentNoteDetailsState(possibleNoteDetailsStates.navigating)
   }, [onFinishEditTitle])
 
   const handleTitleChange = useCallback((e: ChangeEvent) => {
@@ -176,18 +184,17 @@ const NoteDetails = ({
           </div>
         </div> :
         <div>
-          <div className="flex flex-row gap-x-10 items-center w-full">
+          <div className="flex flex-row gap-x-10 items-center w-full" onBlur={handleOnBlur}>
             {
               isEditingTitle ?
               <div className="flex items-center w-full">
                 <input
                   defaultValue={currentNote.title}
                   className="focus:outline-none bg-transparent w-full placeholder-white focus:placeholder-white"
-                  onBlur={handleOnBlur}
                   onChange={handleTitleChange}
                   autoFocus
                 />
-                <button className="mx-2 w-6 rounded bg-zinc-600 hover:bg-zinc-700" onClick={() => handleOnBlur()}>
+                <button className="ml-4 w-6 rounded bg-zinc-600 hover:bg-zinc-700 mr-2" onMouseDown={handleSaveTitle}>
                   <i className="material-icons-outlined text-xs text-green-300 hover:text-green-400">done</i>
                 </button>
               </div> :
