@@ -4,18 +4,11 @@ import NoteDetails from "../../components/noteDetails/NoteDetails"
 import Notelist from "../../components/notelist/Notelist"
 import { INote } from "../../interfaces/note"
 import { notesMock } from "../../utils/mock"
+import { possibleNoteDetailsStates } from '../../constants/noteDetails'
 
 enum focusOptions {
   notelist,
   notedetails
-}
-
-enum possibleNoteDetailsStates {
-  navigating,
-  editingTitle,
-  editingTag,
-  editingSingleTag,
-  editingBody
 }
 
 const Notebook = () => {
