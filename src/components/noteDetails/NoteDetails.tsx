@@ -1,5 +1,7 @@
-import { ChangeEvent, useCallback, useState } from "react"
+import { ChangeEvent, useCallback, useContext, useEffect, useState } from "react"
+import { possibleNoteDetailsStates } from "../../constants/noteDetails"
 import { INote } from "../../interfaces/note"
+import { NoteDetailsStateContext } from "../../pages/notebook/useNoteDetailsStateContext"
 import Editor from "../editor/Editor"
 import Preview from "../preview/Preview"
 import TagList from "../tagList/TagList"
@@ -35,6 +37,13 @@ const NoteDetails = ({
 } : Props) => {
   const [isEditMode, setIsEditMode] = useState<boolean>(false)
   const [isEditingTitle, setIsEditingTitle] = useState<boolean>(false)
+  const [originalTitle, setOriginalTitle] = useState<string>(currentNote ? currentNote.title : '')
+  const { setCurrentNoteDetailsState } = useContext(NoteDetailsStateContext)
+
+  useEffect(() => {
+    if (currentNote)
+      setOriginalTitle(currentNote.title)
+  }, [currentNote])
 
   const numberOfElements = 3
 
@@ -50,7 +59,9 @@ const NoteDetails = ({
     isEditMode,
     isEditingTitle,
     numberOfElements,
+    originalTitle,
     tags: currentNote ? currentNote.tags : [],
+    onTitleChange,
     onTagsChange,
     onFinishEditTitle,
     onFinishEditTags,
@@ -58,7 +69,8 @@ const NoteDetails = ({
     handleDeleteTag,
     onBlur,
     setIsEditMode,
-    setIsEditingTitle
+    setIsEditingTitle,
+    setCurrentNoteDetailsState
   })
 
   const handleDocChange = useCallback((newDoc: string) => {
@@ -67,11 +79,14 @@ const NoteDetails = ({
 
   function handleOnClick () {
     setIsEditingTitle(true)
+    setCurrentNoteDetailsState(possibleNoteDetailsStates.editingTitle)
     setCurrentElementIndex(0)
   }
 
   const handleOnBlur = useCallback(() => {
-    onFinishEditTitle && onFinishEditTitle()
+    console.log('lkjsdf', originalTitle)
+    onTitleChange && onTitleChange(originalTitle)
+    setCurrentNoteDetailsState(possibleNoteDetailsStates.navigating)
     setIsEditingTitle(false)
   }, [onFinishEditTitle])
 
@@ -123,6 +138,7 @@ const NoteDetails = ({
     setIsEditingTag(false)
     setIsEditMode(false)
     setIsEditingTitle(false)
+    setCurrentNoteDetailsState(possibleNoteDetailsStates.navigating)
   }
 
   function saveNoteOnMouseLeave () {

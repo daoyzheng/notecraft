@@ -5,6 +5,7 @@ import Notelist from "../../components/notelist/Notelist"
 import { INote } from "../../interfaces/note"
 import { notesMock } from "../../utils/mock"
 import { possibleNoteDetailsStates } from '../../constants/noteDetails'
+import { NoteDetailsStateContextProvider } from "./useNoteDetailsStateContext"
 
 enum focusOptions {
   notelist,
@@ -16,6 +17,7 @@ const Notebook = () => {
   const [noteList, setNoteList] = useState<INote[]>(notesMock)
   const [currentNote, setCurrentNote] = useState<INote|null>(null)
   const [currentNoteDetailsState, setCurrentNoteDetailsState] = useState<possibleNoteDetailsStates>(possibleNoteDetailsStates.navigating)
+
 
   function handleCreateNewNote (newNote: INote) {
     newNote.id = noteList.length + 1
@@ -96,34 +98,39 @@ const Notebook = () => {
         case possibleNoteDetailsStates.navigating: {
           return <NoteDetailsNavigatingHints/>
         }
+        case possibleNoteDetailsStates.editingTitle: {
+          return <NoteDetailsEditingTitleHints/>
+        }
       }
     }
   }
   return (
     <div className="grid grid-cols-10 h-full w-full relative">
-      <Notelist
-        className={`${currentFocus === focusOptions.notelist ? 'border-blue-500' : inactiveNodeListBorderColor} col-span-3 border`}
-        noteList={noteList}
-        currentNote={currentNote}
-        onCreateNewNote={handleCreateNewNote}
-        onSelectNote={handleSelectNote}
-        onMouseEnter={() => handleEnterElement(focusOptions.notelist)}
-        onBlur={() => handleEnterElement(focusOptions.notedetails)}
-        isActive={currentFocus === focusOptions.notelist}
-      />
-      <NoteDetails
-        className={`${currentFocus === focusOptions.notedetails && currentNote ? 'border-blue-500' : 'border-transparent'} col-span-7 border`}
-        currentNote={currentNote}
-        onDocChange={handleDocChange}
-        onFinishEditDoc={handleFinishEditDoc}
-        onTitleChange={handleTitleChange}
-        onFinishEditTitle={handleFinishEditTitle}
-        onTagsChange={handleTagsChange}
-        onFinishEditTags={handleFinishEditTags}
-        onMouseEnter={() => handleEnterElement(focusOptions.notedetails)}
-        isActive={currentFocus === focusOptions.notedetails}
-        onBlur={() => handleEnterElement(focusOptions.notelist)}
-      />
+        <Notelist
+          className={`${currentFocus === focusOptions.notelist ? 'border-blue-500' : inactiveNodeListBorderColor} col-span-3 border`}
+          noteList={noteList}
+          currentNote={currentNote}
+          onCreateNewNote={handleCreateNewNote}
+          onSelectNote={handleSelectNote}
+          onMouseEnter={() => handleEnterElement(focusOptions.notelist)}
+          onBlur={() => handleEnterElement(focusOptions.notedetails)}
+          isActive={currentFocus === focusOptions.notelist}
+        />
+      <NoteDetailsStateContextProvider setCurrentNoteDetailsState={setCurrentNoteDetailsState}>
+        <NoteDetails
+          className={`${currentFocus === focusOptions.notedetails && currentNote ? 'border-blue-500' : 'border-transparent'} col-span-7 border`}
+          currentNote={currentNote}
+          onDocChange={handleDocChange}
+          onFinishEditDoc={handleFinishEditDoc}
+          onTitleChange={handleTitleChange}
+          onFinishEditTitle={handleFinishEditTitle}
+          onTagsChange={handleTagsChange}
+          onFinishEditTags={handleFinishEditTags}
+          onMouseEnter={() => handleEnterElement(focusOptions.notedetails)}
+          isActive={currentFocus === focusOptions.notedetails}
+          onBlur={() => handleEnterElement(focusOptions.notelist)}
+        />
+      </NoteDetailsStateContextProvider>
       <div className="absolute w-full bottom-0 bg-zinc-700 text-white flex items-center gap-x-4 px-2">
         {getKeybindingHints()}
       </div>
@@ -172,6 +179,21 @@ const NoteDetailsNavigatingHints = () => {
       <div className="flex items-center">
         <InputHint label="h"/><span className="mx-1">/</span><InputHint icon="keyboard_arrow_left"/>
         <div className="ml-1 text-xs">: Return to notes selection</div>
+      </div>
+    </>
+  )
+}
+
+const NoteDetailsEditingTitleHints = () => {
+  return (
+    <>
+      <div className="flex items-center">
+        <InputHint label="Esc"/>
+        <div className="ml-1 text-xs">: Undo</div>
+      </div>
+      <div className="flex items-center">
+        <InputHint label="Enter"/>
+        <div className="ml-1 text-xs">: Save title</div>
       </div>
     </>
   )

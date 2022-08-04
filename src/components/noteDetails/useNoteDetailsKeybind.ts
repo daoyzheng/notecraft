@@ -1,19 +1,23 @@
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react"
+import { possibleNoteDetailsStates } from "../../constants/noteDetails"
 
 interface Props {
   isActive: boolean
   isEditMode: boolean
   isEditingTitle: boolean
   numberOfElements: number
+  originalTitle: string
   tags: string[]
   onTagsChange?: (tags: string[]) => void
   onBlur?: () => void
   setIsEditMode: Dispatch<SetStateAction<boolean>>
   setIsEditingTitle: Dispatch<SetStateAction<boolean>>
+  onTitleChange?: (title: string) => void
   onFinishEditTitle?: () => void
   onFinishEditTags?: () => void
   handleFinishAddingNewTag: () => void
   handleDeleteTag: (index: number) => void
+  setCurrentNoteDetailsState: Dispatch<SetStateAction<possibleNoteDetailsStates>>
 }
 
 const useNoteDetailsKeybind = ({
@@ -22,14 +26,17 @@ const useNoteDetailsKeybind = ({
   isEditingTitle,
   numberOfElements,
   tags,
+  originalTitle,
   onBlur,
   setIsEditMode,
   setIsEditingTitle,
+  onTitleChange,
   onFinishEditTitle,
   onFinishEditTags,
   handleFinishAddingNewTag,
   handleDeleteTag,
-  onTagsChange
+  onTagsChange,
+  setCurrentNoteDetailsState
 }: Props): [
   number, React.Dispatch<React.SetStateAction<number>>,
   number, React.Dispatch<React.SetStateAction<number>>,
@@ -74,6 +81,7 @@ const useNoteDetailsKeybind = ({
         case 'i': {
           if (currentElementIndex === 0) {
             setIsEditingTitle && setIsEditingTitle(true)
+            setCurrentNoteDetailsState(possibleNoteDetailsStates.editingTitle)
             e.preventDefault()
           }
           if (currentElementIndex === 1) {
@@ -154,15 +162,17 @@ const useNoteDetailsKeybind = ({
             if (currentElementIndex === 1)
               setIsEditingTag(false)
             if (currentElementIndex === 0) {
-              onFinishEditTitle && onFinishEditTitle()
+              onTitleChange && onTitleChange(originalTitle)
               setIsEditingTitle && setIsEditingTitle(false)
             }
+            setCurrentNoteDetailsState(possibleNoteDetailsStates.navigating)
             break
           }
           case 'enter': {
             if (currentElementIndex === 0) {
               onFinishEditTitle && onFinishEditTitle()
               setIsEditingTitle && setIsEditingTitle(false)
+              setCurrentNoteDetailsState(possibleNoteDetailsStates.navigating)
             }
             break
           }
@@ -185,6 +195,7 @@ const useNoteDetailsKeybind = ({
     isEditMode,
     isEditingTitle,
     tags,
+    originalTitle,
     newTag,
     currentElementIndex,
     currentTagIndex,
