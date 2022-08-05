@@ -13,7 +13,7 @@ interface Props {
   setIsEditMode: Dispatch<SetStateAction<boolean>>
   setIsEditingTitle: Dispatch<SetStateAction<boolean>>
   onTitleChange?: (title: string) => void
-  onFinishEditTitle?: () => void
+  handleSaveTitle: () => void
   onFinishEditTags?: () => void
   handleFinishAddingNewTag: () => void
   handleDeleteTag: (index: number) => void
@@ -31,7 +31,7 @@ const useNoteDetailsKeybind = ({
   setIsEditMode,
   setIsEditingTitle,
   onTitleChange,
-  onFinishEditTitle,
+  handleSaveTitle,
   onFinishEditTags,
   handleFinishAddingNewTag,
   handleDeleteTag,
@@ -170,7 +170,7 @@ const useNoteDetailsKeybind = ({
           }
           case 'enter': {
             if (currentElementIndex === 0) {
-              onFinishEditTitle && onFinishEditTitle()
+              handleSaveTitle()
               setIsEditingTitle && setIsEditingTitle(false)
               setCurrentNoteDetailsState(possibleNoteDetailsStates.navigating)
             }

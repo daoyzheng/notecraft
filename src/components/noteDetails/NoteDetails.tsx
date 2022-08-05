@@ -47,6 +47,15 @@ const NoteDetails = ({
 
   const numberOfElements = 3
 
+  const handleSaveTitle = useCallback(() => {
+    onFinishEditTitle && onFinishEditTitle()
+    setIsEditingTitle(false)
+    if (currentNote) {
+      setOriginalTitle(currentNote.title)
+    }
+    setCurrentNoteDetailsState(possibleNoteDetailsStates.navigating)
+  }, [onFinishEditTitle])
+
   const [
     currentElementIndex, setCurrentElementIndex,
     currentTagIndex, setCurrentTagIndex,
@@ -63,7 +72,7 @@ const NoteDetails = ({
     tags: currentNote ? currentNote.tags : [],
     onTitleChange,
     onTagsChange,
-    onFinishEditTitle,
+    handleSaveTitle,
     onFinishEditTags,
     handleFinishAddingNewTag,
     handleDeleteTag,
@@ -84,19 +93,10 @@ const NoteDetails = ({
   }
 
   const handleOnBlur = useCallback(() => {
-    console.log('bl')
     onTitleChange && onTitleChange(originalTitle)
     setCurrentNoteDetailsState(possibleNoteDetailsStates.navigating)
     setIsEditingTitle(false)
   }, [onTitleChange])
-
-  const handleSaveTitle = useCallback((e: MouseEvent) => {
-    console.log('here')
-    e.preventDefault()
-    onFinishEditTitle && onFinishEditTitle()
-    setIsEditingTitle(false)
-    setCurrentNoteDetailsState(possibleNoteDetailsStates.navigating)
-  }, [onFinishEditTitle])
 
   const handleTitleChange = useCallback((e: ChangeEvent) => {
     onTitleChange && onTitleChange((e.target as HTMLInputElement).value)
