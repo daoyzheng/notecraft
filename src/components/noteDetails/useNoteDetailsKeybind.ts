@@ -43,7 +43,8 @@ const useNoteDetailsKeybind = ({
   boolean, React.Dispatch<React.SetStateAction<boolean>>,
   boolean, React.Dispatch<React.SetStateAction<boolean>>,
   boolean, React.Dispatch<React.SetStateAction<boolean>>,
-  string, React.Dispatch<React.SetStateAction<string>>
+  string, React.Dispatch<React.SetStateAction<string>>,
+  string, React.Dispatch<React.SetStateAction<string>>,
 ] => {
   const [currentElementIndex, setCurrentElementIndex] = useState<number>(0)
   const [currentTagIndex, setCurrentTagIndex] = useState<number>(0)
@@ -51,6 +52,7 @@ const useNoteDetailsKeybind = ({
   const [isEditingSingleTag, setIsEditingSingleTag] = useState<boolean>(false)
   const [isAddingTag, setIsAddingTag] = useState<boolean>(false)
   const [newTag, setNewTag] = useState<string>('')
+  const [originalTag, setOriginalTag] = useState<string>('')
   const numberOfTags = useMemo(() => {
     return tags.length
   }, [tags])
@@ -119,6 +121,7 @@ const useNoteDetailsKeybind = ({
               if (numberOfTags === currentTagIndex) {
                 setIsAddingTag(true)
               } else {
+                setOriginalTag(tags[currentTagIndex])
                 setIsEditingSingleTag(true)
               }
               e.preventDefault()
@@ -133,13 +136,20 @@ const useNoteDetailsKeybind = ({
               setIsEditingTag(false)
               setIsAddingTag(false)
               e.preventDefault()
+              setCurrentNoteDetailsState(possibleNoteDetailsStates.navigating)
               break
             }
           }
         } else {
           switch(e.key.toLocaleLowerCase()) {
-            case 'enter':
             case 'escape': {
+              setIsAddingTag(false)
+              setIsEditingSingleTag(false)
+              tags[currentTagIndex] = originalTag
+              onTagsChange && onTagsChange(tags)
+              setCurrentNoteDetailsState(possibleNoteDetailsStates.editingTag)
+            }
+            case 'enter': {
               if (!isAddingTag) {
                 if (tags.includes('')) {
                   tags = tags.filter(tag => tag)
@@ -209,7 +219,8 @@ const useNoteDetailsKeybind = ({
     isEditingTag, setIsEditingTag,
     isAddingTag, setIsAddingTag,
     isEditingSingleTag, setIsEditingSingleTag,
-    newTag, setNewTag
+    newTag, setNewTag,
+    originalTag, setOriginalTag
   ]
 }
 

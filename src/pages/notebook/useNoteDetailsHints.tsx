@@ -80,7 +80,7 @@ const NoteDetailsEditingTitleHints = () => {
     <>
       <div className="flex items-center">
         <InputHint label="Esc"/>
-        <div className="ml-1 text-xs">: Undo</div>
+        <div className="ml-1 text-xs">: Exit</div>
       </div>
       <div className="flex items-center">
         <InputHint label="Enter"/>
@@ -94,12 +94,24 @@ const NoteDetailsEditingTagHints = () => {
   return (
     <>
       <div className="flex items-center">
-        <InputHint label="Esc"/>
-        <div className="ml-1 text-xs">: Undo</div>
+        <InputHint label="l"/><span className="mx-1">/</span><InputHint icon="keyboard_arrow_right"/>
+        <div className="ml-1 text-xs">: Next tag</div>
       </div>
       <div className="flex items-center">
-        <InputHint label="Enter"/>
-        <div className="ml-1 text-xs">: Save title</div>
+        <InputHint label="h"/><span className="mx-1">/</span><InputHint icon="keyboard_arrow_left"/>
+        <div className="ml-1 text-xs">: Prev tag</div>
+      </div>
+      <div className="flex items-center">
+        <InputHint label="i"/><span className="mx-1">/</span><InputHint label="Enter"/>
+        <div className="ml-1 text-xs">: Edit tag</div>
+      </div>
+      <div className="flex items-center">
+        <InputHint label="x"/><span className="mx-1">/</span><InputHint label="Del"/>
+        <div className="ml-1 text-xs">: Delete tag</div>
+      </div>
+      <div className="flex items-center">
+        <InputHint label="Esc"/>
+        <div className="ml-1 text-xs">: Exit</div>
       </div>
     </>
   )

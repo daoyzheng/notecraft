@@ -62,7 +62,8 @@ const NoteDetails = ({
     isEditingTag, setIsEditingTag,
     isAddingTag, setIsAddingTag,
     isEditingSingleTag, setIsEditingSingleTag,
-    newTag, setNewTag
+    newTag, setNewTag,
+    originalTag, setOriginalTag
   ] = useNoteDetailsKeybind({
     isActive,
     isEditMode,
@@ -205,6 +206,7 @@ const NoteDetails = ({
             currentTagIndex={currentTagIndex} setCurrentTagIndex={setCurrentTagIndex}
             isEditingTag={isEditingTag} setIsEditingTag={setIsEditingTag}
             isAddingTag={isAddingTag} setIsAddingTag={setIsAddingTag}
+            originalTag={originalTag} setOriginalTag={setOriginalTag}
             isEditingSingleTag={isEditingSingleTag} setIsEditingSingleTag={setIsEditingSingleTag}
             handleFinishAddingNewTag={handleFinishAddingNewTag} setNewTag={setNewTag}
             handleDeleteTag={handleDeleteTag}
