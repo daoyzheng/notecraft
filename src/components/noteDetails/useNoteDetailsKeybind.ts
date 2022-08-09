@@ -86,6 +86,7 @@ const useNoteDetailsKeybind = ({
           }
           if (currentElementIndex === 1) {
             setCurrentTagIndex(0)
+            setCurrentNoteDetailsState(possibleNoteDetailsStates.editingTag)
             setIsEditingTag(true)
           }
           if (currentElementIndex === numberOfElements - 1)

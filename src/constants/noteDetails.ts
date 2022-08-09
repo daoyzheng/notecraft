@@ -6,3 +6,8 @@ export enum possibleNoteDetailsStates {
   editingSingleTag,
   editingBody
 }
+
+export enum focusOptions {
+  notelist,
+  notedetails
+}

@@ -9,7 +9,7 @@ function App() {
       <Routes>
         <Route element={<HomeLayout/>}>
           <Route path="/" />
-          <Route path="/notebook" element={<Notebook/>}/>
+          <Route path="/notebooks" element={<Notebook/>}/>
         </Route>
         <Route path="*" element={<Error/>}/>
       </Routes>
