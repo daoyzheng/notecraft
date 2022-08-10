@@ -50,6 +50,7 @@ const TagList = ({ tags, className, onTagsChange, onFinishEditTags }: Props) => 
     onFinishEditTags()
   }, [onFinishEditTags])
   function handleAddTag() {
+    setCurrentElementIndex(1)
     setCurrentNoteDetailsState(possibleNoteDetailsStates.editingSingleTag)
     setCurrentTagIndex(tags.length)
     setIsAddingTag(true)

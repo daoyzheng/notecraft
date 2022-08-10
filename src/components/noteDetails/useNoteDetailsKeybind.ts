@@ -91,8 +91,10 @@ const useNoteDetailsKeybind = ({
             setCurrentNoteDetailsState(possibleNoteDetailsStates.editingTag)
             setIsEditingTag(true)
           }
-          if (currentElementIndex === numberOfElements - 1)
+          if (currentElementIndex === numberOfElements - 1) {
+            setCurrentNoteDetailsState(possibleNoteDetailsStates.editingBody)
             setIsEditMode(true)
+          }
           break
         }
       }

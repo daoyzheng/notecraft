@@ -128,7 +128,7 @@ const NoteTag = ({ tag, index, className, isFocus, onTagChange, onFinishEditTag 
           <div>{updatedTag}</div>
         </div>
         <div className="mt-1 cursor-pointer" onClick={handleDeleteCurrentTag}>
-          <i className="text-red-300 material-icons text-xs">clear</i>
+          <i className="text-red-300 material-icons text-xs hover:text-red-200">clear</i>
         </div>
       </div>
   )

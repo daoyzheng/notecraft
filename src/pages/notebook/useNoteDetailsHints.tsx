@@ -22,6 +22,9 @@ const useNoteDetailsHints = ({ currentNoteDetailsState, currentFocus }: Props) =
         case possibleNoteDetailsStates.editingSingleTag: {
           return <NoteDetailsEditingSingleTagHints/>
         }
+        case possibleNoteDetailsStates.editingBody: {
+          return <NoteDetailsEditingBodyHints/>
+        }
       }
     }
   }
@@ -131,6 +134,18 @@ const NoteDetailsEditingSingleTagHints = () => {
         <InputHint label="Enter"/>
         <div className="ml-1 text-xs">: Save tag</div>
       </div>
+    </>
+  )
+}
+
+const NoteDetailsEditingBodyHints = () => {
+  return (
+    <>
+      <div className="flex items-center">
+        <InputHint label="Esc"/>
+        <div className="ml-1 text-xs">: Save doc</div>
+      </div>
+
     </>
   )
 }

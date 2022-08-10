@@ -173,11 +173,13 @@ const NoteDetails = ({
     setIsAddingTag(false)
     setIsEditingTag(false)
     setCurrentElementIndex(numberOfElements-1)
+    setCurrentNoteDetailsState(possibleNoteDetailsStates.editingBody)
   }
 
   const handleEditorOnBlur = useCallback(() => {
     setIsEditMode(false)
     onFinishEditDoc && onFinishEditDoc()
+    setCurrentNoteDetailsState(possibleNoteDetailsStates.navigating)
   },[currentNote])
 
   return (
