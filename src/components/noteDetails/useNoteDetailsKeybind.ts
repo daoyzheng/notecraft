@@ -145,9 +145,15 @@ const useNoteDetailsKeybind = ({
             case 'escape': {
               setIsAddingTag(false)
               setIsEditingSingleTag(false)
-              tags[currentTagIndex] = originalTag
-              onTagsChange && onTagsChange(tags)
+              if (!isAddingTag) {
+                tags[currentTagIndex] = originalTag
+                onTagsChange && onTagsChange(tags)
+              } else {
+                tags.splice(tags.length, 1)
+                onTagsChange && onTagsChange(tags)
+              }
               setCurrentNoteDetailsState(possibleNoteDetailsStates.editingTag)
+              break
             }
             case 'enter': {
               if (!isAddingTag) {
