@@ -1,4 +1,5 @@
 import { ChangeEvent, useCallback, useContext, useEffect, useRef, useState } from "react"
+import { possibleNoteDetailsStates } from "../../constants/noteDetails"
 import { NoteDetailsCurrentElementContext } from "../noteDetails/CurrentElementIndexContext"
 
 interface Props {
@@ -15,10 +16,13 @@ const NoteTag = ({ tag, index, className, isFocus, onTagChange, onFinishEditTag 
     setCurrentTagIndex,
     setIsEditingTag: setGlobalEditTag,
     isEditingSingleTag,
+    originalTag,
     currentTagIndex,
     setIsEditingTag,
+    setOriginalTag,
     setIsEditingSingleTag,
     setCurrentElementIndex,
+    setCurrentNoteDetailsState,
     handleDeleteTag
   } = useContext(NoteDetailsCurrentElementContext)
   const tagInput = useRef<HTMLInputElement>(null)
@@ -66,6 +70,13 @@ const NoteTag = ({ tag, index, className, isFocus, onTagChange, onFinishEditTag 
     onFinishEditTag && onFinishEditTag()
   }
 
+  const handleBlurTag = () => {
+    setCurrentNoteDetailsState(possibleNoteDetailsStates.navigating)
+    onTagChange && onTagChange(originalTag, index)
+    setIsEditingSingleTag(false)
+    setIsEditingTag(false)
+  }
+
   const handleDeleteCurrentTag = useCallback(() => {
     handleDeleteTag(index)
   }, [handleDeleteTag])
@@ -86,6 +97,8 @@ const NoteTag = ({ tag, index, className, isFocus, onTagChange, onFinishEditTag 
   }
 
   function handleClick () {
+    setCurrentNoteDetailsState(possibleNoteDetailsStates.editingSingleTag)
+    setOriginalTag(tag)
     setGlobalEditTag(true)
     setIsEditingSingleTag(true)
     setCurrentTagIndex(index)
@@ -96,12 +109,15 @@ const NoteTag = ({ tag, index, className, isFocus, onTagChange, onFinishEditTag 
       <>
         <input
           className="focus:outline-none bg-transparent placeholder-gray-400 focus:placeholder-gray-400"
-          onBlur={handleSaveTag}
+          onBlur={handleBlurTag}
           onChange={handleTagChange}
           value={updatedTag}
           autoFocus
           ref={tagInput}
         />
+        <button className="w-5 rounded bg-zinc-600 hover:bg-zinc-700" onMouseDown={handleSaveTag}>
+          <i className="material-icons-outlined text-xs text-green-300 hover:text-green-400">done</i>
+        </button>
         <div ref={hiddenTag}>{updatedTag}</div>
       </> :
       <div className={`${className} flex items-center gap-x-1`}>

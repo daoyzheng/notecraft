@@ -89,6 +89,8 @@ const NoteDetails = ({
 
   function handleOnClick () {
     setIsEditingTitle(true)
+    setIsEditingTag(false)
+    setIsEditingSingleTag(false)
     setCurrentNoteDetailsState(possibleNoteDetailsStates.editingTitle)
     setCurrentElementIndex(0)
   }
@@ -211,6 +213,7 @@ const NoteDetails = ({
             handleFinishAddingNewTag={handleFinishAddingNewTag} setNewTag={setNewTag}
             handleDeleteTag={handleDeleteTag}
             setCurrentElementIndex={setCurrentElementIndex}
+            setCurrentNoteDetailsState={setCurrentNoteDetailsState}
           >
             <TagList
               className={`mt-2 ${currentElementIndex === 1 && !isEditingTag ? 'text-blue-300' : ''}`}

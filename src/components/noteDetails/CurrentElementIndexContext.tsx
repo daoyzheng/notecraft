@@ -1,4 +1,5 @@
 import { createContext, Dispatch, SetStateAction } from "react"
+import { possibleNoteDetailsStates } from "../../constants/noteDetails"
 
 interface INoteDetailsTagContext {
   currentTagIndex: number
@@ -15,6 +16,7 @@ interface INoteDetailsTagContext {
   handleFinishAddingNewTag: () => void
   handleDeleteTag: (index: number) => void
   setNewTag: Dispatch<SetStateAction<string>>
+  setCurrentNoteDetailsState: Dispatch<SetStateAction<possibleNoteDetailsStates>>
 }
 const NoteDetailsCurrentElementContext = createContext<INoteDetailsTagContext>({
   currentTagIndex: 0,
@@ -28,6 +30,7 @@ const NoteDetailsCurrentElementContext = createContext<INoteDetailsTagContext>({
   setIsEditingSingleTag: () => {},
   setCurrentElementIndex: () => {},
   setOriginalTag: () => {},
+  setCurrentNoteDetailsState: () => {},
   handleFinishAddingNewTag: () => {},
   handleDeleteTag: () => {},
   setNewTag: () => {}
@@ -51,6 +54,7 @@ const NoteDetailsCurrentElementContextProvider: React.FC<Props> = ({
   setIsEditingTag,
   setCurrentElementIndex,
   setNewTag,
+  setCurrentNoteDetailsState,
   handleFinishAddingNewTag,
   handleDeleteTag
 }) => {
@@ -68,6 +72,7 @@ const NoteDetailsCurrentElementContextProvider: React.FC<Props> = ({
       setCurrentElementIndex,
       setOriginalTag,
       setNewTag,
+      setCurrentNoteDetailsState,
       handleFinishAddingNewTag,
       handleDeleteTag
     }}>
