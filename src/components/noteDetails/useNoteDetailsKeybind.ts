@@ -124,6 +124,7 @@ const useNoteDetailsKeybind = ({
                 setOriginalTag(tags[currentTagIndex])
                 setIsEditingSingleTag(true)
               }
+              setCurrentNoteDetailsState(possibleNoteDetailsStates.editingSingleTag)
               e.preventDefault()
               break
             }
