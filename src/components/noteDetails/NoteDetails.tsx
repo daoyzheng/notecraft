@@ -89,7 +89,7 @@ const NoteDetails = ({
 
   function handleOnClick () {
     setIsEditMode(false)
-    setIsEditingTitle(false)
+    setIsEditingTitle(true)
     setIsEditingSingleTag(false)
     setIsAddingTag(false)
     setIsEditingTag(false)

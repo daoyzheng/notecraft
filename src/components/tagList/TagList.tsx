@@ -1,4 +1,5 @@
 import { ChangeEvent, useCallback, useContext } from "react"
+import { possibleNoteDetailsStates } from "../../constants/noteDetails"
 import { NoteDetailsCurrentElementContext } from "../noteDetails/CurrentElementIndexContext"
 import NoteTag from "../noteTag/NoteTag"
 
@@ -17,13 +18,24 @@ const TagList = ({ tags, className, onTagsChange, onFinishEditTags }: Props) => 
     setIsEditingTag,
     setIsAddingTag,
     setNewTag,
+    setCurrentNoteDetailsState,
+    setCurrentElementIndex,
     handleFinishAddingNewTag
   } = useContext(NoteDetailsCurrentElementContext)
   function handleNewTagOnChange (e: ChangeEvent) {
     const newTag = (e.target as HTMLInputElement).value
     setNewTag(newTag)
   }
-  const handleAddNewTagOnBlur = useCallback(() => {
+
+  const handleAddTagBlur = useCallback(() => {
+    setIsAddingTag(false)
+    setIsEditingTag(false)
+    setCurrentElementIndex(1)
+    tags.splice(tags.length, 1)
+    onTagsChange(tags)
+    setCurrentNoteDetailsState(possibleNoteDetailsStates.navigating)
+  },[onTagsChange])
+  const handleAddNewTag = useCallback(() => {
     setIsAddingTag(false)
     handleFinishAddingNewTag()
   }, [setIsAddingTag, handleFinishAddingNewTag])
@@ -38,6 +50,7 @@ const TagList = ({ tags, className, onTagsChange, onFinishEditTags }: Props) => 
     onFinishEditTags()
   }, [onFinishEditTags])
   function handleAddTag() {
+    setCurrentNoteDetailsState(possibleNoteDetailsStates.editingSingleTag)
     setCurrentTagIndex(tags.length)
     setIsAddingTag(true)
     setIsEditingTag(true)
@@ -58,13 +71,18 @@ const TagList = ({ tags, className, onTagsChange, onFinishEditTags }: Props) => 
       }
       {
         isAddingTag ?
-          <input
-            placeholder="add tag"
-            className="focus:outline-none bg-transparent w-fit placeholder-gray-400 focus:placeholder-gray-400"
-            onBlur={handleAddNewTagOnBlur}
-            onChange={handleNewTagOnChange}
-            autoFocus
-          /> :
+          <>
+            <input
+              placeholder="add tag"
+              className="focus:outline-none bg-transparent w-fit placeholder-gray-400 focus:placeholder-gray-400 w-12"
+              onBlur={handleAddTagBlur}
+              onChange={handleNewTagOnChange}
+              autoFocus
+            />
+            <button className="w-5 rounded bg-zinc-600 hover:bg-zinc-700" onMouseDown={handleAddNewTag}>
+              <i className="material-icons-outlined text-xs text-green-300 hover:text-green-400">done</i>
+            </button>
+          </>:
           (
             <div className={`${currentTagIndex === tags.length && isEditingTag ? 'text-blue-300' : ''} italic text-xs cursor-pointer hover:text-blue-300`} onClick={handleAddTag}>
               Add Tag
