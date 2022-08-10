@@ -88,9 +88,11 @@ const NoteDetails = ({
   }, [currentNote])
 
   function handleOnClick () {
-    setIsEditingTitle(true)
-    setIsEditingTag(false)
+    setIsEditMode(false)
+    setIsEditingTitle(false)
     setIsEditingSingleTag(false)
+    setIsAddingTag(false)
+    setIsEditingTag(false)
     setCurrentNoteDetailsState(possibleNoteDetailsStates.editingTitle)
     setCurrentElementIndex(0)
   }
@@ -166,7 +168,11 @@ const NoteDetails = ({
 
   function handleEditBody () {
     setIsEditMode(true)
-    setCurrentElementIndex(numberOfElements)
+    setIsEditingTitle(false)
+    setIsEditingSingleTag(false)
+    setIsAddingTag(false)
+    setIsEditingTag(false)
+    setCurrentElementIndex(numberOfElements-1)
   }
 
   const handleEditorOnBlur = useCallback(() => {
