@@ -159,14 +159,17 @@ const useNoteDetailsKeybind = ({
               if (!isAddingTag) {
                 tags[currentTagIndex] = originalTag
                 onTagsChange && onTagsChange(tags)
+                setCurrentNoteDetailsState(possibleNoteDetailsStates.editingTag)
               } else {
-                if (tags.length === 0) {
-                  setIsEditingTag(false)
-                }
                 tags.splice(tags.length, 1)
                 onTagsChange && onTagsChange(tags)
+                if (tags.length === 0) {
+                  setIsEditingTag(false)
+                  setCurrentNoteDetailsState(possibleNoteDetailsStates.navigating)
+                } else {
+                  setCurrentNoteDetailsState(possibleNoteDetailsStates.editingTag)
+                }
               }
-              setCurrentNoteDetailsState(possibleNoteDetailsStates.editingTag)
               break
             }
             case 'enter': {
