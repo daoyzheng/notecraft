@@ -30,11 +30,15 @@ const TagList = ({ tags, className, onTagsChange, onFinishEditTags }: Props) => 
 
   const handleAddTagBlur = useCallback(() => {
     setIsAddingTag(false)
-    setIsEditingSingleTag(false)
     setCurrentElementIndex(1)
     tags.splice(tags.length, 1)
     onTagsChange(tags)
-    setCurrentNoteDetailsState(possibleNoteDetailsStates.editingTag)
+    if (tags.length === 0) {
+      setIsEditingTag(false)
+      setIsEditingSingleTag(false)
+      setCurrentNoteDetailsState(possibleNoteDetailsStates.navigating)
+    } else
+      setCurrentNoteDetailsState(possibleNoteDetailsStates.editingTag)
   },[onTagsChange])
   const handleAddNewTag = useCallback(() => {
     setIsAddingTag(false)
