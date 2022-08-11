@@ -17,6 +17,7 @@ const TagList = ({ tags, className, onTagsChange, onFinishEditTags }: Props) => 
     setCurrentTagIndex,
     setIsEditingTag,
     setIsAddingTag,
+    setIsEditingSingleTag,
     setNewTag,
     setCurrentNoteDetailsState,
     setCurrentElementIndex,
@@ -29,15 +30,17 @@ const TagList = ({ tags, className, onTagsChange, onFinishEditTags }: Props) => 
 
   const handleAddTagBlur = useCallback(() => {
     setIsAddingTag(false)
-    setIsEditingTag(false)
+    setIsEditingSingleTag(false)
     setCurrentElementIndex(1)
     tags.splice(tags.length, 1)
     onTagsChange(tags)
-    setCurrentNoteDetailsState(possibleNoteDetailsStates.navigating)
+    setCurrentNoteDetailsState(possibleNoteDetailsStates.editingTag)
   },[onTagsChange])
   const handleAddNewTag = useCallback(() => {
     setIsAddingTag(false)
+    setIsEditingSingleTag(false)
     handleFinishAddingNewTag()
+    setCurrentNoteDetailsState(possibleNoteDetailsStates.editingTag)
   }, [setIsAddingTag, handleFinishAddingNewTag])
   const isTagFocused = useCallback((index: number) : boolean => {
     return currentTagIndex === index && isEditingTag

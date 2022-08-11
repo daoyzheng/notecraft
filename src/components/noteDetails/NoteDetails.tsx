@@ -156,9 +156,13 @@ const NoteDetails = ({
 
   function saveNoteOnMouseLeave () {
     if (isEditingSingleTag) {
+      const tags = currentNote ? currentNote.tags : []
+      tags[currentTagIndex] = originalTag
+      onTagsChange && onTagsChange(tags)
       onFinishEditTags && onFinishEditTags()
     }
     if (isEditingTitle) {
+      onTitleChange && onTitleChange(originalTitle)
       onFinishEditTitle && onFinishEditTitle()
     }
     if (isEditMode) {

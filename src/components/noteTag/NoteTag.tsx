@@ -13,11 +13,12 @@ interface Props {
 const NoteTag = ({ tag, index, className, isFocus, onTagChange, onFinishEditTag }: Props) => {
   const [updatedTag, setUpdatedTag] = useState<string>(tag)
   const {
-    setCurrentTagIndex,
-    setIsEditingTag: setGlobalEditTag,
     isEditingSingleTag,
     originalTag,
     currentTagIndex,
+    setIsAddingTag,
+    setCurrentTagIndex,
+    setIsEditingTag: setGlobalEditTag,
     setIsEditingTag,
     setOriginalTag,
     setIsEditingSingleTag,
@@ -66,15 +67,15 @@ const NoteTag = ({ tag, index, className, isFocus, onTagChange, onFinishEditTag 
 
   const handleSaveTag = () => {
     setIsEditingSingleTag(false)
-    setIsEditingTag(false)
+    setIsAddingTag(false)
+    setCurrentNoteDetailsState(possibleNoteDetailsStates.editingTag)
     onFinishEditTag && onFinishEditTag()
   }
 
   const handleBlurTag = () => {
-    setCurrentNoteDetailsState(possibleNoteDetailsStates.navigating)
+    setCurrentNoteDetailsState(possibleNoteDetailsStates.editingTag)
     onTagChange && onTagChange(originalTag, index)
     setIsEditingSingleTag(false)
-    setIsEditingTag(false)
   }
 
   const handleDeleteCurrentTag = useCallback(() => {
