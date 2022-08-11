@@ -88,8 +88,16 @@ const useNoteDetailsKeybind = ({
           }
           if (currentElementIndex === 1) {
             setCurrentTagIndex(0)
-            setCurrentNoteDetailsState(possibleNoteDetailsStates.editingTag)
-            setIsEditingTag(true)
+            if (tags.length === 0) {
+              setIsEditingTag(true)
+              setIsEditingSingleTag(true)
+              setIsAddingTag(true)
+              setCurrentNoteDetailsState(possibleNoteDetailsStates.editingSingleTag)
+              e.preventDefault()
+            } else {
+              setCurrentNoteDetailsState(possibleNoteDetailsStates.editingTag)
+              setIsEditingTag(true)
+            }
           }
           if (currentElementIndex === numberOfElements - 1) {
             setCurrentNoteDetailsState(possibleNoteDetailsStates.editingBody)
@@ -132,6 +140,12 @@ const useNoteDetailsKeybind = ({
             }
             case 'x':
             case 'delete': {
+              if (tags.length === 1) {
+                setIsEditingSingleTag(false)
+                setIsEditingTag(false)
+                setIsAddingTag(false)
+                setCurrentNoteDetailsState(possibleNoteDetailsStates.navigating)
+              }
               handleDeleteTag(currentTagIndex)
               break
             }
@@ -152,6 +166,9 @@ const useNoteDetailsKeybind = ({
                 tags[currentTagIndex] = originalTag
                 onTagsChange && onTagsChange(tags)
               } else {
+                if (tags.length === 0) {
+                  setIsEditingTag(false)
+                }
                 tags.splice(tags.length, 1)
                 onTagsChange && onTagsChange(tags)
               }
@@ -167,6 +184,7 @@ const useNoteDetailsKeybind = ({
                 setIsEditingSingleTag(false)
                 onFinishEditTags && onFinishEditTags()
               } else {
+                setIsEditingSingleTag(false)
                 handleFinishAddingNewTag()
                 setIsAddingTag(false)
               }
