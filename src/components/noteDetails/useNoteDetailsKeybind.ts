@@ -140,12 +140,6 @@ const useNoteDetailsKeybind = ({
             }
             case 'x':
             case 'delete': {
-              if (tags.length === 1) {
-                setIsEditingSingleTag(false)
-                setIsEditingTag(false)
-                setIsAddingTag(false)
-                setCurrentNoteDetailsState(possibleNoteDetailsStates.navigating)
-              }
               handleDeleteTag(currentTagIndex)
               break
             }

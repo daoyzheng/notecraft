@@ -126,6 +126,12 @@ const NoteDetails = ({
 
   function handleDeleteTag (index: number) {
     if (currentNote) {
+      if (currentNote.tags.length === 1) {
+        setIsEditingSingleTag(false)
+        setIsEditingTag(false)
+        setIsAddingTag(false)
+        setCurrentNoteDetailsState(possibleNoteDetailsStates.navigating)
+      }
       if (index < currentNote.tags.length) {
         const updatedTags = currentNote.tags.filter((_, i) => i !== index)
         onTagsChange && onTagsChange(updatedTags)
