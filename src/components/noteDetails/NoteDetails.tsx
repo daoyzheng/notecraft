@@ -6,6 +6,7 @@ import Editor from "../editor/Editor"
 import Preview from "../preview/Preview"
 import TagList from "../tagList/TagList"
 import { NoteDetailsCurrentElementContextProvider } from "./CurrentElementIndexContext"
+import { TitleInputWrapper } from "./NoteDetails.styled"
 import useNoteDetailsKeybind from "./useNoteDetailsKeybind"
 
 interface Props {
@@ -46,8 +47,17 @@ const NoteDetails = ({
   }, [currentNote])
 
   const numberOfElements = 3
+  let shakeTimeout:any
 
-  const handleSaveTitle = useCallback(() => {
+  const handleSaveTitle = useCallback((e?: MouseEvent) => {
+    if (currentNote && !currentNote.title.trim()) {
+      clearTimeout(shakeTimeout)
+      if (e)
+        e.preventDefault()
+      setIsShakeTitle(true)
+      shakeTimeout = setTimeout(() => setIsShakeTitle(false), 400)
+      return
+    }
     onFinishEditTitle && onFinishEditTitle()
     setIsEditingTitle(false)
     if (currentNote) {
@@ -63,7 +73,8 @@ const NoteDetails = ({
     isAddingTag, setIsAddingTag,
     isEditingSingleTag, setIsEditingSingleTag,
     newTag, setNewTag,
-    originalTag, setOriginalTag
+    originalTag, setOriginalTag,
+    isShakeTitle, setIsShakeTitle
   ] = useNoteDetailsKeybind({
     isActive,
     isEditMode,
@@ -208,7 +219,7 @@ const NoteDetails = ({
           <div className="flex flex-row gap-x-10 items-center w-full" onBlur={handleOnBlur}>
             {
               isEditingTitle ?
-              <div className="flex items-center w-full">
+              <TitleInputWrapper className="flex items-center w-full" isShakeTitle={isShakeTitle}>
                 <input
                   defaultValue={currentNote.title}
                   className="focus:outline-none bg-transparent w-full placeholder-white focus:placeholder-white"
@@ -216,10 +227,10 @@ const NoteDetails = ({
                   autoFocus
                 />
                 <button className="ml-4 w-6 rounded bg-zinc-600 hover:bg-zinc-700 mr-2" onMouseDown={handleSaveTitle}>
-                  <i className="material-icons-outlined text-xs text-green-300 hover:text-green-400">done</i>
+                  <i className={`material-icons-outlined text-xs ${isShakeTitle? 'text-red-300 hover:text-red-400' : 'text-green-300 hover:text-green-400'}`}>done</i>
                 </button>
-              </div> :
-              <div className={`${currentElementIndex === 0 ? 'text-blue-300' : ''} text-xl hover:text-blue-300 cursor-pointer`} onClick={handleOnClick}>{currentNote.title}</div>
+              </TitleInputWrapper> :
+              <div className={`${currentElementIndex === 0 ? 'text-blue-300' : ''} text-xl hover:text-blue-300 cursor-pointer break-all`} onClick={handleOnClick}>{currentNote.title}</div>
             }
           </div>
           <NoteDetailsCurrentElementContextProvider

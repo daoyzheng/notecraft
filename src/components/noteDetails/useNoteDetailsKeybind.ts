@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react"
+import React, { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react"
 import { possibleNoteDetailsStates } from "../../constants/noteDetails"
 
 interface Props {
@@ -45,6 +45,7 @@ const useNoteDetailsKeybind = ({
   boolean, React.Dispatch<React.SetStateAction<boolean>>,
   string, React.Dispatch<React.SetStateAction<string>>,
   string, React.Dispatch<React.SetStateAction<string>>,
+  boolean, React.Dispatch<React.SetStateAction<boolean>>
 ] => {
   const [currentElementIndex, setCurrentElementIndex] = useState<number>(0)
   const [currentTagIndex, setCurrentTagIndex] = useState<number>(0)
@@ -53,6 +54,7 @@ const useNoteDetailsKeybind = ({
   const [isAddingTag, setIsAddingTag] = useState<boolean>(false)
   const [newTag, setNewTag] = useState<string>('')
   const [originalTag, setOriginalTag] = useState<string>('')
+  const [isShakeTitle, setIsShakeTitle] = useState<boolean>(false)
   const numberOfTags = useMemo(() => {
     return tags.length
   }, [tags])
@@ -206,8 +208,6 @@ const useNoteDetailsKeybind = ({
           case 'enter': {
             if (currentElementIndex === 0) {
               handleSaveTitle()
-              setIsEditingTitle && setIsEditingTitle(false)
-              setCurrentNoteDetailsState(possibleNoteDetailsStates.navigating)
             }
             break
           }
@@ -244,7 +244,8 @@ const useNoteDetailsKeybind = ({
     isAddingTag, setIsAddingTag,
     isEditingSingleTag, setIsEditingSingleTag,
     newTag, setNewTag,
-    originalTag, setOriginalTag
+    originalTag, setOriginalTag,
+    isShakeTitle, setIsShakeTitle
   ]
 }
 
