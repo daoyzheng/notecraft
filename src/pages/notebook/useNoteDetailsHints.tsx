@@ -4,9 +4,11 @@ import { possibleNoteDetailsStates, focusOptions } from "../../constants/noteDet
 interface Props {
   currentNoteDetailsState: possibleNoteDetailsStates
   currentFocus: focusOptions
+  isInGlobalMenu: boolean
 }
-const useNoteDetailsHints = ({ currentNoteDetailsState, currentFocus }: Props) => {
+const useNoteDetailsHints = ({ currentNoteDetailsState, currentFocus, isInGlobalMenu }: Props) => {
   function getKeybindingHints () {
+    if (isInGlobalMenu) return
     if (currentFocus === focusOptions.notelist) return <NotelistKeyHints/>
     else {
       switch(currentNoteDetailsState) {

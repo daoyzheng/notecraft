@@ -16,9 +16,11 @@ const Notebook = observer(() => {
   const [currentNote, setCurrentNote] = useState<INote|null>(null)
   const [currentNoteDetailsState, setCurrentNoteDetailsState] = useState<possibleNoteDetailsStates>(possibleNoteDetailsStates.navigating)
   const globalNavigationStore = GlobalNavigationStore
+  const { isInGlobalMenu } = globalNavigationStore
   const { getKeybindingHints } = useNoteDetailsHints({
     currentFocus,
-    currentNoteDetailsState
+    currentNoteDetailsState,
+    isInGlobalMenu: globalNavigationStore.isInGlobalMenu
   })
 
   function handleCreateNewNote (newNote: INote) {
@@ -100,18 +102,18 @@ const Notebook = observer(() => {
   return (
     <div className="grid grid-cols-10 h-full w-full relative" onMouseEnter={handleEnterNotebook}>
         <Notelist
-          className={`${currentFocus === focusOptions.notelist ? 'border-blue-500' : inactiveNodeListBorderColor} col-span-3 border`}
+          className={`${!isInGlobalMenu && currentFocus === focusOptions.notelist ? 'border-blue-500' : inactiveNodeListBorderColor} col-span-3 border`}
           noteList={noteList}
           currentNote={currentNote}
           onCreateNewNote={handleCreateNewNote}
           onSelectNote={handleSelectNote}
           onMouseEnter={() => handleEnterElement(focusOptions.notelist)}
           onBlur={() => handleEnterElement(focusOptions.notedetails)}
-          isActive={currentFocus === focusOptions.notelist}
+          isActive={currentFocus === focusOptions.notelist && !isInGlobalMenu}
         />
       <NoteDetailsStateContextProvider setCurrentNoteDetailsState={setCurrentNoteDetailsState}>
         <NoteDetails
-          className={`${currentFocus === focusOptions.notedetails && currentNote ? 'border-blue-500' : 'border-transparent'} col-span-7 border`}
+          className={`${!isInGlobalMenu && currentFocus === focusOptions.notedetails && currentNote ? 'border-blue-500' : 'border-transparent'} col-span-7 border`}
           currentNote={currentNote}
           onDocChange={handleDocChange}
           onFinishEditDoc={handleFinishEditDoc}
@@ -120,7 +122,7 @@ const Notebook = observer(() => {
           onTagsChange={handleTagsChange}
           onFinishEditTags={handleFinishEditTags}
           onMouseEnter={() => handleEnterElement(focusOptions.notedetails)}
-          isActive={currentFocus === focusOptions.notedetails}
+          isActive={currentFocus === focusOptions.notedetails && !isInGlobalMenu}
           onBlur={() => handleEnterElement(focusOptions.notelist)}
         />
       </NoteDetailsStateContextProvider>
