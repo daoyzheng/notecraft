@@ -1,16 +1,18 @@
 import InputHint from "../../components/inputHint/InputHint"
 import { possibleNoteDetailsStates, focusOptions } from "../../constants/noteDetails"
+import { INote } from "../../interfaces/note"
 
 interface Props {
   currentNoteDetailsState: possibleNoteDetailsStates
   currentFocus: focusOptions
+  currentNote: INote|null
   isInGlobalMenu: boolean
 }
-const useNoteDetailsHints = ({ currentNoteDetailsState, currentFocus, isInGlobalMenu }: Props) => {
+const useNoteDetailsHints = ({ currentNoteDetailsState, currentFocus, isInGlobalMenu, currentNote }: Props) => {
   function getKeybindingHints () {
     if (isInGlobalMenu) return
     if (currentFocus === focusOptions.notelist) return <NotelistKeyHints/>
-    else {
+    else if (currentNote) {
       switch(currentNoteDetailsState) {
         case possibleNoteDetailsStates.navigating: {
           return <NoteDetailsNavigatingHints/>

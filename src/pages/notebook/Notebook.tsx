@@ -20,7 +20,8 @@ const Notebook = observer(() => {
   const { getKeybindingHints } = useNoteDetailsHints({
     currentFocus,
     currentNoteDetailsState,
-    isInGlobalMenu: globalNavigationStore.isInGlobalMenu
+    isInGlobalMenu: globalNavigationStore.isInGlobalMenu,
+    currentNote
   })
 
   function handleCreateNewNote (newNote: INote) {
