@@ -178,15 +178,15 @@ const NoteDetails = ({
   function saveNoteOnMouseLeave () {
     if (isEditingSingleTag) {
       const tags = currentNote ? currentNote.tags : []
-      tags[currentTagIndex] = originalTag
       onTagsChange && onTagsChange(tags)
       onFinishEditTags && onFinishEditTags()
     }
-    if (isEditingTitle && currentNote && currentNote.title === originalTitle) {
-      onTitleChange && onTitleChange(originalTitle)
+    if (isEditingTitle && currentNote && currentNote.title !== originalTitle) {
+      setOriginalTitle(currentNote.title)
       onFinishEditTitle && onFinishEditTitle()
     }
-    if (isEditMode && currentNote && currentNote.body === originalBody) {
+    if (isEditMode && currentNote && currentNote.body !== originalBody) {
+      setOriginalBody(currentNote.body || '')
       onFinishEditDoc && onFinishEditDoc()
     }
   }
