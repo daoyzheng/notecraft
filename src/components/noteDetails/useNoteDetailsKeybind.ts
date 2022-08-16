@@ -187,11 +187,13 @@ const useNoteDetailsKeybind = ({
                 } else {
                   setIsEditingSingleTag(false)
                   onFinishEditTags && onFinishEditTags()
+                  setCurrentNoteDetailsState(possibleNoteDetailsStates.editingTag)
                 }
               } else {
                 setIsEditingSingleTag(false)
                 handleFinishAddingNewTag()
                 setIsAddingTag(false)
+                setCurrentNoteDetailsState(possibleNoteDetailsStates.editingTag)
               }
               break
             }
