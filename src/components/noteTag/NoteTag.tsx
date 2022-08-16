@@ -119,7 +119,7 @@ const NoteTag = ({ tag, index, className, isFocus, onTagChange, onFinishEditTag 
             ref={tagInput}
           />
           <button className="w-5 rounded bg-zinc-600 hover:bg-zinc-700 ml-2" onMouseDown={handleSaveTag}>
-            <i className="material-icons-outlined text-xs text-green-300 hover:text-green-400">done</i>
+            <i className={`material-icons-outlined text-xs ${isShakeTag? 'text-red-300 hover:text-red-400' : 'text-green-300 hover:text-green-400'}`}>done</i>
           </button>
         </TagInputWrapper>
         <div ref={hiddenTag}>{updatedTag}</div>
