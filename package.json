@@ -12,6 +12,8 @@
     "@codemirror/language-data": "^6.0.0",
     "@codemirror/theme-one-dark": "^6.0.0",
     "codemirror": "^6.0.0",
+    "mobx": "^6.6.1",
+    "mobx-react": "^7.5.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-hook-form": "^7.33.1",

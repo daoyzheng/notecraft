@@ -1,5 +1,4 @@
 import { useState } from "react"
-import InputHint from "../../components/inputHint/InputHint"
 import NoteDetails from "../../components/noteDetails/NoteDetails"
 import Notelist from "../../components/notelist/Notelist"
 import { INote } from "../../interfaces/note"
@@ -7,12 +6,16 @@ import { notesMock } from "../../utils/mock"
 import { possibleNoteDetailsStates, focusOptions } from '../../constants/noteDetails'
 import { NoteDetailsStateContextProvider } from "./useNoteDetailsStateContext"
 import useNoteDetailsHints from "./useNoteDetailsHints"
+import GlobalNavigationStore from "../../store/GlobalNavigationStore"
+import { observer } from "mobx-react"
 
-const Notebook = () => {
+
+const Notebook = observer(() => {
   const [currentFocus, setCurrentFocus] = useState<focusOptions>(focusOptions.notelist)
   const [noteList, setNoteList] = useState<INote[]>(notesMock)
   const [currentNote, setCurrentNote] = useState<INote|null>(null)
   const [currentNoteDetailsState, setCurrentNoteDetailsState] = useState<possibleNoteDetailsStates>(possibleNoteDetailsStates.navigating)
+  const globalNavigationStore = GlobalNavigationStore
   const { getKeybindingHints } = useNoteDetailsHints({
     currentFocus,
     currentNoteDetailsState
@@ -86,12 +89,16 @@ const Notebook = () => {
     if (currentNote)
       console.log('save note', currentNote.title)
   }
+
+  function handleEnterNotebook () {
+    globalNavigationStore.setToNotebookNavigation()
+  }
   function handleEnterElement (el: focusOptions) {
     setCurrentFocus(el)
   }
   const inactiveNodeListBorderColor = 'border-r-gray-500 border-l-transparent border-t-transparent border-b-transparent'
   return (
-    <div className="grid grid-cols-10 h-full w-full relative">
+    <div className="grid grid-cols-10 h-full w-full relative" onMouseEnter={handleEnterNotebook}>
         <Notelist
           className={`${currentFocus === focusOptions.notelist ? 'border-blue-500' : inactiveNodeListBorderColor} col-span-3 border`}
           noteList={noteList}
@@ -122,6 +129,6 @@ const Notebook = () => {
       </div>
     </div>
   )
-}
+})
 
 export default Notebook
