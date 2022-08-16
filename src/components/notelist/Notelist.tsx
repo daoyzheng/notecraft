@@ -2,6 +2,7 @@ import { useCallback, useRef, useState } from 'react'
 import useOutsideAlerter from '../../hooks/useOutsideAlerter'
 import useRegisterForm from '../../hooks/useRegisterForm'
 import { INote } from '../../interfaces/note'
+import GlobalNavigationStore from '../../store/GlobalNavigationStore'
 import Input from '../input/Input'
 import NoteDisplay from '../noteDisplay/NoteDisplay'
 import { NotelistContainer } from './Notelist.styled'
@@ -30,6 +31,7 @@ const Notelist = ({
   const [showPopup, setShowPopup] = useState<boolean>(false)
   const popupRef = useRef<HTMLDivElement>(null)
   const notelistRef = useRef<HTMLDivElement>(null)
+  const globalNavigationStore = GlobalNavigationStore
 
   const defaultValue = {
     title: '',
@@ -44,6 +46,7 @@ const Notelist = ({
     noteList,
     currentNote,
     notelistRef,
+    globalNavigationStore,
     onSelectNote,
     setShowPopup,
     onBlur,

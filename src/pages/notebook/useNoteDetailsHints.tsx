@@ -10,7 +10,7 @@ interface Props {
 }
 const useNoteDetailsHints = ({ currentNoteDetailsState, currentFocus, isInGlobalMenu, currentNote }: Props) => {
   function getKeybindingHints () {
-    if (isInGlobalMenu) return
+    if (isInGlobalMenu) return <GlobalMenuHints/>
     if (currentFocus === focusOptions.notelist) return <NotelistKeyHints/>
     else if (currentNote) {
       switch(currentNoteDetailsState) {
@@ -57,6 +57,10 @@ const NotelistKeyHints = () => {
       <div className="flex items-center">
         <InputHint label="k"/><span className="mx-1">/</span><InputHint icon="keyboard_arrow_up"/>
         <div className="ml-1 text-xs">: Prev note</div>
+      </div>
+      <div className="flex items-center">
+        <InputHint label="h"/><span className="mx-1">/</span><InputHint icon="keyboard_arrow_left"/>
+        <div className="ml-1 text-xs">: Return to notebooks selection</div>
       </div>
     </>
   )
@@ -150,6 +154,21 @@ const NoteDetailsEditingBodyHints = () => {
         <div className="ml-1 text-xs">: Save doc</div>
       </div>
 
+    </>
+  )
+}
+
+const GlobalMenuHints = () => {
+  return (
+    <>
+      <div className="flex items-center">
+        <InputHint label="j"/><span className="mx-1">/</span><InputHint icon="keyboard_arrow_down"/>
+        <div className="ml-1 text-xs">: Next notebook</div>
+      </div>
+      <div className="flex items-center">
+        <InputHint label="k"/><span className="mx-1">/</span><InputHint icon="keyboard_arrow_up"/>
+        <div className="ml-1 text-xs">: Prev notebook</div>
+      </div>
     </>
   )
 }

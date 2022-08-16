@@ -78,7 +78,6 @@ const useNoteDetailsKeybind = ({
           break
         }
         case 'arrowleft':
-        case 'backspace':
         case 'h': {
           onBlur && onBlur()
           setCurrentElementIndex(0)

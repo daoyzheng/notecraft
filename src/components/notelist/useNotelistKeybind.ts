@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction, useEffect } from "react"
 import { UseFormReset } from "react-hook-form"
 import { INote } from "../../interfaces/note"
+import GlobalNavigationStore from "../../store/GlobalNavigationStore"
 
 interface Props {
   noteList: INote[]
@@ -8,6 +9,7 @@ interface Props {
   isActive: boolean
   showPopup: boolean
   notelistRef: React.RefObject<HTMLDivElement>
+  globalNavigationStore: typeof GlobalNavigationStore
   onSelectNote?: (note: INote|null) => void
   setShowPopup: Dispatch<SetStateAction<boolean>>
   onBlur?: () => void
@@ -19,6 +21,7 @@ const useNotelistKeybind = ({
   noteList,
   currentNote,
   notelistRef,
+  globalNavigationStore,
   onSelectNote,
   setShowPopup,
   onBlur,
@@ -80,6 +83,11 @@ const useNotelistKeybind = ({
         if (showPopup) break
         if (currentNote)
           onBlur && onBlur()
+        break
+      }
+      case 'h':
+      case 'arrowleft': {
+        globalNavigationStore.setToGlobalNavigation()
         break
       }
       case 'i': {
