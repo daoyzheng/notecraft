@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useContext, useEffect, useRef, useState } from "react"
+import { ChangeEvent, MouseEvent, useCallback, useContext, useEffect, useRef, useState } from "react"
 import { possibleNoteDetailsStates } from "../../constants/noteDetails"
 import { NoteDetailsCurrentElementContext } from "../noteDetails/CurrentElementIndexContext"
 import { TagInputWrapper } from "./NoteTag.styled"
@@ -25,7 +25,8 @@ const NoteTag = ({ tag, index, className, isFocus, onTagChange, onFinishEditTag 
     setIsEditingSingleTag,
     setCurrentElementIndex,
     setCurrentNoteDetailsState,
-    handleDeleteTag
+    handleDeleteTag,
+    setIsShakeTag
   } = useContext(NoteDetailsCurrentElementContext)
   const tagInput = useRef<HTMLInputElement>(null)
   const hiddenTag = useRef<HTMLDivElement>(null)
@@ -66,12 +67,21 @@ const NoteTag = ({ tag, index, className, isFocus, onTagChange, onFinishEditTag 
     setUpdatedTag(tag)
   }, [tag])
 
-  const handleSaveTag = () => {
-    setIsEditingSingleTag(false)
-    setIsAddingTag(false)
-    setCurrentNoteDetailsState(possibleNoteDetailsStates.editingTag)
-    onFinishEditTag && onFinishEditTag()
-  }
+  let shakeTagTimeout: any
+  const handleSaveTag = useCallback((e?: MouseEvent) => {
+    if (!updatedTag.trim()) {
+      if (e)
+        e.preventDefault()
+      clearTimeout(shakeTagTimeout)
+      setIsShakeTag(true)
+      shakeTagTimeout = setTimeout(() => setIsShakeTag(false), 400)
+    } else {
+      setIsEditingSingleTag(false)
+      setIsAddingTag(false)
+      setCurrentNoteDetailsState(possibleNoteDetailsStates.editingTag)
+      onFinishEditTag && onFinishEditTag()
+    }
+  },[onFinishEditTag])
 
   const handleBlurTag = () => {
     setCurrentNoteDetailsState(possibleNoteDetailsStates.editingTag)

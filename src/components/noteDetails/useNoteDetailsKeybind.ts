@@ -180,7 +180,7 @@ const useNoteDetailsKeybind = ({
             case 'enter': {
               if (!isAddingTag) {
                 const currentTag = tags[currentTagIndex]
-                if (!currentTag) {
+                if (!currentTag.trim()) {
                   clearTimeout(shakeTagTimeout)
                   setIsShakeTag(true)
                   shakeTagTimeout = setTimeout(() => setIsShakeTag(false), 400)
