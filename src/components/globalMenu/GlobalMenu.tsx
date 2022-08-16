@@ -1,4 +1,14 @@
-const GlobalMenu = () => {
+import { observer } from "mobx-react"
+import GlobalNavigationStore from "../../store/GlobalNavigationStore"
+import useGlobalMenuKeybind from "./useGlobalMenuKeybind"
+
+interface Props {
+}
+const GlobalMenu = observer(({}: Props) => {
+  const globalNavigationStore = GlobalNavigationStore
+  useGlobalMenuKeybind({
+    globalNavigationStore
+  })
   return (
     <>
       <div>
@@ -21,6 +31,6 @@ const GlobalMenu = () => {
       </div>
     </>
   )
-}
+})
 
 export default GlobalMenu

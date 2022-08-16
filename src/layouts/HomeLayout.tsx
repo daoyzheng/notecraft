@@ -14,7 +14,7 @@ const HomeLayout: React.FC = observer(() => {
       <header
         className={`${isInGlobalMenu ? 'border-blue-500' : 'border-transparent'} bg-zinc-900 col-span-2 text-white pt-4 px-2 justify-between flex flex-col border`}
         onMouseEnter={handleEnterMenu} >
-        <GlobalMenu/>
+        <GlobalMenu />
       </header>
       <main className="col-span-10 overflow-hidden">
         <Outlet />
