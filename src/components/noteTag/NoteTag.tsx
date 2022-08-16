@@ -1,6 +1,7 @@
 import { ChangeEvent, useCallback, useContext, useEffect, useRef, useState } from "react"
 import { possibleNoteDetailsStates } from "../../constants/noteDetails"
 import { NoteDetailsCurrentElementContext } from "../noteDetails/CurrentElementIndexContext"
+import { TagInputWrapper } from "./NoteTag.styled"
 
 interface Props {
   tag: string
@@ -16,10 +17,10 @@ const NoteTag = ({ tag, index, className, isFocus, onTagChange, onFinishEditTag 
     isEditingSingleTag,
     originalTag,
     currentTagIndex,
+    isShakeTag,
     setIsAddingTag,
     setCurrentTagIndex,
     setIsEditingTag: setGlobalEditTag,
-    setIsEditingTag,
     setOriginalTag,
     setIsEditingSingleTag,
     setCurrentElementIndex,
@@ -108,17 +109,19 @@ const NoteTag = ({ tag, index, className, isFocus, onTagChange, onFinishEditTag 
   return (
     (isEditingSingleTag && currentTagIndex === index) ?
       <>
-        <input
-          className="focus:outline-none bg-transparent placeholder-gray-400 focus:placeholder-gray-400"
-          onBlur={handleBlurTag}
-          onChange={handleTagChange}
-          value={updatedTag}
-          autoFocus
-          ref={tagInput}
-        />
-        <button className="w-5 rounded bg-zinc-600 hover:bg-zinc-700" onMouseDown={handleSaveTag}>
-          <i className="material-icons-outlined text-xs text-green-300 hover:text-green-400">done</i>
-        </button>
+        <TagInputWrapper isShakeTag={isShakeTag}>
+          <input
+            className="focus:outline-none bg-transparent placeholder-gray-400 focus:placeholder-gray-400"
+            onBlur={handleBlurTag}
+            onChange={handleTagChange}
+            value={updatedTag}
+            autoFocus
+            ref={tagInput}
+          />
+          <button className="w-5 rounded bg-zinc-600 hover:bg-zinc-700 ml-2" onMouseDown={handleSaveTag}>
+            <i className="material-icons-outlined text-xs text-green-300 hover:text-green-400">done</i>
+          </button>
+        </TagInputWrapper>
         <div ref={hiddenTag}>{updatedTag}</div>
       </> :
       <div className={`${className} flex items-center gap-x-1`}>

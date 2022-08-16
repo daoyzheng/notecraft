@@ -45,7 +45,8 @@ const useNoteDetailsKeybind = ({
   boolean, React.Dispatch<React.SetStateAction<boolean>>,
   string, React.Dispatch<React.SetStateAction<string>>,
   string, React.Dispatch<React.SetStateAction<string>>,
-  boolean, React.Dispatch<React.SetStateAction<boolean>>
+  boolean, React.Dispatch<React.SetStateAction<boolean>>,
+  boolean, React.Dispatch<React.SetStateAction<boolean>>,
 ] => {
   const [currentElementIndex, setCurrentElementIndex] = useState<number>(0)
   const [currentTagIndex, setCurrentTagIndex] = useState<number>(0)
@@ -55,6 +56,8 @@ const useNoteDetailsKeybind = ({
   const [newTag, setNewTag] = useState<string>('')
   const [originalTag, setOriginalTag] = useState<string>('')
   const [isShakeTitle, setIsShakeTitle] = useState<boolean>(false)
+  const [isShakeTag, setIsShakeTag] = useState<boolean>(false)
+  let shakeTagTimeout:any
   const numberOfTags = useMemo(() => {
     return tags.length
   }, [tags])
@@ -176,12 +179,15 @@ const useNoteDetailsKeybind = ({
             }
             case 'enter': {
               if (!isAddingTag) {
-                if (tags.includes('')) {
-                  tags = tags.filter(tag => tag)
-                  onTagsChange && onTagsChange(tags)
+                const currentTag = tags[currentTagIndex]
+                if (!currentTag) {
+                  clearTimeout(shakeTagTimeout)
+                  setIsShakeTag(true)
+                  shakeTagTimeout = setTimeout(() => setIsShakeTag(false), 400)
+                } else {
+                  setIsEditingSingleTag(false)
+                  onFinishEditTags && onFinishEditTags()
                 }
-                setIsEditingSingleTag(false)
-                onFinishEditTags && onFinishEditTags()
               } else {
                 setIsEditingSingleTag(false)
                 handleFinishAddingNewTag()
@@ -245,7 +251,8 @@ const useNoteDetailsKeybind = ({
     isEditingSingleTag, setIsEditingSingleTag,
     newTag, setNewTag,
     originalTag, setOriginalTag,
-    isShakeTitle, setIsShakeTitle
+    isShakeTitle, setIsShakeTitle,
+    isShakeTag, setIsShakeTag
   ]
 }
 

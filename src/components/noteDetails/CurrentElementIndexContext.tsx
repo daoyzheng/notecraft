@@ -7,6 +7,7 @@ interface INoteDetailsTagContext {
   isAddingTag: boolean
   isEditingSingleTag: boolean
   originalTag: string
+  isShakeTag: boolean
   setCurrentTagIndex: Dispatch<SetStateAction<number>>
   setIsEditingTag: Dispatch<SetStateAction<boolean>>
   setIsAddingTag: Dispatch<SetStateAction<boolean>>
@@ -17,6 +18,7 @@ interface INoteDetailsTagContext {
   handleDeleteTag: (index: number) => void
   setNewTag: Dispatch<SetStateAction<string>>
   setCurrentNoteDetailsState: Dispatch<SetStateAction<possibleNoteDetailsStates>>
+  setIsShakeTag: Dispatch<SetStateAction<boolean>>
 }
 const NoteDetailsCurrentElementContext = createContext<INoteDetailsTagContext>({
   currentTagIndex: 0,
@@ -24,6 +26,7 @@ const NoteDetailsCurrentElementContext = createContext<INoteDetailsTagContext>({
   isAddingTag: false,
   isEditingSingleTag: false,
   originalTag: '',
+  isShakeTag: false,
   setCurrentTagIndex: () => {},
   setIsEditingTag: () => {},
   setIsAddingTag: () => {},
@@ -33,7 +36,8 @@ const NoteDetailsCurrentElementContext = createContext<INoteDetailsTagContext>({
   setCurrentNoteDetailsState: () => {},
   handleFinishAddingNewTag: () => {},
   handleDeleteTag: () => {},
-  setNewTag: () => {}
+  setNewTag: () => {},
+  setIsShakeTag: () => {}
 })
 
 interface Props extends INoteDetailsTagContext{
@@ -47,6 +51,7 @@ const NoteDetailsCurrentElementContextProvider: React.FC<Props> = ({
   isEditingSingleTag,
   currentTagIndex,
   originalTag,
+  isShakeTag,
   setCurrentTagIndex,
   setOriginalTag,
   setIsEditingSingleTag,
@@ -56,13 +61,15 @@ const NoteDetailsCurrentElementContextProvider: React.FC<Props> = ({
   setNewTag,
   setCurrentNoteDetailsState,
   handleFinishAddingNewTag,
-  handleDeleteTag
+  handleDeleteTag,
+  setIsShakeTag
 }) => {
   return (
     <NoteDetailsCurrentElementContext.Provider value={{
       isAddingTag,
       isEditingTag,
       isEditingSingleTag,
+      isShakeTag,
       currentTagIndex,
       originalTag,
       setCurrentTagIndex,
@@ -74,7 +81,8 @@ const NoteDetailsCurrentElementContextProvider: React.FC<Props> = ({
       setNewTag,
       setCurrentNoteDetailsState,
       handleFinishAddingNewTag,
-      handleDeleteTag
+      handleDeleteTag,
+      setIsShakeTag
     }}>
       {children}
     </NoteDetailsCurrentElementContext.Provider>

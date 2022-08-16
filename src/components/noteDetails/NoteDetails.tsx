@@ -39,11 +39,14 @@ const NoteDetails = ({
   const [isEditMode, setIsEditMode] = useState<boolean>(false)
   const [isEditingTitle, setIsEditingTitle] = useState<boolean>(false)
   const [originalTitle, setOriginalTitle] = useState<string>(currentNote ? currentNote.title : '')
+  const [originalBody, setOriginalBody] = useState<string>(currentNote ? (currentNote.body ? currentNote.body : ''): '')
   const { setCurrentNoteDetailsState } = useContext(NoteDetailsStateContext)
 
   useEffect(() => {
-    if (currentNote)
+    if (currentNote) {
       setOriginalTitle(currentNote.title)
+      setOriginalBody(currentNote.body ? currentNote.body: '')
+    }
   }, [currentNote])
 
   const numberOfElements = 3
@@ -74,7 +77,8 @@ const NoteDetails = ({
     isEditingSingleTag, setIsEditingSingleTag,
     newTag, setNewTag,
     originalTag, setOriginalTag,
-    isShakeTitle, setIsShakeTitle
+    isShakeTitle, setIsShakeTitle,
+    isShakeTag, setIsShakeTag
   ] = useNoteDetailsKeybind({
     isActive,
     isEditMode,
@@ -178,11 +182,11 @@ const NoteDetails = ({
       onTagsChange && onTagsChange(tags)
       onFinishEditTags && onFinishEditTags()
     }
-    if (isEditingTitle) {
+    if (isEditingTitle && currentNote && currentNote.title === originalTitle) {
       onTitleChange && onTitleChange(originalTitle)
       onFinishEditTitle && onFinishEditTitle()
     }
-    if (isEditMode) {
+    if (isEditMode && currentNote && currentNote.body === originalBody) {
       onFinishEditDoc && onFinishEditDoc()
     }
   }
@@ -239,6 +243,7 @@ const NoteDetails = ({
             isAddingTag={isAddingTag} setIsAddingTag={setIsAddingTag}
             originalTag={originalTag} setOriginalTag={setOriginalTag}
             isEditingSingleTag={isEditingSingleTag} setIsEditingSingleTag={setIsEditingSingleTag}
+            isShakeTag={isShakeTag} setIsShakeTag={setIsShakeTag}
             handleFinishAddingNewTag={handleFinishAddingNewTag} setNewTag={setNewTag}
             handleDeleteTag={handleDeleteTag}
             setCurrentElementIndex={setCurrentElementIndex}
