@@ -73,9 +73,15 @@ const Notelist = ({
     }
   }
 
+  function handleShowPopup () {
+    reset()
+    setShowPopup(true)
+  }
+
   const handleEnterNodeList = useCallback(() => {
     onMouseEnter && onMouseEnter()
   }, [onMouseEnter])
+
 
   const popup = () => (
     <div ref={popupRef} className="bg-white rounded absolute text-black p-2 right-0 h-fit top-5" >
@@ -108,7 +114,7 @@ const Notelist = ({
       <div className="flex flex row items-center justify-between my-2 pb-1">
         <div className="text-lg">New Notebook</div>
         <div className="relative flex items-center gap-x-1">
-          <i className="material-icons-outlined text-sm cursor-pointer" onClick={() => setShowPopup(true)}>launch</i>
+          <i className="material-icons-outlined text-sm cursor-pointer" onClick={handleShowPopup}>launch</i>
           {
             showPopup && popup()
           }

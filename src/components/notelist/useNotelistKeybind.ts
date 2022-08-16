@@ -87,6 +87,7 @@ const useNotelistKeybind = ({
       }
       case 'h':
       case 'arrowleft': {
+        if (showPopup) break
         globalNavigationStore.setToGlobalNavigation()
         break
       }
