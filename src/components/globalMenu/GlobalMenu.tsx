@@ -1,5 +1,6 @@
 import { observer } from "mobx-react"
 import { useState } from "react"
+import { Link } from "react-router-dom"
 import { menuFocusOptions } from "../../constants/globalMenu"
 import GlobalNavigationStore from "../../store/GlobalNavigationStore"
 import NotebookList from "../notebookList/NotebookList"
@@ -30,13 +31,13 @@ const GlobalMenu = observer(({}: Props) => {
           isFocused={currentFocus === menuFocusOptions.notesnippet}
           onClick={handleSnippetClick}
         >
-          Snippet
+          <Link to="/notesnippet">Snippet</Link>
         </GlobalMenuItem>
         <GlobalMenuItem
           isFocused={currentFocus === menuFocusOptions.noteshall}
           onClick={handleNotesHallClick}
         >
-          NotesHall
+          <Link to="/noteshall">Notes Hall</Link>
         </GlobalMenuItem>
         <NotebookList
           className={`${currentFocus === menuFocusOptions.notebooks ? 'text-blue-300' : ''}`}
