@@ -40,7 +40,7 @@ const GlobalMenu = observer(({}: Props) => {
         </GlobalMenuItem>
         <NotebookList
           className={`${currentFocus === menuFocusOptions.notebooks ? 'text-blue-300' : ''}`}
-          isActive={currentFocus === menuFocusOptions.notebooks}
+          isFocused={currentFocus === menuFocusOptions.notebooks}
         />
       </div>
       <div>

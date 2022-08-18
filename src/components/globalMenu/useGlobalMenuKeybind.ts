@@ -22,7 +22,6 @@ const useGlobalMenuKeybind = ({
         } else {
           setCurrentFocus(currentFocus+1)
         }
-        console.log('skj', currentFocus)
         break
       }
       case 'k':
@@ -49,7 +48,7 @@ const useGlobalMenuKeybind = ({
     return () => {
       document.removeEventListener('keydown', handleKeyPress)
     }
-  }, [currentFocus])
+  }, [currentFocus, globalNavigationStore.isInGlobalMenu])
 }
 
 export default useGlobalMenuKeybind
