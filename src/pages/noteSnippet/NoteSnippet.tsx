@@ -1,6 +1,6 @@
 const NoteSnippet = () => {
   return (
-    <div>
+    <div className="h-full w-full relative bg-red-300">
       Note Snippet
     </div>
   )
