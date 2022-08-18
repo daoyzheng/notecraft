@@ -12,7 +12,7 @@ const HomeLayout: React.FC = observer(() => {
   return (
     <div className="grid grid-cols-12 h-screen w-screen">
       <header
-        className={`${isInGlobalMenu ? 'border-blue-500' : 'border-transparent'} bg-zinc-900 col-span-2 text-white pt-4 px-2 justify-between flex flex-col border`}
+        className={`${isInGlobalMenu ? 'border-blue-500' : 'border-transparent'} bg-zinc-900 col-span-2 text-white pt-4 px-2  border`}
         onMouseEnter={handleEnterMenu} >
         <GlobalMenu />
       </header>
