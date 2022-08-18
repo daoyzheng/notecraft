@@ -1,15 +1,39 @@
-import { useEffect } from "react"
+import { Dispatch, SetStateAction, useEffect } from "react"
+import { menuFocusOptions } from "../../constants/globalMenu"
 import GlobalNavigationStore from "../../store/GlobalNavigationStore"
 
 interface Props {
   globalNavigationStore: typeof GlobalNavigationStore
+  currentFocus: menuFocusOptions
+  setCurrentFocus: Dispatch<SetStateAction<menuFocusOptions>>
 }
 
 const useGlobalMenuKeybind = ({
-  globalNavigationStore
+  globalNavigationStore,
+  currentFocus,
+  setCurrentFocus
 }: Props) => {
   function handleKeyPress (e: KeyboardEvent) {
     switch(e.key.toLocaleLowerCase()) {
+      case 'j':
+      case 'arrowdown': {
+        if (currentFocus === menuFocusOptions.notebooks) {
+          setCurrentFocus(menuFocusOptions.notesnippet)
+        } else {
+          setCurrentFocus(currentFocus+1)
+        }
+        console.log('skj', currentFocus)
+        break
+      }
+      case 'k':
+      case 'arrowup': {
+        if (currentFocus === menuFocusOptions.notesnippet) {
+          setCurrentFocus(menuFocusOptions.notebooks)
+        } else {
+          setCurrentFocus(currentFocus-1)
+        }
+        break
+      }
       case 'l':
       case 'arrowright': {
         globalNavigationStore.setToNotebookNavigation()
@@ -25,7 +49,7 @@ const useGlobalMenuKeybind = ({
     return () => {
       document.removeEventListener('keydown', handleKeyPress)
     }
-  }, [])
+  }, [currentFocus])
 }
 
 export default useGlobalMenuKeybind

@@ -1,4 +1,5 @@
 export enum menuFocusOptions {
-  notesnippet,
-  notebooks
+  notesnippet = 0,
+  noteshall = 1,
+  notebooks = 2
 }
