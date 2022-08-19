@@ -7,7 +7,7 @@ const HomeLayout: React.FC = observer(() => {
   const globalNavigationStore = GlobalNavigationStore
   const { isInGlobalMenu } = globalNavigationStore
   function handleEnterMenu() {
-    globalNavigationStore.setToGlobalNavigation()
+    globalNavigationStore.setToMenuNavigation()
   }
   return (
     <div className="grid grid-cols-12 h-screen w-screen">

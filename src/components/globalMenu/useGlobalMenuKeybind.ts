@@ -1,4 +1,5 @@
-import { Dispatch, SetStateAction, useEffect } from "react"
+import { Dispatch, SetStateAction, useCallback, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 import { menuFocusOptions } from "../../constants/globalMenu"
 import GlobalNavigationStore from "../../store/GlobalNavigationStore"
 
@@ -13,6 +14,21 @@ const useGlobalMenuKeybind = ({
   currentFocus,
   setCurrentFocus
 }: Props) => {
+  const navigate = useNavigate()
+
+  const navigatePage = useCallback(() => {
+    console.log('lkj', currentFocus)
+    navigate(getRouteFromFocus())
+  }, [currentFocus])
+  function getRouteFromFocus() {
+    switch(currentFocus) {
+      case menuFocusOptions.notebooks: return '/notebooks'
+      case menuFocusOptions.notesnippet: return '/notesnippet'
+      case menuFocusOptions.noteshall: return '/noteshall'
+      default: return '/notesnippet'
+    }
+  }
+
   function handleKeyPress (e: KeyboardEvent) {
     switch(e.key.toLocaleLowerCase()) {
       case 'j':
@@ -22,6 +38,7 @@ const useGlobalMenuKeybind = ({
         } else {
           setCurrentFocus(currentFocus+1)
         }
+        navigatePage()
         break
       }
       case 'k':
@@ -31,12 +48,29 @@ const useGlobalMenuKeybind = ({
         } else {
           setCurrentFocus(currentFocus-1)
         }
+        navigatePage()
         break
       }
       case 'l':
       case 'arrowright': {
-        globalNavigationStore.setToNotebookNavigation()
-        break
+        switch(currentFocus) {
+          case menuFocusOptions.notesnippet: {
+            globalNavigationStore.setToNoteSnippetPage()
+            globalNavigationStore.setToPageNavigation()
+            break
+          }
+          case menuFocusOptions.noteshall: {
+            globalNavigationStore.setToNoteHallPage()
+            globalNavigationStore.setToPageNavigation()
+            break
+          }
+          case menuFocusOptions.notebooks: {
+            globalNavigationStore.setToNotebookPage()
+            globalNavigationStore.setToPageNavigation()
+            break
+          }
+          default: break
+        }
       }
     }
   }

@@ -94,7 +94,8 @@ const Notebook = observer(() => {
   }
 
   function handleEnterNotebook () {
-    globalNavigationStore.setToNotebookNavigation()
+    globalNavigationStore.setToPageNavigation()
+    globalNavigationStore.setToNotebookPage()
   }
   function handleEnterElement (el: focusOptions) {
     setCurrentFocus(el)
