@@ -3,26 +3,22 @@ import NoteDetails from "../../components/noteDetails/NoteDetails"
 import Notelist from "../../components/notelist/Notelist"
 import { INote } from "../../interfaces/note"
 import { notesMock } from "../../utils/mock"
-import { possibleNoteDetailsStates, focusOptions } from '../../constants/noteDetails'
+import { focusOptions } from '../../constants/noteDetails'
 import { NoteDetailsStateContextProvider } from "./useNoteDetailsStateContext"
-import useNoteDetailsHints from "./useNoteDetailsHints"
 import GlobalNavigationStore from "../../store/GlobalNavigationStore"
 import { observer } from "mobx-react"
+import NotebookStore from "../../store/NotebookStore"
 
 
 const Notebook = observer(() => {
-  const [currentFocus, setCurrentFocus] = useState<focusOptions>(focusOptions.notelist)
-  const [noteList, setNoteList] = useState<INote[]>(notesMock)
-  const [currentNote, setCurrentNote] = useState<INote|null>(null)
-  const [currentNoteDetailsState, setCurrentNoteDetailsState] = useState<possibleNoteDetailsStates>(possibleNoteDetailsStates.navigating)
+  const {
+    currentNote, setCurrentNote,
+    notebookCurrentFocus, setNotebookCurrentFocus,
+    setCurrentNoteDetailsState
+  } = NotebookStore
   const globalNavigationStore = GlobalNavigationStore
   const { isInGlobalMenu } = globalNavigationStore
-  const { getKeybindingHints } = useNoteDetailsHints({
-    currentFocus,
-    currentNoteDetailsState,
-    isInGlobalMenu: globalNavigationStore.isInGlobalMenu,
-    currentNote
-  })
+  const [noteList, setNoteList] = useState<INote[]>(notesMock)
 
   function handleCreateNewNote (newNote: INote) {
     newNote.id = noteList.length + 1
@@ -98,24 +94,24 @@ const Notebook = observer(() => {
     globalNavigationStore.setToNotebookPage()
   }
   function handleEnterElement (el: focusOptions) {
-    setCurrentFocus(el)
+    setNotebookCurrentFocus(el)
   }
   const inactiveNodeListBorderColor = 'border-r-gray-500 border-l-transparent border-t-transparent border-b-transparent'
   return (
     <div className="grid grid-cols-10 h-full w-full relative" onMouseEnter={handleEnterNotebook}>
         <Notelist
-          className={`${!isInGlobalMenu && currentFocus === focusOptions.notelist ? 'border-blue-500' : inactiveNodeListBorderColor} col-span-3 border`}
+          className={`${!isInGlobalMenu && notebookCurrentFocus === focusOptions.notelist ? 'border-blue-500' : inactiveNodeListBorderColor} col-span-3 border`}
           noteList={noteList}
           currentNote={currentNote}
           onCreateNewNote={handleCreateNewNote}
           onSelectNote={handleSelectNote}
           onMouseEnter={() => handleEnterElement(focusOptions.notelist)}
           onBlur={() => handleEnterElement(focusOptions.notedetails)}
-          isActive={currentFocus === focusOptions.notelist && !isInGlobalMenu}
+          isActive={notebookCurrentFocus === focusOptions.notelist && !isInGlobalMenu}
         />
       <NoteDetailsStateContextProvider setCurrentNoteDetailsState={setCurrentNoteDetailsState}>
         <NoteDetails
-          className={`${!isInGlobalMenu && currentFocus === focusOptions.notedetails && currentNote ? 'border-blue-500' : 'border-transparent'} col-span-7 border`}
+          className={`${!isInGlobalMenu && notebookCurrentFocus === focusOptions.notedetails && currentNote ? 'border-blue-500' : 'border-transparent'} col-span-7 border`}
           currentNote={currentNote}
           onDocChange={handleDocChange}
           onFinishEditDoc={handleFinishEditDoc}
@@ -124,13 +120,10 @@ const Notebook = observer(() => {
           onTagsChange={handleTagsChange}
           onFinishEditTags={handleFinishEditTags}
           onMouseEnter={() => handleEnterElement(focusOptions.notedetails)}
-          isActive={currentFocus === focusOptions.notedetails && !isInGlobalMenu}
+          isActive={notebookCurrentFocus === focusOptions.notedetails && !isInGlobalMenu}
           onBlur={() => handleEnterElement(focusOptions.notelist)}
         />
       </NoteDetailsStateContextProvider>
-      <div className="absolute w-full bottom-0 bg-zinc-700 text-white flex items-center gap-x-4 px-2">
-        {getKeybindingHints()}
-      </div>
     </div>
   )
 })

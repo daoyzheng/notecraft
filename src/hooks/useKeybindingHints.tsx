@@ -1,33 +1,44 @@
-import InputHint from "../../components/inputHint/InputHint"
-import { possibleNoteDetailsStates, focusOptions } from "../../constants/noteDetails"
-import { INote } from "../../interfaces/note"
+import InputHint from "../components/inputHint/InputHint"
+import { menuFocusOptions } from "../constants/globalMenu"
+import { possibleNoteDetailsStates, focusOptions } from "../constants/noteDetails"
+import GlobalNavigationStore from "../store/GlobalNavigationStore"
+import NotebookStore from "../store/NotebookStore"
 
-interface Props {
-  currentNoteDetailsState: possibleNoteDetailsStates
-  currentFocus: focusOptions
-  currentNote: INote|null
-  isInGlobalMenu: boolean
-}
-const useNoteDetailsHints = ({ currentNoteDetailsState, currentFocus, isInGlobalMenu, currentNote }: Props) => {
+const useKeybindingHints = () => {
+  const {
+    isInGlobalMenu,
+    currentPage
+  } = GlobalNavigationStore
+  const {
+    currentNote,
+    notebookCurrentFocus,
+    currentNoteDetailsState
+  } = NotebookStore
   function getKeybindingHints () {
     if (isInGlobalMenu) return <GlobalMenuHints/>
-    if (currentFocus === focusOptions.notelist) return <NotelistKeyHints/>
-    else if (currentNote) {
-      switch(currentNoteDetailsState) {
-        case possibleNoteDetailsStates.navigating: {
-          return <NoteDetailsNavigatingHints/>
-        }
-        case possibleNoteDetailsStates.editingTitle: {
-          return <NoteDetailsEditingTitleHints/>
-        }
-        case possibleNoteDetailsStates.editingTag: {
-          return <NoteDetailsEditingTagHints/>
-        }
-        case possibleNoteDetailsStates.editingSingleTag: {
-          return <NoteDetailsEditingSingleTagHints/>
-        }
-        case possibleNoteDetailsStates.editingBody: {
-          return <NoteDetailsEditingBodyHints/>
+    else {
+      switch(currentPage) {
+        case menuFocusOptions.notebooks: {
+          if (notebookCurrentFocus === focusOptions.notelist) return <NotelistKeyHints/>
+          else if (currentNote) {
+            switch(currentNoteDetailsState) {
+              case possibleNoteDetailsStates.navigating: {
+                return <NoteDetailsNavigatingHints/>
+              }
+              case possibleNoteDetailsStates.editingTitle: {
+                return <NoteDetailsEditingTitleHints/>
+              }
+              case possibleNoteDetailsStates.editingTag: {
+                return <NoteDetailsEditingTagHints/>
+              }
+              case possibleNoteDetailsStates.editingSingleTag: {
+                return <NoteDetailsEditingSingleTagHints/>
+              }
+              case possibleNoteDetailsStates.editingBody: {
+                return <NoteDetailsEditingBodyHints/>
+              }
+            }
+          }
         }
       }
     }
@@ -37,7 +48,7 @@ const useNoteDetailsHints = ({ currentNoteDetailsState, currentFocus, isInGlobal
   }
 }
 
-export default useNoteDetailsHints
+export default useKeybindingHints
 
 const NotelistKeyHints = () => {
   return (

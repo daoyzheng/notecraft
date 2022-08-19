@@ -2,7 +2,7 @@ import React, { createContext, Dispatch, SetStateAction } from "react";
 import { possibleNoteDetailsStates } from "../../constants/noteDetails";
 
 interface INoteDetailsStateContext {
-  setCurrentNoteDetailsState: Dispatch<SetStateAction<possibleNoteDetailsStates>>
+  setCurrentNoteDetailsState: (noteDetailsState: possibleNoteDetailsStates) => void
 }
 
 const NoteDetailsStateContext = createContext<INoteDetailsStateContext>({

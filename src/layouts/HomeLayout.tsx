@@ -1,6 +1,7 @@
 import { observer } from "mobx-react"
 import { Outlet } from "react-router-dom"
 import GlobalMenu from "../components/globalMenu/GlobalMenu"
+import useKeybindingHints from "../hooks/useKeybindingHints"
 import GlobalNavigationStore from "../store/GlobalNavigationStore"
 
 const HomeLayout: React.FC = observer(() => {
@@ -9,6 +10,7 @@ const HomeLayout: React.FC = observer(() => {
   function handleEnterMenu() {
     globalNavigationStore.setToMenuNavigation()
   }
+  const { getKeybindingHints } = useKeybindingHints()
   return (
     <div className="grid grid-cols-12 h-screen w-screen">
       <header
@@ -16,8 +18,11 @@ const HomeLayout: React.FC = observer(() => {
         onMouseEnter={handleEnterMenu} >
         <GlobalMenu />
       </header>
-      <main className="col-span-10 overflow-hidden">
+      <main className="col-span-10 overflow-hidden relative">
         <Outlet />
+        <div className="absolute w-full bottom-0 bg-zinc-700 text-white flex items-center gap-x-4 px-2">
+          {getKeybindingHints()}
+        </div>
       </main>
     </div>
   )

@@ -16,10 +16,10 @@ const useGlobalMenuKeybind = ({
 }: Props) => {
   const navigate = useNavigate()
 
-  const navigatePage = useCallback(() => {
-    console.log('lkj', currentFocus)
+  useEffect(() => {
     navigate(getRouteFromFocus())
   }, [currentFocus])
+
   function getRouteFromFocus() {
     switch(currentFocus) {
       case menuFocusOptions.notebooks: return '/notebooks'
@@ -38,7 +38,6 @@ const useGlobalMenuKeybind = ({
         } else {
           setCurrentFocus(currentFocus+1)
         }
-        navigatePage()
         break
       }
       case 'k':
@@ -48,7 +47,6 @@ const useGlobalMenuKeybind = ({
         } else {
           setCurrentFocus(currentFocus-1)
         }
-        navigatePage()
         break
       }
       case 'l':
