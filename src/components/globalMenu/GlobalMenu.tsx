@@ -15,8 +15,8 @@ const GlobalMenu = observer(({}: Props) => {
   const globalNavigationStore = GlobalNavigationStore
   useGlobalMenuKeybind({
     globalNavigationStore,
+    currentFocus,
     setCurrentFocus,
-    currentFocus
   })
   function handleNotebookClick () {
     setCurrentFocus(menuFocusOptions.notebooks)
@@ -40,12 +40,9 @@ const GlobalMenu = observer(({}: Props) => {
           >
             <Link to="/noteshall">Notebooks</Link>
           </GlobalMenuItem>
-          <i className="material-icons-outlined text-sm cursor-pointer">add_circle_outline</i>
+          <i className={`${currentFocus === menuFocusOptions.notebooks ? 'text-blue-300' : ''} material-icons-outlined text-sm cursor-pointer`}>add_circle_outline</i>
         </div>
-        <NotebookList
-          className={`${currentFocus === menuFocusOptions.notebooks ? 'text-blue-300' : ''}`}
-          isFocused={currentFocus === menuFocusOptions.notebooks}
-        />
+        <NotebookList />
       </div>
       <div>
         Dao Zheng

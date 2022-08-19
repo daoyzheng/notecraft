@@ -6,9 +6,8 @@ import NotebookItem from "../notebookItem/NotebookItem"
 
 interface Props {
   className?: string
-  isFocused: boolean
 }
-const NotebookList = ({ className, isFocused }: Props) => {
+const NotebookList = ({ className }: Props) => {
   const [notebookList, setNotebookList] = useState<INotebook[]>(notebooksMock)
   return (
     <div className={`${className}`}>
