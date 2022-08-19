@@ -13,5 +13,4 @@ export interface INotebook {
   name: string
   createdAt: string
   children: INotebook[]
-  notes: INote[]
 }

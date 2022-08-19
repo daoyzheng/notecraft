@@ -18,7 +18,7 @@ const Notebook = observer(() => {
   } = NotebookStore
   const globalNavigationStore = GlobalNavigationStore
   const { isInGlobalMenu } = globalNavigationStore
-  const [noteList, setNoteList] = useState<INote[]>(notesMock)
+  const [noteList, setNoteList] = useState<INote[]>([])
 
   function handleCreateNewNote (newNote: INote) {
     newNote.id = noteList.length + 1

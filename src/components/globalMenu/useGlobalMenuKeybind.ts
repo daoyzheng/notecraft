@@ -23,7 +23,6 @@ const useGlobalMenuKeybind = ({
   function getRouteFromFocus() {
     switch(currentFocus) {
       case menuFocusOptions.notebooks: return '/notebooks'
-      case menuFocusOptions.notesnippet: return '/notesnippet'
       case menuFocusOptions.noteshall: return '/noteshall'
       default: return '/notesnippet'
     }
@@ -34,7 +33,7 @@ const useGlobalMenuKeybind = ({
       case 'j':
       case 'arrowdown': {
         if (currentFocus === menuFocusOptions.notebooks) {
-          setCurrentFocus(menuFocusOptions.notesnippet)
+          setCurrentFocus(menuFocusOptions.noteshall)
         } else {
           setCurrentFocus(currentFocus+1)
         }
@@ -42,7 +41,7 @@ const useGlobalMenuKeybind = ({
       }
       case 'k':
       case 'arrowup': {
-        if (currentFocus === menuFocusOptions.notesnippet) {
+        if (currentFocus === menuFocusOptions.noteshall) {
           setCurrentFocus(menuFocusOptions.notebooks)
         } else {
           setCurrentFocus(currentFocus-1)
@@ -52,11 +51,6 @@ const useGlobalMenuKeybind = ({
       case 'l':
       case 'arrowright': {
         switch(currentFocus) {
-          case menuFocusOptions.notesnippet: {
-            globalNavigationStore.setToNoteSnippetPage()
-            globalNavigationStore.setToPageNavigation()
-            break
-          }
           case menuFocusOptions.noteshall: {
             globalNavigationStore.setToNoteHallPage()
             globalNavigationStore.setToPageNavigation()

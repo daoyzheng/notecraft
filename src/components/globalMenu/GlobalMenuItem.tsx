@@ -12,7 +12,7 @@ const GlobalMenuItem: FC<Props> = ({className, children, isFocused, onClick}) =>
     onClick && onClick()
   }
   return (
-    <div className={`${className} flex flex-row items-center gap-x-2`}>
+    <div className={`${className} flex flex-row items-center w-full gap-x-2`}>
       <div className={`${isFocused ? 'text-blue-300' : ''} cursor-pointer hover:text-blue-300`} onClick={handleOnClick}>
         {children}
       </div>

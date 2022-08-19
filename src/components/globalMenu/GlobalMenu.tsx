@@ -11,34 +11,37 @@ interface Props {
 }
 
 const GlobalMenu = observer(({}: Props) => {
-  const [currentFocus, setCurrentFocus] = useState<menuFocusOptions>(menuFocusOptions.notesnippet)
+  const [currentFocus, setCurrentFocus] = useState<menuFocusOptions>(menuFocusOptions.noteshall)
   const globalNavigationStore = GlobalNavigationStore
   useGlobalMenuKeybind({
     globalNavigationStore,
     setCurrentFocus,
     currentFocus
   })
-  function handleSnippetClick () {
-    setCurrentFocus(menuFocusOptions.notesnippet)
+  function handleNotebookClick () {
+    setCurrentFocus(menuFocusOptions.notebooks)
   }
   function handleNotesHallClick () {
     setCurrentFocus(menuFocusOptions.noteshall)
   }
   return (
     <div className="justify-between flex flex-col h-full">
-      <div className="space-y-4">
-        <GlobalMenuItem
-          isFocused={currentFocus === menuFocusOptions.notesnippet}
-          onClick={handleSnippetClick}
-        >
-          <Link to="/notesnippet">Snippet</Link>
-        </GlobalMenuItem>
+      <div>
         <GlobalMenuItem
           isFocused={currentFocus === menuFocusOptions.noteshall}
           onClick={handleNotesHallClick}
         >
           <Link to="/noteshall">Notes Hall</Link>
         </GlobalMenuItem>
+        <div className="flex flex-row items-center mt-3 mb-1">
+          <GlobalMenuItem
+            isFocused={currentFocus === menuFocusOptions.notebooks}
+            onClick={handleNotebookClick}
+          >
+            <Link to="/noteshall">Notebooks</Link>
+          </GlobalMenuItem>
+          <i className="material-icons-outlined text-sm cursor-pointer">add_circle_outline</i>
+        </div>
         <NotebookList
           className={`${currentFocus === menuFocusOptions.notebooks ? 'text-blue-300' : ''}`}
           isFocused={currentFocus === menuFocusOptions.notebooks}

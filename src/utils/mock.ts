@@ -6,7 +6,8 @@ export const notesMock = [
     updatedAt: '2022-08-14',
     body: 'loremloremloremloremloremlor emloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremlorem',
     tags: ['new', 'hey', 'ho', 'here'],
-    isPublic: true
+    isPublic: true,
+    notebookId: 1
   },
   {
     id: 2,
@@ -15,7 +16,8 @@ export const notesMock = [
     updatedAt: '2022-08-14',
     body: 'hey body',
     tags: ['new', 'hey', 'ho'],
-    isPublic: false
+    isPublic: false,
+    notebookId: 1
   },
   {
     id: 3,
@@ -23,7 +25,8 @@ export const notesMock = [
     createdAt: '2020-06-14',
     updatedAt: '2022-08-14',
     tags: [],
-    isPublic: false
+    isPublic: false,
+    notebookId: 2
   },
   {
     id: 4,
@@ -31,7 +34,8 @@ export const notesMock = [
     createdAt: '2020-06-14',
     updatedAt: '2022-08-14',
     tags: [],
-    isPublic: true
+    isPublic: true,
+    notebookId: 2
   }
 ]
 
@@ -45,18 +49,15 @@ export const notebooksMock = [
         id: 10,
         name: 'notebook154',
         createdAt: '2020-08-18',
-        children: [],
-        notes: []
+        children: []
       },
       {
         id: 12,
         name: 'notebook54',
         createdAt: '2020-08-18',
-        children: [],
-        notes: notesMock
+        children: []
       }
-    ],
-    notes: notesMock
+    ]
   },
   {
     id: 2,

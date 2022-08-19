@@ -174,11 +174,11 @@ const GlobalMenuHints = () => {
     <>
       <div className="flex items-center">
         <InputHint label="j"/><span className="mx-1">/</span><InputHint icon="keyboard_arrow_down"/>
-        <div className="ml-1 text-xs">: Next notebook</div>
+        <div className="ml-1 text-xs">: Next page</div>
       </div>
       <div className="flex items-center">
         <InputHint label="k"/><span className="mx-1">/</span><InputHint icon="keyboard_arrow_up"/>
-        <div className="ml-1 text-xs">: Prev notebook</div>
+        <div className="ml-1 text-xs">: Prev page</div>
       </div>
     </>
   )
