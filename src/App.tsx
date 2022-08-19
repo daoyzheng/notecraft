@@ -10,7 +10,7 @@ function App() {
     <Router>
       <Routes>
         <Route element={<HomeLayout/>}>
-          <Route path="/" />
+          <Route path="/" element={<NoteSnippet/>}/>
           <Route path="/notebooks" element={<Notebook/>}/>
           <Route path="/notesnippet" element={<NoteSnippet/>}/>
           <Route path="/noteshall" element={<NoteHall/>}/>
