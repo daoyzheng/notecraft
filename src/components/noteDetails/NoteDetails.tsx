@@ -1,3 +1,4 @@
+import { observer } from "mobx-react"
 import { ChangeEvent, MouseEvent, useCallback, useContext, useEffect, useState } from "react"
 import { possibleNoteDetailsStates } from "../../constants/noteDetails"
 import { INote } from "../../interfaces/note"
@@ -23,7 +24,7 @@ interface Props {
   onBlur?: () => void
 }
 
-const NoteDetails = ({
+const NoteDetails = observer(({
   className,
   currentNote,
   isActive,
@@ -277,6 +278,6 @@ const NoteDetails = ({
       }
     </div>
   )
-}
+})
 
 export default NoteDetails

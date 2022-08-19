@@ -1,3 +1,4 @@
+import { observer } from "mobx-react"
 import { INote } from "../../interfaces/note"
 import Preview from "../preview/Preview"
 
@@ -6,7 +7,7 @@ interface Props {
   note: INote
   onClick?: (note: INote) => void
 }
-const NoteDisplay = ({ className, note, onClick }: Props) => {
+const NoteDisplay = observer(({ className, note, onClick }: Props) => {
   function handleOnClick () {
     onClick && onClick(note)
   }
@@ -23,6 +24,6 @@ const NoteDisplay = ({ className, note, onClick }: Props) => {
       </div>
     </div>
   )
-}
+})
 
 export default NoteDisplay

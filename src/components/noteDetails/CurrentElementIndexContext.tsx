@@ -17,7 +17,7 @@ interface INoteDetailsTagContext {
   handleFinishAddingNewTag: () => void
   handleDeleteTag: (index: number) => void
   setNewTag: Dispatch<SetStateAction<string>>
-  setCurrentNoteDetailsState: Dispatch<SetStateAction<possibleNoteDetailsStates>>
+  setCurrentNoteDetailsState: (noteDetailsState: possibleNoteDetailsStates) => void
   setIsShakeTag: Dispatch<SetStateAction<boolean>>
 }
 const NoteDetailsCurrentElementContext = createContext<INoteDetailsTagContext>({

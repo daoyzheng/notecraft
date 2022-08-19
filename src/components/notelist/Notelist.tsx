@@ -1,3 +1,4 @@
+import { observer } from 'mobx-react'
 import { useCallback, useRef, useState } from 'react'
 import useOutsideAlerter from '../../hooks/useOutsideAlerter'
 import useRegisterForm from '../../hooks/useRegisterForm'
@@ -18,7 +19,7 @@ interface Props {
   onBlur?: () => void
 }
 
-const Notelist = ({
+const Notelist = observer(({
     className,
     noteList,
     currentNote,
@@ -131,6 +132,6 @@ const Notelist = ({
       </NotelistContainer>
     </div>
   )
-}
+})
 
 export default Notelist

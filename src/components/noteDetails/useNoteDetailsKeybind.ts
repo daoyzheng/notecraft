@@ -17,7 +17,7 @@ interface Props {
   onFinishEditTags?: () => void
   handleFinishAddingNewTag: () => void
   handleDeleteTag: (index: number) => void
-  setCurrentNoteDetailsState: Dispatch<SetStateAction<possibleNoteDetailsStates>>
+  setCurrentNoteDetailsState: (noteDetailsState: possibleNoteDetailsStates) => void
 }
 
 const useNoteDetailsKeybind = ({
