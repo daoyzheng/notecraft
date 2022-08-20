@@ -2,10 +2,11 @@ import { INotebook } from "../../interfaces/note"
 
 interface Props {
   notebook: INotebook
+  isActive: boolean
 }
-const NotebookItem = ({ notebook }: Props) => {
+const NotebookItem = ({ notebook, isActive }: Props) => {
   return (
-    <div className="hover:text-blue-300 cursor-pointer">
+    <div className={`${isActive ? 'text-blue-300': ''} hover:text-blue-300 cursor-pointer`}>
       {notebook.name}
     </div>
   )

@@ -2,8 +2,10 @@ import { observer } from "mobx-react"
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import { menuFocusOptions } from "../../constants/globalMenu"
+import { INotebook } from "../../interfaces/note"
 import routes from "../../routes"
 import GlobalNavigationStore from "../../store/GlobalNavigationStore"
+import { notebooksMock } from "../../utils/mock"
 import NotebookList from "../notebookList/NotebookList"
 import GlobalMenuItem from "./GlobalMenuItem"
 import useGlobalMenuKeybind from "./useGlobalMenuKeybind"
@@ -13,8 +15,13 @@ interface Props {
 
 const GlobalMenu = observer(({}: Props) => {
   const [currentFocus, setCurrentFocus] = useState<menuFocusOptions>(menuFocusOptions.noteshall)
+  const [notebookList, setNotebookList] = useState<INotebook[]>(notebooksMock)
   const globalNavigationStore = GlobalNavigationStore
-  useGlobalMenuKeybind({
+  const {
+    selectedNotebook,
+    setSelectedNotebook
+  } = useGlobalMenuKeybind({
+    notebookList,
     globalNavigationStore,
     currentFocus,
     setCurrentFocus,
@@ -43,7 +50,7 @@ const GlobalMenu = observer(({}: Props) => {
           </GlobalMenuItem>
           <i className={`${currentFocus === menuFocusOptions.notebooks ? 'text-blue-300' : ''} material-icons-outlined text-sm cursor-pointer`}>add_circle_outline</i>
         </div>
-        <NotebookList />
+        <NotebookList notebookList={notebookList} selectedNotebook={selectedNotebook}/>
       </div>
       <div>
         Dao Zheng
