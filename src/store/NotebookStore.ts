@@ -16,7 +16,8 @@ class NotebookStore {
       currentNotebookId: observable,
       setCurrentNote: action,
       setNotebookCurrentFocus: action,
-      setCurrentNoteDetailsState: action
+      setCurrentNoteDetailsState: action,
+      setCurrentNotebookId: action
     })
   }
   setCurrentNote = (note: INote|null) => {

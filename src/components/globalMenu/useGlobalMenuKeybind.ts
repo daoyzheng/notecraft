@@ -46,6 +46,20 @@ const useGlobalMenuKeybind = ({
     }
   }
 
+  function decrementNotebook () {
+    const currentIndex = notebookList.findIndex(notebook => notebook.id === currentNotebookId)
+    if (currentIndex > 0) {
+      setCurrentNotebookId(notebookList[currentIndex - 1].id!)
+      if (notebookListRef.current)
+        notebookListRef.current.scrollTop -= segment ? segment : 0
+    } else {
+      setCurrentNotebookId(notebookList[notebookList.length - 1].id!)
+      if (notebookListRef.current)
+        notebookListRef.current.scrollTop = notebookListRef.current.scrollHeight
+    }
+
+  }
+
 
   function getRouteFromFocus() {
     switch(currentFocus) {
@@ -106,6 +120,11 @@ const useGlobalMenuKeybind = ({
         case 'j':
         case 'arrowdown': {
           incrementNotebook()
+          break
+        }
+        case 'k':
+        case 'arrowup': {
+          decrementNotebook()
         }
       }
     }
@@ -118,7 +137,12 @@ const useGlobalMenuKeybind = ({
     return () => {
       document.removeEventListener('keydown', handleKeyPress)
     }
-  }, [currentFocus, globalNavigationStore.isInGlobalMenu])
+  }, [
+    notebookList,
+    currentFocus,
+    globalNavigationStore.isInGlobalMenu,
+    currentNotebookId
+  ])
 }
 
 export default useGlobalMenuKeybind
