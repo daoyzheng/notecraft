@@ -3,7 +3,7 @@ import { menuFocusOptions } from "../constants/globalMenu"
 
 class GlobalNavigationStore {
   isInGlobalMenu: boolean = localStorage.getItem('isInGlobalMenu') ? localStorage.getItem('isInGlobalMenu') === 'true' ? true : false : true
-  currentPage: menuFocusOptions = menuFocusOptions.notesnippet
+  currentPage: menuFocusOptions = menuFocusOptions.noteshall
   constructor() {
     makeObservable(this, {
       isInGlobalMenu: observable,
@@ -11,7 +11,6 @@ class GlobalNavigationStore {
       setToMenuNavigation: action,
       setToPageNavigation: action,
       setToNotebookPage: action,
-      setToNoteSnippetPage: action,
       setToNoteHallPage: action
     })
   }
@@ -23,9 +22,6 @@ class GlobalNavigationStore {
   }
   setToNotebookPage () {
     this.currentPage = menuFocusOptions.notebooks
-  }
-  setToNoteSnippetPage () {
-    this.currentPage = menuFocusOptions.notesnippet
   }
   setToNoteHallPage () {
     this.currentPage = menuFocusOptions.noteshall

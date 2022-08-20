@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction, useCallback, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { menuFocusOptions } from "../../constants/globalMenu"
+import routes from "../../routes"
 import GlobalNavigationStore from "../../store/GlobalNavigationStore"
 
 interface Props {
@@ -22,9 +23,9 @@ const useGlobalMenuKeybind = ({
 
   function getRouteFromFocus() {
     switch(currentFocus) {
-      case menuFocusOptions.notebooks: return '/notebooks'
-      case menuFocusOptions.noteshall: return '/noteshall'
-      default: return '/notesnippet'
+      case menuFocusOptions.notebooks: return routes.notebooks
+      case menuFocusOptions.noteshall: return routes.noteshall
+      default: return routes.noteshall
     }
   }
 
@@ -33,7 +34,7 @@ const useGlobalMenuKeybind = ({
       case 'j':
       case 'arrowdown': {
         if (currentFocus === menuFocusOptions.notebooks) {
-          setCurrentFocus(menuFocusOptions.noteshall)
+          break
         } else {
           setCurrentFocus(currentFocus+1)
         }
@@ -42,7 +43,7 @@ const useGlobalMenuKeybind = ({
       case 'k':
       case 'arrowup': {
         if (currentFocus === menuFocusOptions.noteshall) {
-          setCurrentFocus(menuFocusOptions.notebooks)
+          break
         } else {
           setCurrentFocus(currentFocus-1)
         }

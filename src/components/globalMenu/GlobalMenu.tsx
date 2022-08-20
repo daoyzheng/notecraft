@@ -2,6 +2,7 @@ import { observer } from "mobx-react"
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import { menuFocusOptions } from "../../constants/globalMenu"
+import routes from "../../routes"
 import GlobalNavigationStore from "../../store/GlobalNavigationStore"
 import NotebookList from "../notebookList/NotebookList"
 import GlobalMenuItem from "./GlobalMenuItem"
@@ -31,14 +32,14 @@ const GlobalMenu = observer(({}: Props) => {
           isFocused={currentFocus === menuFocusOptions.noteshall}
           onClick={handleNotesHallClick}
         >
-          <Link to="/noteshall">Notes Hall</Link>
+          <Link to={routes.noteshall}>Notes Hall</Link>
         </GlobalMenuItem>
         <div className="flex flex-row items-center mt-3 mb-1">
           <GlobalMenuItem
             isFocused={currentFocus === menuFocusOptions.notebooks}
             onClick={handleNotebookClick}
           >
-            <Link to="/noteshall">Notebooks</Link>
+            <Link to={routes.notebooks}>Notebooks</Link>
           </GlobalMenuItem>
           <i className={`${currentFocus === menuFocusOptions.notebooks ? 'text-blue-300' : ''} material-icons-outlined text-sm cursor-pointer`}>add_circle_outline</i>
         </div>
