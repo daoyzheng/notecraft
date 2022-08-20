@@ -1,13 +1,15 @@
 import { observer } from "mobx-react"
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import { menuFocusOptions } from "../../constants/globalMenu"
 import { INotebook } from "../../interfaces/note"
 import routes from "../../routes"
 import GlobalNavigationStore from "../../store/GlobalNavigationStore"
+import NotebookStore from "../../store/NotebookStore"
 import { notebooksMock } from "../../utils/mock"
-import NotebookList from "../notebookList/NotebookList"
+import NotebookItem from "../notebookItem/NotebookItem"
 import GlobalMenuItem from "./GlobalMenuItem"
+import { NotebookListContainer } from "./GlobalMenuItem.styled"
 import useGlobalMenuKeybind from "./useGlobalMenuKeybind"
 
 interface Props {
@@ -16,14 +18,14 @@ interface Props {
 const GlobalMenu = observer(({}: Props) => {
   const [currentFocus, setCurrentFocus] = useState<menuFocusOptions>(menuFocusOptions.noteshall)
   const [notebookList, setNotebookList] = useState<INotebook[]>(notebooksMock)
+  const notebookListRef = useRef<HTMLDivElement>(null)
   const globalNavigationStore = GlobalNavigationStore
-  const {
-    selectedNotebook,
-    setSelectedNotebook
-  } = useGlobalMenuKeybind({
+  const { currentNotebookId } = NotebookStore
+  useGlobalMenuKeybind({
     notebookList,
     globalNavigationStore,
     currentFocus,
+    notebookListRef,
     setCurrentFocus,
   })
   function handleNotebookClick () {
@@ -50,7 +52,15 @@ const GlobalMenu = observer(({}: Props) => {
           </GlobalMenuItem>
           <i className={`${currentFocus === menuFocusOptions.notebooks ? 'text-blue-300' : ''} material-icons-outlined text-sm cursor-pointer`}>add_circle_outline</i>
         </div>
-        <NotebookList notebookList={notebookList} selectedNotebook={selectedNotebook}/>
+        <NotebookListContainer className="space-y-1 ml-3" ref={notebookListRef}>
+          {notebookList.map(notebook => (
+            <NotebookItem
+              isActive={!!currentNotebookId && currentNotebookId === notebook.id}
+              notebook={notebook}
+              key={notebook.id}
+            />
+          ))}
+        </NotebookListContainer>
       </div>
       <div>
         Dao Zheng

@@ -9,3 +9,8 @@ const slide = keyframes`
 export const GlobalMenuItemIconWrapper = styled.i`
   animation: ${slide} 800ms infinite;
 `
+
+export const NotebookListContainer = styled.div`
+  height: 400px;
+  overflow-y: auto;
+`

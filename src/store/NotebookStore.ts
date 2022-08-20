@@ -5,7 +5,7 @@ import { INote } from "../interfaces/note"
 class NotebookStore {
   notebookCurrentFocus: focusOptions = focusOptions.notelist
   currentNoteDetailsState: possibleNoteDetailsStates = possibleNoteDetailsStates.navigating
-  currentNotebookId: string|null = null
+  currentNotebookId: number|null = null
   currentNote: INote|null = null
 
   constructor() {
@@ -28,7 +28,7 @@ class NotebookStore {
   setCurrentNoteDetailsState = (noteDetailsState: possibleNoteDetailsStates) => {
     this.currentNoteDetailsState = noteDetailsState
   }
-  setCurrentNotebookId = (notebookId: string) => {
+  setCurrentNotebookId = (notebookId: number) => {
     this.currentNotebookId = notebookId
   }
 }

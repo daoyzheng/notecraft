@@ -1,14 +1,16 @@
-import { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react"
+import { Dispatch, RefObject, SetStateAction, useCallback, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { menuFocusOptions } from "../../constants/globalMenu"
 import { INotebook } from "../../interfaces/note"
 import routes from "../../routes"
 import GlobalNavigationStore from "../../store/GlobalNavigationStore"
+import NotebookStore from "../../store/NotebookStore"
 
 interface Props {
   globalNavigationStore: typeof GlobalNavigationStore
   currentFocus: menuFocusOptions
   notebookList: INotebook[]
+  notebookListRef: RefObject<HTMLDivElement>
   setCurrentFocus: Dispatch<SetStateAction<menuFocusOptions>>
 }
 
@@ -16,19 +18,34 @@ const useGlobalMenuKeybind = ({
   globalNavigationStore,
   currentFocus,
   notebookList,
+  notebookListRef,
   setCurrentFocus
-}: Props): {
-  selectedNotebook: INotebook|null
-  setSelectedNotebook: Dispatch<SetStateAction<INotebook|null>>
-} => {
+}: Props) => {
   const navigate = useNavigate()
-  const [selectedNotebook, setSelectedNotebook] = useState<INotebook|null>(null)
+  const { currentNotebookId, setCurrentNotebookId } = NotebookStore
 
   useEffect(() => {
     if (currentFocus != menuFocusOptions.notebookSelection) {
       navigate(getRouteFromFocus())
     }
   }, [currentFocus])
+
+  const offset = 0.8
+  const segment = notebookListRef.current && (notebookListRef.current.scrollHeight / notebookList.length * offset)
+  function incrementNotebook () {
+    const currentIndex = notebookList.findIndex(notebook => notebook.id === currentNotebookId)
+    if (currentIndex < notebookList.length - 1) {
+      setCurrentNotebookId(notebookList[currentIndex + 1].id!)
+      if (notebookListRef.current) {
+        notebookListRef.current.scrollTop += segment ? segment : 0
+      }
+    } else {
+      setCurrentNotebookId(notebookList[0].id!)
+      if (notebookListRef.current)
+        notebookListRef.current.scrollTop = 0
+    }
+  }
+
 
   function getRouteFromFocus() {
     switch(currentFocus) {
@@ -78,14 +95,19 @@ const useGlobalMenuKeybind = ({
         case 'enter': {
           if (menuFocusOptions.notebooks) {
             if (notebookList.length > 0) {
-              setSelectedNotebook(notebookList[0])
+              setCurrentNotebookId(notebookList[0].id!)
               setCurrentFocus(menuFocusOptions.notebookSelection)
             }
           }
         }
       }
     } else {
-
+      switch(e.key.toLocaleLowerCase()) {
+        case 'j':
+        case 'arrowdown': {
+          incrementNotebook()
+        }
+      }
     }
   }
 
@@ -97,11 +119,6 @@ const useGlobalMenuKeybind = ({
       document.removeEventListener('keydown', handleKeyPress)
     }
   }, [currentFocus, globalNavigationStore.isInGlobalMenu])
-
-  return {
-    selectedNotebook,
-    setSelectedNotebook
-  }
 }
 
 export default useGlobalMenuKeybind

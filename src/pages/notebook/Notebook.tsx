@@ -21,6 +21,7 @@ const Notebook = observer(() => {
   const [noteList, setNoteList] = useState<INote[]>([])
 
   function handleCreateNewNote (newNote: INote) {
+    //TODO: This needs to change, can't incrementally assign id, will cause error
     newNote.id = noteList.length + 1
     setNoteList(oldNoteList => [...oldNoteList, newNote])
     setCurrentNote(newNote)
