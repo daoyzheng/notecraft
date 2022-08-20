@@ -2,7 +2,7 @@ import { observer } from "mobx-react"
 import { useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import { menuFocusOptions } from "../../constants/globalMenu"
-import { INotebook } from "../../interfaces/note"
+import { INote, INotebook } from "../../interfaces/note"
 import routes from "../../routes"
 import GlobalNavigationStore from "../../store/GlobalNavigationStore"
 import NotebookStore from "../../store/NotebookStore"
@@ -12,15 +12,12 @@ import GlobalMenuItem from "./GlobalMenuItem"
 import { NotebookListContainer } from "./GlobalMenuItem.styled"
 import useGlobalMenuKeybind from "./useGlobalMenuKeybind"
 
-interface Props {
-}
-
-const GlobalMenu = observer(({}: Props) => {
+const GlobalMenu = observer(() => {
   const [currentFocus, setCurrentFocus] = useState<menuFocusOptions>(menuFocusOptions.noteshall)
   const [notebookList, setNotebookList] = useState<INotebook[]>(notebooksMock)
   const notebookListRef = useRef<HTMLDivElement>(null)
   const globalNavigationStore = GlobalNavigationStore
-  const { currentNotebookId } = NotebookStore
+  const { currentNotebookId, setCurrentNotebookId } = NotebookStore
   useGlobalMenuKeybind({
     notebookList,
     globalNavigationStore,
@@ -30,9 +27,14 @@ const GlobalMenu = observer(({}: Props) => {
   })
   function handleNotebookClick () {
     setCurrentFocus(menuFocusOptions.notebooks)
+    setCurrentNotebookId(null)
   }
   function handleNotesHallClick () {
     setCurrentFocus(menuFocusOptions.noteshall)
+  }
+  function handleSelectNotebook (notebook: INotebook) {
+    setCurrentNotebookId(notebook.id ?? null)
+    setCurrentFocus(menuFocusOptions.notebookSelection)
   }
   return (
     <div className="justify-between flex flex-col h-full">
@@ -55,9 +57,10 @@ const GlobalMenu = observer(({}: Props) => {
         <NotebookListContainer className="space-y-1 ml-3" ref={notebookListRef}>
           {notebookList.map(notebook => (
             <NotebookItem
-              isActive={!!currentNotebookId && currentNotebookId === notebook.id}
+              isActive={currentFocus == menuFocusOptions.notebookSelection && !!currentNotebookId && currentNotebookId === notebook.id}
               notebook={notebook}
               key={notebook.id}
+              onClick={handleSelectNotebook}
             />
           ))}
         </NotebookListContainer>

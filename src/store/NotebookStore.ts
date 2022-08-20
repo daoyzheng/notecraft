@@ -29,7 +29,7 @@ class NotebookStore {
   setCurrentNoteDetailsState = (noteDetailsState: possibleNoteDetailsStates) => {
     this.currentNoteDetailsState = noteDetailsState
   }
-  setCurrentNotebookId = (notebookId: number) => {
+  setCurrentNotebookId = (notebookId: number|null) => {
     this.currentNotebookId = notebookId
   }
 }

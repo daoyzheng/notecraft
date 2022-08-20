@@ -125,6 +125,11 @@ const useGlobalMenuKeybind = ({
         case 'k':
         case 'arrowup': {
           decrementNotebook()
+          break
+        }
+        case 'escape': {
+          setCurrentFocus(menuFocusOptions.notebooks)
+          setCurrentNotebookId(null)
         }
       }
     }
