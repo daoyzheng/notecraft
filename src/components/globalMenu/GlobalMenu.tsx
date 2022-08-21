@@ -13,23 +13,25 @@ import { NotebookListContainer } from "./GlobalMenuItem.styled"
 import useGlobalMenuKeybind from "./useGlobalMenuKeybind"
 
 const GlobalMenu = observer(() => {
-  const [currentFocus, setCurrentFocus] = useState<menuFocusOptions>(menuFocusOptions.noteshall)
+  const location = useLocation()
+  const [currentFocus, setCurrentFocus] = useState<menuFocusOptions>(getFocus())
   const [notebookList, setNotebookList] = useState<INotebook[]>(notebooksMock)
   const notebookListRef = useRef<HTMLDivElement>(null)
   const globalNavigationStore = GlobalNavigationStore
   const { currentNotebookId, setCurrentNotebookId } = NotebookStore
   const navigate = useNavigate()
-  const location = useLocation()
-  useEffect(() => {
+
+  function getFocus () {
     switch (location.pathname) {
       case `/${routes.notebooks}`: {
-        setCurrentFocus(menuFocusOptions.notebooks)
+        return menuFocusOptions.notebooks
       }
       case `/${routes.noteshall}`: {
-        setCurrentFocus(menuFocusOptions.noteshall)
+        return menuFocusOptions.noteshall
       }
+      default: return menuFocusOptions.noteshall
     }
-  }, [])
+  }
 
   useGlobalMenuKeybind({
     notebookList,
