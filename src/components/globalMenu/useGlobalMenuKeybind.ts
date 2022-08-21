@@ -24,12 +24,6 @@ const useGlobalMenuKeybind = ({
   const navigate = useNavigate()
   const { currentNotebookId, setCurrentNotebookId } = NotebookStore
 
-  useEffect(() => {
-    if (currentFocus != menuFocusOptions.notebookSelection) {
-      navigate(getRouteFromFocus())
-    }
-  }, [currentFocus])
-
   const offset = 0.8
   const segment = notebookListRef.current && (notebookListRef.current.scrollHeight / notebookList.length * offset)
   function incrementNotebook () {
@@ -61,8 +55,8 @@ const useGlobalMenuKeybind = ({
   }
 
 
-  function getRouteFromFocus() {
-    switch(currentFocus) {
+  function getRouteFromFocus (focus: menuFocusOptions) {
+    switch(focus) {
       case menuFocusOptions.notebooks: return routes.notebooks
       case menuFocusOptions.noteshall: return routes.noteshall
       default: return routes.noteshall
@@ -70,23 +64,21 @@ const useGlobalMenuKeybind = ({
   }
 
   function handleKeyPress (e: KeyboardEvent) {
-    if (currentFocus != menuFocusOptions.notebookSelection) {
+    if (currentFocus !== menuFocusOptions.notebookSelection) {
       switch(e.key.toLocaleLowerCase()) {
         case 'j':
         case 'arrowdown': {
-          if (currentFocus === menuFocusOptions.notebooks) {
-            break
-          } else {
+          if (currentFocus !== menuFocusOptions.notebooks) {
             setCurrentFocus(currentFocus+1)
+            navigate(getRouteFromFocus(currentFocus+1))
           }
           break
         }
         case 'k':
         case 'arrowup': {
-          if (currentFocus === menuFocusOptions.noteshall) {
-            break
-          } else {
+          if (currentFocus !== menuFocusOptions.noteshall) {
             setCurrentFocus(currentFocus-1)
+            navigate(getRouteFromFocus(currentFocus-1))
           }
           break
         }
@@ -105,12 +97,14 @@ const useGlobalMenuKeybind = ({
             }
             default: break
           }
+          break
         }
         case 'enter': {
-          if (menuFocusOptions.notebooks) {
+          if (currentFocus === menuFocusOptions.notebooks) {
             if (notebookList.length > 0) {
-              setCurrentNotebookId(notebookList[0].id!)
               setCurrentFocus(menuFocusOptions.notebookSelection)
+              setCurrentNotebookId(notebookList[0].id!)
+              break
             }
           }
         }
@@ -130,6 +124,7 @@ const useGlobalMenuKeybind = ({
         case 'escape': {
           setCurrentFocus(menuFocusOptions.notebooks)
           setCurrentNotebookId(null)
+          break
         }
       }
     }

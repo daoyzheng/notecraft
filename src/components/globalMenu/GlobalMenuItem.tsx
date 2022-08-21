@@ -1,4 +1,4 @@
-import { FC } from "react"
+import { FC, MouseEvent, useCallback } from "react"
 import { GlobalMenuItemIconWrapper } from "./GlobalMenuItem.styled"
 
 interface Props {
@@ -8,9 +8,9 @@ interface Props {
   onClick?: () => void
 }
 const GlobalMenuItem: FC<Props> = ({className, children, isFocused, onClick}) => {
-  function handleOnClick () {
+  const handleOnClick = useCallback((e: MouseEvent) => {
     onClick && onClick()
-  }
+  }, [onClick])
   return (
     <div className={`${className} flex flex-row items-center w-full gap-x-2`}>
       <div className={`${isFocused ? 'text-blue-300' : ''} cursor-pointer hover:text-blue-300`} onClick={handleOnClick}>
@@ -19,7 +19,7 @@ const GlobalMenuItem: FC<Props> = ({className, children, isFocused, onClick}) =>
       {
         isFocused ?
         <GlobalMenuItemIconWrapper
-          className={`material-icons-outlined text-sm cursor-pointer ${isFocused ? 'text-blue-300' : ''}`}
+          className={`material-icons-outlined text-sm ${isFocused ? 'text-blue-300' : ''}`}
         >keyboard_double_arrow_left</GlobalMenuItemIconWrapper> :
         <></>
       }

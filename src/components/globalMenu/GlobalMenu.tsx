@@ -1,8 +1,8 @@
 import { observer } from "mobx-react"
-import { useRef, useState } from "react"
-import { Link } from "react-router-dom"
+import { useEffect, useRef, useState } from "react"
+import { useLocation, useNavigate } from "react-router-dom"
 import { menuFocusOptions } from "../../constants/globalMenu"
-import { INote, INotebook } from "../../interfaces/note"
+import { INotebook } from "../../interfaces/note"
 import routes from "../../routes"
 import GlobalNavigationStore from "../../store/GlobalNavigationStore"
 import NotebookStore from "../../store/NotebookStore"
@@ -18,6 +18,19 @@ const GlobalMenu = observer(() => {
   const notebookListRef = useRef<HTMLDivElement>(null)
   const globalNavigationStore = GlobalNavigationStore
   const { currentNotebookId, setCurrentNotebookId } = NotebookStore
+  const navigate = useNavigate()
+  const location = useLocation()
+  useEffect(() => {
+    switch (location.pathname) {
+      case `/${routes.notebooks}`: {
+        setCurrentFocus(menuFocusOptions.notebooks)
+      }
+      case `/${routes.noteshall}`: {
+        setCurrentFocus(menuFocusOptions.noteshall)
+      }
+    }
+  }, [])
+
   useGlobalMenuKeybind({
     notebookList,
     globalNavigationStore,
@@ -26,10 +39,12 @@ const GlobalMenu = observer(() => {
     setCurrentFocus,
   })
   function handleNotebookClick () {
+    navigate(routes.notebooks)
     setCurrentFocus(menuFocusOptions.notebooks)
     setCurrentNotebookId(null)
   }
   function handleNotesHallClick () {
+    navigate(routes.noteshall)
     setCurrentFocus(menuFocusOptions.noteshall)
   }
   function handleSelectNotebook (notebook: INotebook) {
@@ -43,14 +58,14 @@ const GlobalMenu = observer(() => {
           isFocused={currentFocus === menuFocusOptions.noteshall}
           onClick={handleNotesHallClick}
         >
-          <Link to={routes.noteshall}>Notes Hall</Link>
+          <div>Notes Hall</div>
         </GlobalMenuItem>
         <div className="flex flex-row items-center mt-3 mb-1">
           <GlobalMenuItem
             isFocused={currentFocus === menuFocusOptions.notebooks}
             onClick={handleNotebookClick}
           >
-            <Link to={routes.notebooks}>Notebooks</Link>
+            <div>Notebooks</div>
           </GlobalMenuItem>
           <i className={`${currentFocus === menuFocusOptions.notebooks ? 'text-blue-300' : ''} material-icons-outlined text-sm cursor-pointer`}>add_circle_outline</i>
         </div>
