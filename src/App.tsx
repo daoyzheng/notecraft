@@ -9,13 +9,13 @@ import routes from "./routes"
 import NotebookStore from "./store/NotebookStore"
 
 const App = observer(() => {
-  const { currentNotebookId } = NotebookStore
+  const { currentNotebook } = NotebookStore
   return (
     <Router>
       <Routes>
         <Route element={<HomeLayout/>}>
           <Route path="/" element={<NoteHall/>}/>
-          <Route path={routes.notebooks} element={currentNotebookId ? <Notebook/> : <NotebookLanding/>}/>
+          <Route path={routes.notebooks} element={currentNotebook ? <Notebook/> : <NotebookLanding/>}/>
           <Route path={routes.noteshall} element={<NoteHall/>}/>
         </Route>
         <Route path="*" element={<Error/>}/>

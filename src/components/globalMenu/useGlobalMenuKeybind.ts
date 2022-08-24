@@ -1,7 +1,7 @@
 import { Dispatch, RefObject, SetStateAction, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { menuOptions } from "../../constants/globalMenu"
-import { INote, INotebook } from "../../interfaces/note"
+import { INotebook } from "../../interfaces/note"
 import routes from "../../routes"
 import GlobalNavigationStore from "../../store/GlobalNavigationStore"
 import NotebookStore from "../../store/NotebookStore"
@@ -197,6 +197,11 @@ const useGlobalMenuKeybind = ({
     globalNavigationStore.isInGlobalMenu,
     currentNotebook
   ])
+
+  return {
+    setParentNotebook,
+    setCurrentNotebooks
+  }
 }
 
 export default useGlobalMenuKeybind

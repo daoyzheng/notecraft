@@ -18,7 +18,7 @@ const GlobalMenu = observer(() => {
   const [notebookList, setNotebookList] = useState<INotebook[]>(notebooksMock)
   const notebookListRef = useRef<HTMLDivElement>(null)
   const globalNavigationStore = GlobalNavigationStore
-  const { currentNotebook, setCurrentNotebook } = NotebookStore
+  const { setCurrentNotebook } = NotebookStore
   const navigate = useNavigate()
 
   function getFocus () {
@@ -33,7 +33,10 @@ const GlobalMenu = observer(() => {
     }
   }
 
-  useGlobalMenuKeybind({
+  const {
+    setParentNotebook,
+    setCurrentNotebooks
+  } = useGlobalMenuKeybind({
     notebookList,
     globalNavigationStore,
     currentFocus,
@@ -49,7 +52,23 @@ const GlobalMenu = observer(() => {
     navigate(routes.noteshall)
     setCurrentFocus(menuOptions.noteshall)
   }
-  function handleSelectNotebook () {
+
+  function getParentNotebook (notebooks: INotebook[], parentNotebookId: number|null) : INotebook|null {
+    const parentNotebook = notebooks.find(notebook => notebook.id === parentNotebookId)
+    if (parentNotebook) return parentNotebook
+    for (const notebook of notebooks) {
+      if (notebook.children.length > 0) {
+        return getParentNotebook(notebook.children, parentNotebookId)
+      }
+      return null
+    }
+    return null
+  }
+
+  function handleSelectNotebook (notebook: INotebook) {
+    const parentNotebook = getParentNotebook(notebookList, notebook.parentNotebookId)
+    setParentNotebook(parentNotebook)
+    setCurrentNotebooks(notebook.children)
     setCurrentFocus(menuOptions.notebook)
   }
   return (
