@@ -1,5 +1,5 @@
-export enum menuFocusOptions {
+export enum menuOptions {
   noteshall,
-  notebooks,
-  notebookSelection
+  notebookLanding,
+  notebook
 }

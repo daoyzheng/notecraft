@@ -1,7 +1,7 @@
 import { observer } from "mobx-react"
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
-import { menuFocusOptions } from "../../constants/globalMenu"
+import { menuOptions } from "../../constants/globalMenu"
 import { INotebook } from "../../interfaces/note"
 import routes from "../../routes"
 import GlobalNavigationStore from "../../store/GlobalNavigationStore"
@@ -14,7 +14,7 @@ import useGlobalMenuKeybind from "./useGlobalMenuKeybind"
 
 const GlobalMenu = observer(() => {
   const location = useLocation()
-  const [currentFocus, setCurrentFocus] = useState<menuFocusOptions>(getFocus())
+  const [currentFocus, setCurrentFocus] = useState<menuOptions>(getFocus())
   const [notebookList, setNotebookList] = useState<INotebook[]>(notebooksMock)
   const notebookListRef = useRef<HTMLDivElement>(null)
   const globalNavigationStore = GlobalNavigationStore
@@ -24,12 +24,12 @@ const GlobalMenu = observer(() => {
   function getFocus () {
     switch (location.pathname) {
       case `/${routes.notebooks}`: {
-        return menuFocusOptions.notebooks
+        return menuOptions.notebookLanding
       }
       case `/${routes.noteshall}`: {
-        return menuFocusOptions.noteshall
+        return menuOptions.noteshall
       }
-      default: return menuFocusOptions.noteshall
+      default: return menuOptions.noteshall
     }
   }
 
@@ -42,39 +42,39 @@ const GlobalMenu = observer(() => {
   })
   function handleNotebookClick () {
     navigate(routes.notebooks)
-    setCurrentFocus(menuFocusOptions.notebooks)
+    setCurrentFocus(menuOptions.notebookLanding)
     setCurrentNotebookId(null)
   }
   function handleNotesHallClick () {
     navigate(routes.noteshall)
-    setCurrentFocus(menuFocusOptions.noteshall)
+    setCurrentFocus(menuOptions.noteshall)
   }
   function handleSelectNotebook (notebook: INotebook) {
     setCurrentNotebookId(notebook.id ?? null)
-    setCurrentFocus(menuFocusOptions.notebookSelection)
+    setCurrentFocus(menuOptions.notebook)
   }
   return (
     <div className="justify-between flex flex-col h-full">
       <div>
         <GlobalMenuItem
-          isFocused={currentFocus === menuFocusOptions.noteshall}
+          isFocused={currentFocus === menuOptions.noteshall}
           onClick={handleNotesHallClick}
         >
           <div>Notes Hall</div>
         </GlobalMenuItem>
         <div className="flex flex-row items-center mt-3 mb-1">
           <GlobalMenuItem
-            isFocused={currentFocus === menuFocusOptions.notebooks}
+            isFocused={currentFocus === menuOptions.notebookLanding}
             onClick={handleNotebookClick}
           >
             <div>Notebooks</div>
           </GlobalMenuItem>
-          <i className={`${currentFocus === menuFocusOptions.notebooks ? 'text-blue-300' : ''} material-icons-outlined text-sm cursor-pointer`}>add_circle_outline</i>
+          <i className={`${currentFocus === menuOptions.notebookLanding ? 'text-blue-300' : ''} material-icons-outlined text-sm cursor-pointer`}>add_circle_outline</i>
         </div>
         <NotebookListContainer className="space-y-1 ml-3" ref={notebookListRef}>
           {notebookList.map(notebook => (
             <NotebookItem
-              isActive={currentFocus == menuFocusOptions.notebookSelection && !!currentNotebookId && currentNotebookId === notebook.id}
+              isActive={currentFocus == menuOptions.notebook && !!currentNotebookId && currentNotebookId === notebook.id}
               notebook={notebook}
               key={notebook.id}
               onClick={handleSelectNotebook}

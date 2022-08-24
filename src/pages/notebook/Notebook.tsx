@@ -2,7 +2,6 @@ import { useState } from "react"
 import NoteDetails from "../../components/noteDetails/NoteDetails"
 import Notelist from "../../components/notelist/Notelist"
 import { INote } from "../../interfaces/note"
-import { notesMock } from "../../utils/mock"
 import { focusOptions } from '../../constants/noteDetails'
 import { NoteDetailsStateContextProvider } from "./useNoteDetailsStateContext"
 import GlobalNavigationStore from "../../store/GlobalNavigationStore"
@@ -18,6 +17,7 @@ const Notebook = observer(() => {
   } = NotebookStore
   const globalNavigationStore = GlobalNavigationStore
   const { isInGlobalMenu } = globalNavigationStore
+  const { currentNotebookId } = NotebookStore
   const [noteList, setNoteList] = useState<INote[]>([])
 
   function handleCreateNewNote (newNote: INote) {
@@ -92,7 +92,7 @@ const Notebook = observer(() => {
 
   function handleEnterNotebook () {
     globalNavigationStore.setToPageNavigation()
-    globalNavigationStore.setToNotebookPage()
+    globalNavigationStore.focusNotebookPage()
   }
   function handleEnterElement (el: focusOptions) {
     setNotebookCurrentFocus(el)
@@ -101,7 +101,7 @@ const Notebook = observer(() => {
   return (
     <div className="grid grid-cols-10 h-full w-full relative" onMouseEnter={handleEnterNotebook}>
         <Notelist
-          className={`${!isInGlobalMenu && notebookCurrentFocus === focusOptions.notelist ? 'border-blue-500' : inactiveNodeListBorderColor} col-span-3 border`}
+          className={`${!isInGlobalMenu && currentNotebookId && notebookCurrentFocus === focusOptions.notelist ? 'border-blue-500' : inactiveNodeListBorderColor} col-span-3 border`}
           noteList={noteList}
           currentNote={currentNote}
           onCreateNewNote={handleCreateNewNote}
@@ -112,7 +112,7 @@ const Notebook = observer(() => {
         />
       <NoteDetailsStateContextProvider setCurrentNoteDetailsState={setCurrentNoteDetailsState}>
         <NoteDetails
-          className={`${!isInGlobalMenu && notebookCurrentFocus === focusOptions.notedetails && currentNote ? 'border-blue-500' : 'border-transparent'} col-span-7 border`}
+          className={`${!isInGlobalMenu && currentNotebookId && notebookCurrentFocus === focusOptions.notedetails && currentNote ? 'border-blue-500' : 'border-transparent'} col-span-7 border`}
           currentNote={currentNote}
           onDocChange={handleDocChange}
           onFinishEditDoc={handleFinishEditDoc}

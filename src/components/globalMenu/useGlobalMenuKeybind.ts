@@ -1,6 +1,6 @@
 import { Dispatch, RefObject, SetStateAction, useCallback, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { menuFocusOptions } from "../../constants/globalMenu"
+import { menuOptions } from "../../constants/globalMenu"
 import { INotebook } from "../../interfaces/note"
 import routes from "../../routes"
 import GlobalNavigationStore from "../../store/GlobalNavigationStore"
@@ -8,10 +8,10 @@ import NotebookStore from "../../store/NotebookStore"
 
 interface Props {
   globalNavigationStore: typeof GlobalNavigationStore
-  currentFocus: menuFocusOptions
+  currentFocus: menuOptions
   notebookList: INotebook[]
   notebookListRef: RefObject<HTMLDivElement>
-  setCurrentFocus: Dispatch<SetStateAction<menuFocusOptions>>
+  setCurrentFocus: Dispatch<SetStateAction<menuOptions>>
 }
 
 const useGlobalMenuKeybind = ({
@@ -55,20 +55,20 @@ const useGlobalMenuKeybind = ({
   }
 
 
-  function getRouteFromFocus (focus: menuFocusOptions) {
+  function getRouteFromFocus (focus: menuOptions) {
     switch(focus) {
-      case menuFocusOptions.notebooks: return routes.notebooks
-      case menuFocusOptions.noteshall: return routes.noteshall
+      case menuOptions.notebookLanding: return routes.notebooks
+      case menuOptions.noteshall: return routes.noteshall
       default: return routes.noteshall
     }
   }
 
   function handleKeyPress (e: KeyboardEvent) {
-    if (currentFocus !== menuFocusOptions.notebookSelection) {
+    if (currentFocus !== menuOptions.notebook) {
       switch(e.key.toLocaleLowerCase()) {
         case 'j':
         case 'arrowdown': {
-          if (currentFocus !== menuFocusOptions.notebooks) {
+          if (currentFocus !== menuOptions.notebookLanding) {
             setCurrentFocus(currentFocus+1)
             navigate(getRouteFromFocus(currentFocus+1))
           }
@@ -76,7 +76,7 @@ const useGlobalMenuKeybind = ({
         }
         case 'k':
         case 'arrowup': {
-          if (currentFocus !== menuFocusOptions.noteshall) {
+          if (currentFocus !== menuOptions.noteshall) {
             setCurrentFocus(currentFocus-1)
             navigate(getRouteFromFocus(currentFocus-1))
           }
@@ -85,13 +85,13 @@ const useGlobalMenuKeybind = ({
         case 'l':
         case 'arrowright': {
           switch(currentFocus) {
-            case menuFocusOptions.noteshall: {
-              globalNavigationStore.setToNoteHallPage()
+            case menuOptions.noteshall: {
+              globalNavigationStore.focusNotehallPage()
               globalNavigationStore.setToPageNavigation()
               break
             }
-            case menuFocusOptions.notebooks: {
-              globalNavigationStore.setToNotebookPage()
+            case menuOptions.notebookLanding: {
+              globalNavigationStore.focusNotebookLandingPage()
               globalNavigationStore.setToPageNavigation()
               break
             }
@@ -100,9 +100,9 @@ const useGlobalMenuKeybind = ({
           break
         }
         case 'enter': {
-          if (currentFocus === menuFocusOptions.notebooks) {
+          if (currentFocus === menuOptions.notebookLanding) {
             if (notebookList.length > 0) {
-              setCurrentFocus(menuFocusOptions.notebookSelection)
+              setCurrentFocus(menuOptions.notebook)
               setCurrentNotebookId(notebookList[0].id!)
               break
             }
@@ -122,7 +122,7 @@ const useGlobalMenuKeybind = ({
           break
         }
         case 'escape': {
-          setCurrentFocus(menuFocusOptions.notebooks)
+          setCurrentFocus(menuOptions.notebookLanding)
           setCurrentNotebookId(null)
           break
         }

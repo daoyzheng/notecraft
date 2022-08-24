@@ -1,17 +1,23 @@
 import { action, makeObservable, observable } from "mobx"
-import { menuFocusOptions } from "../constants/globalMenu"
+import { menuOptions } from "../constants/globalMenu"
 
 class GlobalNavigationStore {
   isInGlobalMenu: boolean = localStorage.getItem('isInGlobalMenu') ? localStorage.getItem('isInGlobalMenu') === 'true' ? true : false : true
-  currentPage: menuFocusOptions = menuFocusOptions.noteshall
+  currentSelectedPage: menuOptions = menuOptions.noteshall
+  currentFocusedPage: menuOptions|null = null
   constructor() {
     makeObservable(this, {
       isInGlobalMenu: observable,
-      currentPage: observable,
+      currentSelectedPage: observable,
+      currentFocusedPage: observable,
       setToMenuNavigation: action,
       setToPageNavigation: action,
-      setToNotebookPage: action,
-      setToNoteHallPage: action
+      selectNotebookLandingPage: action,
+      selectNotebookPage: action,
+      selectNotehallPage: action,
+      focusNotebookLandingPage: action,
+      focusNotehallPage: action,
+      focusNotebookPage: action
     })
   }
   setToMenuNavigation () {
@@ -20,11 +26,23 @@ class GlobalNavigationStore {
   setToPageNavigation () {
     this.isInGlobalMenu = false
   }
-  setToNotebookPage () {
-    this.currentPage = menuFocusOptions.notebooks
+  selectNotebookLandingPage = () => {
+    this.currentSelectedPage = menuOptions.notebookLanding
   }
-  setToNoteHallPage () {
-    this.currentPage = menuFocusOptions.noteshall
+  selectNotehallPage = () => {
+    this.currentSelectedPage = menuOptions.noteshall
+  }
+  selectNotebookPage = () => {
+    this.currentSelectedPage = menuOptions.notebook
+  }
+  focusNotebookLandingPage = () => {
+    this.currentFocusedPage = menuOptions.notebookLanding
+  }
+  focusNotehallPage = () => {
+    this.currentFocusedPage = menuOptions.noteshall
+  }
+  focusNotebookPage = () => {
+    this.currentFocusedPage = menuOptions.notebook
   }
 }
 

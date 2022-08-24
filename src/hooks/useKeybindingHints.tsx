@@ -1,5 +1,5 @@
 import InputHint from "../components/inputHint/InputHint"
-import { menuFocusOptions } from "../constants/globalMenu"
+import { menuOptions } from "../constants/globalMenu"
 import { possibleNoteDetailsStates, focusOptions } from "../constants/noteDetails"
 import GlobalNavigationStore from "../store/GlobalNavigationStore"
 import NotebookStore from "../store/NotebookStore"
@@ -7,7 +7,7 @@ import NotebookStore from "../store/NotebookStore"
 const useKeybindingHints = () => {
   const {
     isInGlobalMenu,
-    currentPage
+    currentFocusedPage
   } = GlobalNavigationStore
   const {
     currentNote,
@@ -17,8 +17,8 @@ const useKeybindingHints = () => {
   function getKeybindingHints () {
     if (isInGlobalMenu) return <GlobalMenuHints/>
     else {
-      switch(currentPage) {
-        case menuFocusOptions.notebooks: {
+      switch(currentFocusedPage) {
+        case menuOptions.notebookLanding: {
           if (notebookCurrentFocus === focusOptions.notelist) return <NotelistKeyHints/>
           else if (currentNote) {
             switch(currentNoteDetailsState) {
