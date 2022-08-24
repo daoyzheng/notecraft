@@ -15,7 +15,10 @@ const Notebook = observer(() => {
   const {
     currentNote, setCurrentNote,
     notebookCurrentFocus, setNotebookCurrentFocus,
-    setCurrentNoteDetailsState
+    setCurrentNoteDetailsState,
+    setCurrentNoteTitle,
+    setCurrentNoteBody,
+    setCurrentNoteTags
   } = NotebookStore
   const globalNavigationStore = GlobalNavigationStore
   const { isInGlobalMenu } = globalNavigationStore
@@ -40,8 +43,7 @@ const Notebook = observer(() => {
 
   function handleDocChange (doc: string) {
     if (currentNote) {
-      currentNote.body = doc
-      setCurrentNote(currentNote)
+      setCurrentNoteBody(doc)
       setNoteList(oldNoteList => {
         return oldNoteList.map(note => {
           if (note.id === currentNote.id) {
@@ -55,8 +57,7 @@ const Notebook = observer(() => {
 
   function handleTitleChange (title: string) {
     if (currentNote) {
-      currentNote.title = title
-      setCurrentNote(currentNote)
+      setCurrentNoteTitle(title)
       setNoteList(oldNoteList => {
         return oldNoteList.map(note => {
           if (note.id === currentNote.id) {
@@ -70,7 +71,7 @@ const Notebook = observer(() => {
 
   function handleTagsChange (tags: string[]) {
     if (currentNote) {
-      currentNote.tags = tags
+      setCurrentNoteTags(tags)
       setNoteList(oldNoteList => {
         return oldNoteList.map(note => {
           if (note.id === currentNote.id) {

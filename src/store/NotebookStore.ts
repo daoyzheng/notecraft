@@ -17,11 +17,26 @@ class NotebookStore {
       setCurrentNote: action,
       setNotebookCurrentFocus: action,
       setCurrentNoteDetailsState: action,
+      setCurrentNoteTitle: action,
+      setCurrentNoteBody: action,
+      setCurrentNoteTags: action,
       setCurrentNotebookId: action
     })
   }
   setCurrentNote = (note: INote|null) => {
     this.currentNote = note
+  }
+  setCurrentNoteTitle = (title: string) => {
+    if (this.currentNote)
+      this.currentNote.title = title
+  }
+  setCurrentNoteBody = (body: string) => {
+    if (this.currentNote)
+      this.currentNote.body = body
+  }
+  setCurrentNoteTags = (tags: string[]) => {
+    if (this.currentNote)
+      this.currentNote.tags = tags
   }
   setNotebookCurrentFocus = (currentFocus: focusOptions) => {
     this.notebookCurrentFocus = currentFocus

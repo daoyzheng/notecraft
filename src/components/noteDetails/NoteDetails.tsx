@@ -45,6 +45,7 @@ const NoteDetails = observer(({
 
   useEffect(() => {
     if (currentNote) {
+      console.log('here', currentNote.title)
       setOriginalTitle(currentNote.title)
       setOriginalBody(currentNote.body ? currentNote.body: '')
     }
