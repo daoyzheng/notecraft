@@ -1,5 +1,4 @@
 import { observer } from "mobx-react"
-import { useState } from "react"
 import { menuOptions } from "../../constants/globalMenu"
 import { INotebook } from "../../interfaces/note"
 import NotebookStore from "../../store/NotebookStore"
@@ -17,19 +16,25 @@ const NotebookList = observer(({ notebookList, currentFocus, onSelectNotebook }:
     onSelectNotebook && onSelectNotebook(notebook)
   }
 
-  function isWithinParent (notebook: INotebook) {
-    return notebook.children.some(child => child.id === currentNotebookId)
+  function isWithinParent (notebook: INotebook): boolean {
+    if (notebook.children.length === 0) return false
+    let found = notebook.children.some(child => child.id === currentNotebookId)
+    if (found) return true
+    for (const child of notebook.children) {
+      found = isWithinParent(child)
+      if (found) break
+    }
+    return found
   }
 
   return (
-    <ul className="ml-3">
+    <ul className="ml-2">
       {notebookList.map(notebook => {
         return (
-          <li>
+          <li key={notebook.id}>
             <NotebookItem
               isActive={currentFocus == menuOptions.notebook && !!currentNotebookId && currentNotebookId === notebook.id}
               notebook={notebook}
-              key={notebook.id}
               onClick={handleSelectNotebook}
             />
             {

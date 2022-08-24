@@ -80,13 +80,34 @@ export const notebooksMock = [
         id: 10,
         name: 'notebook1-1',
         createdAt: '2020-08-18',
-        children: []
+        children: [
+          {
+            id: 21,
+            name: 'notebook1-1-1',
+            createdAt: '2020-08-18',
+            children:[
+              {
+                id: 30,
+                name: 'notebook1-1-1-1',
+                createdAt: '2020-08-18',
+                children: []
+              }
+            ]
+          }
+        ]
       },
       {
         id: 12,
         name: 'notebook1-2',
         createdAt: '2020-08-18',
-        children: []
+        children: [
+          {
+            id: 20,
+            name: 'notebook1-2-1',
+            createdAt: '2020-08-18',
+            children:[]
+          }
+        ]
       }
     ]
   },
