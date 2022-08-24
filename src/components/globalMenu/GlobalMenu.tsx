@@ -8,6 +8,7 @@ import GlobalNavigationStore from "../../store/GlobalNavigationStore"
 import NotebookStore from "../../store/NotebookStore"
 import { notebooksMock } from "../../utils/mock"
 import NotebookItem from "../notebookItem/NotebookItem"
+import NotebookList from "../notebookList/NotebookList"
 import GlobalMenuItem from "./GlobalMenuItem"
 import { NotebookListContainer } from "./GlobalMenuItem.styled"
 import useGlobalMenuKeybind from "./useGlobalMenuKeybind"
@@ -49,8 +50,7 @@ const GlobalMenu = observer(() => {
     navigate(routes.noteshall)
     setCurrentFocus(menuOptions.noteshall)
   }
-  function handleSelectNotebook (notebook: INotebook) {
-    setCurrentNotebookId(notebook.id ?? null)
+  function handleSelectNotebook () {
     setCurrentFocus(menuOptions.notebook)
   }
   return (
@@ -72,14 +72,11 @@ const GlobalMenu = observer(() => {
           <i className={`${currentFocus === menuOptions.notebookLanding ? 'text-blue-300' : ''} material-icons-outlined text-sm cursor-pointer`}>add_circle_outline</i>
         </div>
         <NotebookListContainer className="space-y-1 ml-3" ref={notebookListRef}>
-          {notebookList.map(notebook => (
-            <NotebookItem
-              isActive={currentFocus == menuOptions.notebook && !!currentNotebookId && currentNotebookId === notebook.id}
-              notebook={notebook}
-              key={notebook.id}
-              onClick={handleSelectNotebook}
-            />
-          ))}
+          <NotebookList
+            onSelectNotebook={handleSelectNotebook}
+            notebookList={notebookList}
+            currentFocus={currentFocus}
+          />
         </NotebookListContainer>
       </div>
       <div>
