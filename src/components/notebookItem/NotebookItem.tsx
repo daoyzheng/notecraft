@@ -12,12 +12,12 @@ const NotebookItem = ({ notebook, isActive, onClick }: Props) => {
     onClick && onClick(notebook)
   }, [onClick])
   return (
-    <div className={`${isActive ? 'text-blue-300': ''} hover:text-blue-300 cursor-pointer flex flex-row items-center gap-x-2`} onClick={handleOnClick}>
-      <div>{notebook.name}</div>
+    <div className={`${isActive ? 'text-blue-300': ''} hover:text-blue-300 flex flex-row items-center gap-x-2`}>
+      <div className="cursor-pointer" onClick={handleOnClick}>{notebook.name}</div>
       {
         isActive
         ? <GlobalMenuItemIconWrapper
-          className="material-icons-outlined text-sm cursor-pointer text-blue-300"
+          className="material-icons-outlined text-sm text-blue-300"
         >keyboard_double_arrow_left</GlobalMenuItemIconWrapper>
         : <></>
       }
