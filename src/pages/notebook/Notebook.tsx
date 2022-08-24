@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import NoteDetails from "../../components/noteDetails/NoteDetails"
 import Notelist from "../../components/notelist/Notelist"
 import { INote } from "../../interfaces/note"
@@ -8,6 +8,7 @@ import GlobalNavigationStore from "../../store/GlobalNavigationStore"
 import { observer } from "mobx-react"
 import NotebookStore from "../../store/NotebookStore"
 import { menuOptions } from "../../constants/globalMenu"
+import { notesMock } from "../../utils/mock"
 
 
 const Notebook = observer(() => {
@@ -20,6 +21,12 @@ const Notebook = observer(() => {
   const { isInGlobalMenu } = globalNavigationStore
   const { currentNotebookId } = NotebookStore
   const [noteList, setNoteList] = useState<INote[]>([])
+
+  useEffect(() => {
+    const notes = notesMock.filter(n => n.notebookId === currentNotebookId)
+    setNoteList(notes)
+  }, [currentNotebookId])
+
 
   function handleCreateNewNote (newNote: INote) {
     //TODO: This needs to change, can't incrementally assign id, will cause error

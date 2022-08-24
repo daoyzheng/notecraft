@@ -113,12 +113,20 @@ const useGlobalMenuKeybind = ({
       switch(e.key.toLocaleLowerCase()) {
         case 'j':
         case 'arrowdown': {
+          setCurrentFocus(menuOptions.notebook)
           incrementNotebook()
           break
         }
         case 'k':
         case 'arrowup': {
+          setCurrentFocus(menuOptions.notebook)
           decrementNotebook()
+          break
+        }
+        case 'l':
+        case 'arrowright': {
+          globalNavigationStore.setCurrentFocusedPage(menuOptions.notebook)
+          globalNavigationStore.setToPageNavigation()
           break
         }
         case 'escape': {

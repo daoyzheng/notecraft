@@ -24,6 +24,7 @@ export const notesMock = [
     title: 'How to create markdown file',
     createdAt: '2020-06-14',
     updatedAt: '2022-08-14',
+    body: 'HEHLKJCIOENO',
     tags: [],
     isPublic: false,
     notebookId: 2
