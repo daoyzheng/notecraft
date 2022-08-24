@@ -63,7 +63,6 @@ const useNoteDetailsKeybind = ({
   }, [tags])
   function handleKeyPress (e: KeyboardEvent) {
     if (isGlobalNavigating()) {
-      console.log(e)
       switch(e.key.toLocaleLowerCase()) {
         case 'arrowdown':
         case 'j' : {
