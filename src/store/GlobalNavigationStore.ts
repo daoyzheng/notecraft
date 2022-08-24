@@ -12,12 +12,8 @@ class GlobalNavigationStore {
       currentFocusedPage: observable,
       setToMenuNavigation: action,
       setToPageNavigation: action,
-      selectNotebookLandingPage: action,
-      selectNotebookPage: action,
-      selectNotehallPage: action,
-      focusNotebookLandingPage: action,
-      focusNotehallPage: action,
-      focusNotebookPage: action
+      setCurrentFocusedPage: action,
+      setCurrentSelectedPage: action
     })
   }
   setToMenuNavigation () {
@@ -26,23 +22,11 @@ class GlobalNavigationStore {
   setToPageNavigation () {
     this.isInGlobalMenu = false
   }
-  selectNotebookLandingPage = () => {
-    this.currentSelectedPage = menuOptions.notebookLanding
+  setCurrentFocusedPage = (menu: menuOptions) => {
+    this.currentFocusedPage = menu
   }
-  selectNotehallPage = () => {
-    this.currentSelectedPage = menuOptions.noteshall
-  }
-  selectNotebookPage = () => {
-    this.currentSelectedPage = menuOptions.notebook
-  }
-  focusNotebookLandingPage = () => {
-    this.currentFocusedPage = menuOptions.notebookLanding
-  }
-  focusNotehallPage = () => {
-    this.currentFocusedPage = menuOptions.noteshall
-  }
-  focusNotebookPage = () => {
-    this.currentFocusedPage = menuOptions.notebook
+  setCurrentSelectedPage = (menu: menuOptions) => {
+    this.currentSelectedPage = menu
   }
 }
 

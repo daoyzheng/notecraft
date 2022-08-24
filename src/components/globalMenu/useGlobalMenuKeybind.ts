@@ -1,4 +1,4 @@
-import { Dispatch, RefObject, SetStateAction, useCallback, useEffect, useState } from "react"
+import { Dispatch, RefObject, SetStateAction, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { menuOptions } from "../../constants/globalMenu"
 import { INotebook } from "../../interfaces/note"
@@ -86,12 +86,12 @@ const useGlobalMenuKeybind = ({
         case 'arrowright': {
           switch(currentFocus) {
             case menuOptions.noteshall: {
-              globalNavigationStore.focusNotehallPage()
+              globalNavigationStore.setCurrentFocusedPage(menuOptions.noteshall)
               globalNavigationStore.setToPageNavigation()
               break
             }
             case menuOptions.notebookLanding: {
-              globalNavigationStore.focusNotebookLandingPage()
+              globalNavigationStore.setCurrentFocusedPage(menuOptions.notebookLanding)
               globalNavigationStore.setToPageNavigation()
               break
             }

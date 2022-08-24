@@ -7,6 +7,7 @@ import { NoteDetailsStateContextProvider } from "./useNoteDetailsStateContext"
 import GlobalNavigationStore from "../../store/GlobalNavigationStore"
 import { observer } from "mobx-react"
 import NotebookStore from "../../store/NotebookStore"
+import { menuOptions } from "../../constants/globalMenu"
 
 
 const Notebook = observer(() => {
@@ -92,7 +93,7 @@ const Notebook = observer(() => {
 
   function handleEnterNotebook () {
     globalNavigationStore.setToPageNavigation()
-    globalNavigationStore.focusNotebookPage()
+    globalNavigationStore.setCurrentFocusedPage(menuOptions.notebook)
   }
   function handleEnterElement (el: focusOptions) {
     setNotebookCurrentFocus(el)
