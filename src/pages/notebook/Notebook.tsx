@@ -27,6 +27,10 @@ const Notebook = observer(() => {
     setNoteList(notes)
   }, [currentNotebookId])
 
+  useEffect(() => {
+    setCurrentNote(null)
+  }, [isInGlobalMenu])
+
 
   function handleCreateNewNote (newNote: INote) {
     //TODO: This needs to change, can't incrementally assign id, will cause error

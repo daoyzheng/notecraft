@@ -79,10 +79,9 @@ const Notelist = observer(({
     setShowPopup(true)
   }
 
-  const handleEnterNodeList = useCallback(() => {
+  const handleEnterNoteList = useCallback(() => {
     onMouseEnter && onMouseEnter()
   }, [onMouseEnter])
-
 
   const popup = () => (
     <div ref={popupRef} className="bg-white rounded absolute text-black p-2 right-0 h-fit top-5" >
@@ -111,7 +110,7 @@ const Notelist = observer(({
   )
 
   return (
-    <div className={`px-2 pt-1 bg-zinc-800 text-white ${className} relative`} onMouseEnter={handleEnterNodeList}>
+    <div className={`px-2 pt-1 bg-zinc-800 text-white ${className} relative`} onMouseEnter={handleEnterNoteList}>
       <div className="flex flex row items-center justify-between my-2 pb-1">
         <div className="text-lg">New Notebook</div>
         <div className="relative flex items-center gap-x-1">

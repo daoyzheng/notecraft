@@ -37,6 +37,16 @@ export const notesMock = [
     tags: [],
     isPublic: true,
     notebookId: 2
+  },
+  {
+    id: 5,
+    title: 'notecraft is awesome',
+    createdAt: '2020-06-14',
+    updatedAt: '2022-08-14',
+    body: 'NOTECRAFT IS AWESOME',
+    tags: [],
+    isPublic: true,
+    notebookId: 3
   }
 ]
 
@@ -65,6 +75,18 @@ export const notebooksMock = [
     name: 'notebook2',
     createdAt: '2020-08-18',
     children: [],
-    notes: []
+  },
+  {
+    id: 3,
+    name: 'notebook3',
+    createdAt: '2020-08-18',
+    children: [
+      {
+        id: 14,
+        name: 'notebook154',
+        createdAt: '2020-08-18',
+        children: []
+      }
+    ]
   }
 ]
