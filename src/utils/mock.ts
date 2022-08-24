@@ -50,7 +50,7 @@ export const notesMock = [
   },
   {
     id: 6,
-    title: 'notecraft is awesome',
+    title: 'welcome to children',
     createdAt: '2020-06-14',
     updatedAt: '2022-08-14',
     body: 'NOTECRAFT IS AWESOME',
@@ -60,7 +60,7 @@ export const notesMock = [
   },
   {
     id: 7,
-    title: 'notecraft is awesome',
+    title: 'woo hoo',
     createdAt: '2020-06-14',
     updatedAt: '2022-08-14',
     body: 'NOTECRAFT IS AWESOME',

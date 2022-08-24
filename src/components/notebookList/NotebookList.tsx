@@ -17,10 +17,10 @@ const NotebookList = observer(({ notebookList, currentFocus, onSelectNotebook }:
   }
 
   return (
-    <>
+    <ul className="ml-3">
       {notebookList.map(notebook => {
         return (
-          <>
+          <li>
             <NotebookItem
               isActive={currentFocus == menuOptions.notebook && !!currentNotebookId && currentNotebookId === notebook.id}
               notebook={notebook}
@@ -35,10 +35,10 @@ const NotebookList = observer(({ notebookList, currentFocus, onSelectNotebook }:
                 currentFocus={currentFocus}
               />
             }
-          </>
+          </li>
         )
       })}
-    </>
+    </ul>
   )
 })
 

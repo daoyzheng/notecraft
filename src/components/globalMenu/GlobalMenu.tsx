@@ -7,7 +7,6 @@ import routes from "../../routes"
 import GlobalNavigationStore from "../../store/GlobalNavigationStore"
 import NotebookStore from "../../store/NotebookStore"
 import { notebooksMock } from "../../utils/mock"
-import NotebookItem from "../notebookItem/NotebookItem"
 import NotebookList from "../notebookList/NotebookList"
 import GlobalMenuItem from "./GlobalMenuItem"
 import { NotebookListContainer } from "./GlobalMenuItem.styled"
@@ -71,7 +70,7 @@ const GlobalMenu = observer(() => {
           </GlobalMenuItem>
           <i className={`${currentFocus === menuOptions.notebookLanding ? 'text-blue-300' : ''} material-icons-outlined text-sm cursor-pointer`}>add_circle_outline</i>
         </div>
-        <NotebookListContainer className="space-y-1 ml-3" ref={notebookListRef}>
+        <NotebookListContainer ref={notebookListRef}>
           <NotebookList
             onSelectNotebook={handleSelectNotebook}
             notebookList={notebookList}
