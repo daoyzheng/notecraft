@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction, useEffect } from "react"
 import { UseFormReset } from "react-hook-form"
+import { menuOptions } from "../../constants/globalMenu"
 import { INote } from "../../interfaces/note"
 import GlobalNavigationStore from "../../store/GlobalNavigationStore"
 
@@ -89,6 +90,7 @@ const useNotelistKeybind = ({
       case 'arrowleft': {
         if (showPopup) break
         globalNavigationStore.setToMenuNavigation()
+        globalNavigationStore.setCurrentFocusedPage(menuOptions.notebook)
         break
       }
       case 'i': {
@@ -101,6 +103,10 @@ const useNotelistKeybind = ({
       case 'escape': {
         if (showPopup)
           setShowPopup(false)
+        else {
+          globalNavigationStore.setCurrentFocusedPage(menuOptions.notebook)
+          globalNavigationStore.setToMenuNavigation()
+        }
         break
       }
     }

@@ -124,6 +124,7 @@ const useGlobalMenuKeybind = ({
           break
         }
         case 'l':
+        case 'enter':
         case 'arrowright': {
           globalNavigationStore.setCurrentFocusedPage(menuOptions.notebook)
           globalNavigationStore.setToPageNavigation()

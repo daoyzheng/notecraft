@@ -25,12 +25,8 @@ const Notebook = observer(() => {
   useEffect(() => {
     const notes = notesMock.filter(n => n.notebookId === currentNotebookId)
     setNoteList(notes)
-  }, [currentNotebookId])
-
-  useEffect(() => {
     setCurrentNote(null)
-  }, [isInGlobalMenu])
-
+  }, [currentNotebookId])
 
   function handleCreateNewNote (newNote: INote) {
     //TODO: This needs to change, can't incrementally assign id, will cause error
