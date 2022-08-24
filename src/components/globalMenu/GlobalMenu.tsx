@@ -18,7 +18,7 @@ const GlobalMenu = observer(() => {
   const [notebookList, setNotebookList] = useState<INotebook[]>(notebooksMock)
   const notebookListRef = useRef<HTMLDivElement>(null)
   const globalNavigationStore = GlobalNavigationStore
-  const { currentNotebookId, setCurrentNotebookId } = NotebookStore
+  const { currentNotebook, setCurrentNotebook } = NotebookStore
   const navigate = useNavigate()
 
   function getFocus () {
@@ -43,7 +43,7 @@ const GlobalMenu = observer(() => {
   function handleNotebookClick () {
     navigate(routes.notebooks)
     setCurrentFocus(menuOptions.notebookLanding)
-    setCurrentNotebookId(null)
+    setCurrentNotebook(null)
   }
   function handleNotesHallClick () {
     navigate(routes.noteshall)

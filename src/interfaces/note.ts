@@ -1,16 +1,18 @@
 export interface INote {
-  id?: number
+  id: number|null
   title: string
   createdAt: string
   updatedAt: string
-  body?: string
+  body: string|null
   tags: string[]
   isPublic: boolean
+  notebookId: number
 }
 
 export interface INotebook {
-  id?: number
+  id: number|null
   name: string
   createdAt: string
+  parentNotebookId: number|null
   children: INotebook[]
 }

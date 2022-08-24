@@ -1,7 +1,7 @@
-import { Dispatch, RefObject, SetStateAction, useEffect } from "react"
+import { Dispatch, RefObject, SetStateAction, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { menuOptions } from "../../constants/globalMenu"
-import { INotebook } from "../../interfaces/note"
+import { INote, INotebook } from "../../interfaces/note"
 import routes from "../../routes"
 import GlobalNavigationStore from "../../store/GlobalNavigationStore"
 import NotebookStore from "../../store/NotebookStore"
@@ -22,32 +22,34 @@ const useGlobalMenuKeybind = ({
   setCurrentFocus
 }: Props) => {
   const navigate = useNavigate()
-  const { currentNotebookId, setCurrentNotebookId } = NotebookStore
+  const { currentNotebook, setCurrentNotebook } = NotebookStore
+  const [currentNotebooks, setCurrentNotebooks] = useState<INotebook[]>(notebookList)
+  const [parentNotebook, setParentNotebook] = useState<INotebook|null>(null)
 
   const offset = 0.8
   const segment = notebookListRef.current && (notebookListRef.current.scrollHeight / notebookList.length * offset)
   function incrementNotebook () {
-    const currentIndex = notebookList.findIndex(notebook => notebook.id === currentNotebookId)
-    if (currentIndex < notebookList.length - 1) {
-      setCurrentNotebookId(notebookList[currentIndex + 1].id!)
+    const currentIndex = currentNotebooks.findIndex(notebook => notebook.id === currentNotebook?.id)
+    if (currentIndex < currentNotebooks.length - 1) {
+      setCurrentNotebook(currentNotebooks[currentIndex + 1])
       if (notebookListRef.current) {
         notebookListRef.current.scrollTop += segment ? segment : 0
       }
     } else {
-      setCurrentNotebookId(notebookList[0].id!)
+      setCurrentNotebook(currentNotebooks[0])
       if (notebookListRef.current)
         notebookListRef.current.scrollTop = 0
     }
   }
 
   function decrementNotebook () {
-    const currentIndex = notebookList.findIndex(notebook => notebook.id === currentNotebookId)
+    const currentIndex = currentNotebooks.findIndex(notebook => notebook.id === currentNotebook?.id)
     if (currentIndex > 0) {
-      setCurrentNotebookId(notebookList[currentIndex - 1].id!)
+      setCurrentNotebook(currentNotebooks[currentIndex - 1])
       if (notebookListRef.current)
         notebookListRef.current.scrollTop -= segment ? segment : 0
     } else {
-      setCurrentNotebookId(notebookList[notebookList.length - 1].id!)
+      setCurrentNotebook(currentNotebooks[currentNotebooks.length - 1])
       if (notebookListRef.current)
         notebookListRef.current.scrollTop = notebookListRef.current.scrollHeight
     }
@@ -60,6 +62,42 @@ const useGlobalMenuKeybind = ({
       case menuOptions.notebookLanding: return routes.notebooks
       case menuOptions.noteshall: return routes.noteshall
       default: return routes.noteshall
+    }
+  }
+
+  function getTargetNotebooks (notebookList: INotebook[]): INotebook[] {
+    let targetNotebooks: INotebook[] = []
+    if (!parentNotebook || !parentNotebook.parentNotebookId) return targetNotebooks
+    if (parentNotebook.parentNotebookId) {
+      for (const notebook of notebookList) {
+        if (notebook.children.length > 0) {
+          const targetNotebook = notebook.children.find(child => child.id === parentNotebook.parentNotebookId)
+            || (notebook.id === parentNotebook.parentNotebookId && notebook)
+          if (targetNotebook) {
+            setParentNotebook(targetNotebook)
+            targetNotebooks = targetNotebook.children
+            return targetNotebooks
+          }
+          return getTargetNotebooks(notebook.children)
+        }
+      }
+    }
+    return targetNotebooks
+  }
+
+  function setNotebookListOfParent () {
+    const targetNotebooks = getTargetNotebooks(notebookList)
+    if (targetNotebooks.length > 0) {
+      setCurrentNotebook(targetNotebooks.find(n => n.id === parentNotebook?.id) ?? null)
+      setCurrentNotebooks(targetNotebooks)
+    } else {
+      setCurrentNotebook(notebookList.find(n => n.id === parentNotebook?.id) ?? null)
+      setCurrentNotebooks(notebookList)
+      setParentNotebook(null)
+    }
+    if (!parentNotebook) {
+      setCurrentFocus(menuOptions.notebookLanding)
+      setCurrentNotebook(null)
     }
   }
 
@@ -103,7 +141,7 @@ const useGlobalMenuKeybind = ({
           if (currentFocus === menuOptions.notebookLanding) {
             if (notebookList.length > 0) {
               setCurrentFocus(menuOptions.notebook)
-              setCurrentNotebookId(notebookList[0].id!)
+              setCurrentNotebook(notebookList[0])
               break
             }
           }
@@ -129,9 +167,16 @@ const useGlobalMenuKeybind = ({
           globalNavigationStore.setToPageNavigation()
           break
         }
+        case 'enter': {
+          if (currentNotebook && currentNotebook.children.length > 0) {
+            setParentNotebook(currentNotebook)
+            setCurrentNotebooks(currentNotebook.children)
+            setCurrentNotebook(currentNotebook.children[0])
+          }
+          break
+        }
         case 'escape': {
-          setCurrentFocus(menuOptions.notebookLanding)
-          setCurrentNotebookId(null)
+          setNotebookListOfParent()
           break
         }
       }
@@ -148,8 +193,9 @@ const useGlobalMenuKeybind = ({
   }, [
     notebookList,
     currentFocus,
+    parentNotebook,
     globalNavigationStore.isInGlobalMenu,
-    currentNotebookId
+    currentNotebook
   ])
 }
 

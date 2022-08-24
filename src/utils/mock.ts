@@ -1,4 +1,6 @@
-export const notesMock = [
+import { INote, INotebook } from "../interfaces/note"
+
+export const notesMock : INote[] = [
   {
     id: 1,
     title: 'How to create markdown file How to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown fileHow to create markdown file',
@@ -34,6 +36,7 @@ export const notesMock = [
     title: 'How to create markdown file',
     createdAt: '2020-06-14',
     updatedAt: '2022-08-14',
+    body: null,
     tags: [],
     isPublic: true,
     notebookId: 2
@@ -70,26 +73,30 @@ export const notesMock = [
   }
 ]
 
-export const notebooksMock = [
+export const notebooksMock : INotebook[]= [
   {
     id: 1,
     name: 'notebook1',
     createdAt: '2020-08-18',
+    parentNotebookId: null,
     children: [
       {
         id: 10,
         name: 'notebook1-1',
         createdAt: '2020-08-18',
+        parentNotebookId: 1,
         children: [
           {
             id: 21,
             name: 'notebook1-1-1',
             createdAt: '2020-08-18',
+            parentNotebookId: 10,
             children:[
               {
                 id: 30,
                 name: 'notebook1-1-1-1',
                 createdAt: '2020-08-18',
+                parentNotebookId: 21,
                 children: []
               }
             ]
@@ -100,11 +107,13 @@ export const notebooksMock = [
         id: 12,
         name: 'notebook1-2',
         createdAt: '2020-08-18',
+        parentNotebookId: 1,
         children: [
           {
             id: 20,
             name: 'notebook1-2-1',
             createdAt: '2020-08-18',
+            parentNotebookId: 12,
             children:[]
           }
         ]
@@ -115,17 +124,20 @@ export const notebooksMock = [
     id: 2,
     name: 'notebook2',
     createdAt: '2020-08-18',
+    parentNotebookId: null,
     children: [],
   },
   {
     id: 3,
     name: 'notebook3',
     createdAt: '2020-08-18',
+    parentNotebookId: null,
     children: [
       {
         id: 14,
         name: 'notebook3-1',
         createdAt: '2020-08-18',
+        parentNotebookId: 3,
         children: []
       }
     ]

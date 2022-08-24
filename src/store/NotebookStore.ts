@@ -1,11 +1,11 @@
 import { action, makeObservable, observable } from "mobx"
 import { focusOptions, possibleNoteDetailsStates } from "../constants/noteDetails"
-import { INote } from "../interfaces/note"
+import { INote, INotebook } from "../interfaces/note"
 
 class NotebookStore {
   notebookCurrentFocus: focusOptions = focusOptions.notelist
   currentNoteDetailsState: possibleNoteDetailsStates = possibleNoteDetailsStates.navigating
-  currentNotebookId: number|null = null
+  currentNotebook: INotebook|null = null
   currentNote: INote|null = null
 
   constructor() {
@@ -13,14 +13,14 @@ class NotebookStore {
       notebookCurrentFocus: observable,
       currentNoteDetailsState: observable,
       currentNote: observable,
-      currentNotebookId: observable,
+      currentNotebook: observable,
       setCurrentNote: action,
       setNotebookCurrentFocus: action,
       setCurrentNoteDetailsState: action,
       setCurrentNoteTitle: action,
       setCurrentNoteBody: action,
       setCurrentNoteTags: action,
-      setCurrentNotebookId: action
+      setCurrentNotebook: action
     })
   }
   setCurrentNote = (note: INote|null) => {
@@ -44,8 +44,8 @@ class NotebookStore {
   setCurrentNoteDetailsState = (noteDetailsState: possibleNoteDetailsStates) => {
     this.currentNoteDetailsState = noteDetailsState
   }
-  setCurrentNotebookId = (notebookId: number|null) => {
-    this.currentNotebookId = notebookId
+  setCurrentNotebook = (notebook: INotebook|null) => {
+    this.currentNotebook = notebook
   }
 }
 

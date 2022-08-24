@@ -22,14 +22,14 @@ const Notebook = observer(() => {
   } = NotebookStore
   const globalNavigationStore = GlobalNavigationStore
   const { isInGlobalMenu } = globalNavigationStore
-  const { currentNotebookId } = NotebookStore
+  const { currentNotebook } = NotebookStore
   const [noteList, setNoteList] = useState<INote[]>([])
 
   useEffect(() => {
-    const notes = notesMock.filter(n => n.notebookId === currentNotebookId)
+    const notes = notesMock.filter(n => n.notebookId === currentNotebook?.id)
     setNoteList(notes)
     setCurrentNote(null)
-  }, [currentNotebookId])
+  }, [currentNotebook])
 
   function handleCreateNewNote (newNote: INote) {
     //TODO: This needs to change, can't incrementally assign id, will cause error
@@ -110,7 +110,7 @@ const Notebook = observer(() => {
   return (
     <div className="grid grid-cols-10 h-full w-full relative" onMouseEnter={handleEnterNotebook}>
         <Notelist
-          className={`${!isInGlobalMenu && currentNotebookId && notebookCurrentFocus === focusOptions.notelist ? 'border-blue-500' : inactiveNodeListBorderColor} col-span-3 border`}
+          className={`${!isInGlobalMenu && currentNotebook?.id && notebookCurrentFocus === focusOptions.notelist ? 'border-blue-500' : inactiveNodeListBorderColor} col-span-3 border`}
           noteList={noteList}
           currentNote={currentNote}
           onCreateNewNote={handleCreateNewNote}
@@ -121,7 +121,7 @@ const Notebook = observer(() => {
         />
       <NoteDetailsStateContextProvider setCurrentNoteDetailsState={setCurrentNoteDetailsState}>
         <NoteDetails
-          className={`${!isInGlobalMenu && currentNotebookId && notebookCurrentFocus === focusOptions.notedetails && currentNote ? 'border-blue-500' : 'border-transparent'} col-span-7 border`}
+          className={`${!isInGlobalMenu && currentNotebook?.id && notebookCurrentFocus === focusOptions.notedetails && currentNote ? 'border-blue-500' : 'border-transparent'} col-span-7 border`}
           currentNote={currentNote}
           onDocChange={handleDocChange}
           onFinishEditDoc={handleFinishEditDoc}

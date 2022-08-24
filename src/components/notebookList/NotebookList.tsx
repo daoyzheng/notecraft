@@ -10,15 +10,15 @@ interface Props {
   onSelectNotebook?: (notebook: INotebook) => void
 }
 const NotebookList = observer(({ notebookList, currentFocus, onSelectNotebook }: Props) => {
-  const { currentNotebookId, setCurrentNotebookId } = NotebookStore
+  const { currentNotebook, setCurrentNotebook } = NotebookStore
   function handleSelectNotebook (notebook: INotebook) {
-    setCurrentNotebookId(notebook.id ?? null)
+    setCurrentNotebook(notebook)
     onSelectNotebook && onSelectNotebook(notebook)
   }
 
   function isWithinParent (notebook: INotebook): boolean {
     if (notebook.children.length === 0) return false
-    let found = notebook.children.some(child => child.id === currentNotebookId)
+    let found = notebook.children.some(child => child.id === currentNotebook?.id)
     if (found) return true
     for (const child of notebook.children) {
       found = isWithinParent(child)
@@ -33,12 +33,12 @@ const NotebookList = observer(({ notebookList, currentFocus, onSelectNotebook }:
         return (
           <li key={notebook.id}>
             <NotebookItem
-              isActive={currentFocus == menuOptions.notebook && !!currentNotebookId && currentNotebookId === notebook.id}
+              isActive={currentFocus == menuOptions.notebook && !!currentNotebook?.id && currentNotebook.id === notebook.id}
               notebook={notebook}
               onClick={handleSelectNotebook}
             />
             {
-              notebook.children.length > 0 && (currentNotebookId === notebook.id || isWithinParent(notebook)) &&
+              notebook.children.length > 0 && (currentNotebook?.id === notebook.id || isWithinParent(notebook)) &&
               <NotebookList
                 onSelectNotebook={handleSelectNotebook}
                 notebookList={notebook.children}
