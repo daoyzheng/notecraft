@@ -83,7 +83,6 @@ const GlobalMenu = observer(() => {
           <div>Notes Hall</div>
         </GlobalMenuItem>
         <div>
-          {globalNavigationStore.currentRootNotebook?.id}
         </div>
         <div className="flex flex-row items-center mt-3 mb-1">
           <GlobalMenuItem
