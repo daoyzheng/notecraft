@@ -195,7 +195,8 @@ const useGlobalMenuKeybind = ({
     currentFocus,
     parentNotebook,
     globalNavigationStore.isInGlobalMenu,
-    currentNotebook
+    currentNotebook,
+    currentNotebooks
   ])
 
   return {

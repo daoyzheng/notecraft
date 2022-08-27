@@ -68,7 +68,7 @@ const GlobalMenu = observer(() => {
   function handleSelectNotebook (notebook: INotebook) {
     const parentNotebook = getParentNotebook(notebookList, notebook.parentNotebookId)
     setParentNotebook(parentNotebook)
-    setCurrentNotebooks(notebook.children)
+    setCurrentNotebooks(parentNotebook ? parentNotebook.children : notebookList)
     setCurrentFocus(menuOptions.notebook)
   }
   return (
