@@ -31,11 +31,16 @@ const useGlobalMenuKeybind = ({
   function incrementNotebook () {
     const currentIndex = currentNotebooks.findIndex(notebook => notebook.id === currentNotebook?.id)
     if (currentIndex < currentNotebooks.length - 1) {
-      setCurrentNotebook(currentNotebooks[currentIndex + 1])
+      const selectedNotebook = currentNotebooks[currentIndex+1]
+      if (!selectedNotebook.parentNotebookId)
+        globalNavigationStore.setCurrentRootNotebook(selectedNotebook)
+      setCurrentNotebook(selectedNotebook)
       if (notebookListRef.current) {
         notebookListRef.current.scrollTop += segment ? segment : 0
       }
     } else {
+      if (!currentNotebooks[0].parentNotebookId)
+        globalNavigationStore.setCurrentRootNotebook(currentNotebooks[0])
       setCurrentNotebook(currentNotebooks[0])
       if (notebookListRef.current)
         notebookListRef.current.scrollTop = 0
@@ -45,11 +50,17 @@ const useGlobalMenuKeybind = ({
   function decrementNotebook () {
     const currentIndex = currentNotebooks.findIndex(notebook => notebook.id === currentNotebook?.id)
     if (currentIndex > 0) {
-      setCurrentNotebook(currentNotebooks[currentIndex - 1])
+      const selectedNotebook = currentNotebooks[currentIndex-1]
+      if (!selectedNotebook.parentNotebookId)
+        globalNavigationStore.setCurrentRootNotebook(selectedNotebook)
+      setCurrentNotebook(selectedNotebook)
       if (notebookListRef.current)
         notebookListRef.current.scrollTop -= segment ? segment : 0
     } else {
-      setCurrentNotebook(currentNotebooks[currentNotebooks.length - 1])
+      const selectedNotebook = currentNotebooks[currentNotebooks.length - 1]
+      if (!selectedNotebook.parentNotebookId)
+        globalNavigationStore.setCurrentRootNotebook(selectedNotebook)
+      setCurrentNotebook(selectedNotebook)
       if (notebookListRef.current)
         notebookListRef.current.scrollTop = notebookListRef.current.scrollHeight
     }
@@ -141,7 +152,10 @@ const useGlobalMenuKeybind = ({
           if (currentFocus === menuOptions.notebookLanding) {
             if (notebookList.length > 0) {
               setCurrentFocus(menuOptions.notebook)
-              setCurrentNotebook(notebookList[0])
+              const selectedNotebook = notebookList[0]
+              if (!selectedNotebook.parentNotebookId)
+                globalNavigationStore.setCurrentRootNotebook(selectedNotebook)
+              setCurrentNotebook(selectedNotebook)
               break
             }
           }

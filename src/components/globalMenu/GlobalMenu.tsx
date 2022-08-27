@@ -66,6 +66,8 @@ const GlobalMenu = observer(() => {
   }
 
   function handleSelectNotebook (notebook: INotebook) {
+    if (!notebook.parentNotebookId)
+      globalNavigationStore.setCurrentRootNotebook(notebook)
     const parentNotebook = getParentNotebook(notebookList, notebook.parentNotebookId)
     setParentNotebook(parentNotebook)
     setCurrentNotebooks(parentNotebook ? parentNotebook.children : notebookList)
@@ -80,6 +82,9 @@ const GlobalMenu = observer(() => {
         >
           <div>Notes Hall</div>
         </GlobalMenuItem>
+        <div>
+          {globalNavigationStore.currentRootNotebook?.id}
+        </div>
         <div className="flex flex-row items-center mt-3 mb-1">
           <GlobalMenuItem
             isFocused={currentFocus === menuOptions.notebookLanding}

@@ -6,13 +6,14 @@ interface Props {
   notebook: INotebook
   isActive: boolean
   onClick?: (notebook: INotebook) => void
+  className?: string
 }
-const NotebookItem = ({ notebook, isActive, onClick }: Props) => {
+const NotebookItem = ({ className, notebook, isActive, onClick }: Props) => {
   const handleOnClick = useCallback(() => {
     onClick && onClick(notebook)
   }, [onClick])
   return (
-    <div className={`${isActive ? 'text-blue-300': ''} hover:text-blue-300 flex flex-row items-center gap-x-2`}>
+    <div className={`${isActive ? 'text-blue-300': ''} ${className} hover:text-blue-300 flex flex-row items-center gap-x-2`}>
       <div className="cursor-pointer" onClick={handleOnClick}>{notebook.name}</div>
       {
         isActive

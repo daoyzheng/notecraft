@@ -20,7 +20,6 @@ class NotebookStore {
       setCurrentNoteTitle: action,
       setCurrentNoteBody: action,
       setCurrentNoteTags: action,
-      setCurrentNotebook: action
     })
   }
   setCurrentNote = (note: INote|null) => {

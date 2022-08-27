@@ -18,7 +18,7 @@ const useKeybindingHints = () => {
     if (isInGlobalMenu) return <GlobalMenuHints/>
     else {
       switch(currentFocusedPage) {
-        case menuOptions.notebookLanding: {
+        case menuOptions.notebook: {
           if (notebookCurrentFocus === focusOptions.notelist) return <NotelistKeyHints/>
           else if (currentNote) {
             switch(currentNoteDetailsState) {
