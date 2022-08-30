@@ -10,14 +10,16 @@ import { notebooksMock } from "../../utils/mock"
 import NotebookList from "../notebookList/NotebookList"
 import GlobalMenuItem from "./GlobalMenuItem"
 import { NotebookListContainer } from "./GlobalMenuItem.styled"
+import NewNotebookForm from "./NewNotebookForm"
 import useGlobalMenuKeybind from "./useGlobalMenuKeybind"
 
 const GlobalMenu = observer(() => {
   const location = useLocation()
   const [currentFocus, setCurrentFocus] = useState<menuOptions>(getFocus())
   const [notebookList, setNotebookList] = useState<INotebook[]>(notebooksMock)
-  const [isCreatingNotebook, setIsCreatingNotebook] = useState<boolean>(false)
+  const [showNewNotebookForm, setShowNewNotebookForm] = useState<boolean>(false)
   const notebookListRef = useRef<HTMLDivElement>(null)
+  const newNotebookFormRef = useRef<HTMLDivElement>(null)
   const globalNavigationStore = GlobalNavigationStore
   const { setCurrentNotebook } = NotebookStore
   const navigate = useNavigate()
@@ -82,6 +84,12 @@ const GlobalMenu = observer(() => {
     setCurrentNotebooks(parentNotebook ? parentNotebook.children : notebookList)
     setCurrentFocus(menuOptions.notebook)
   }
+  function handleShowNewNotebookForm () {
+    setShowNewNotebookForm(!showNewNotebookForm)
+  }
+  function handleNewNotebookBlur () {
+
+  }
   return (
     <div className="justify-between flex flex-col h-full">
       <div>
@@ -93,20 +101,23 @@ const GlobalMenu = observer(() => {
         </GlobalMenuItem>
         <div>
         </div>
-        <div className="flex flex-row items-center mt-3 mb-1">
+        <div className="flex flex-row items-center mt-3 mb-1 relative">
           <GlobalMenuItem
             isFocused={currentFocus === menuOptions.notebookLanding}
             onClick={handleNotebookClick}
           >
             <div>Notebooks</div>
           </GlobalMenuItem>
-          <div className="text-xs px-1 text-green-300 cursor-pointer italic hover:text-green-400">New</div>
-          {/* <i className={`${currentFocus === menuOptions.notebookLanding ? 'text-blue-300' : ''} material-icons-outlined text-sm cursor-pointer`}>add_circle_outline</i> */}
+          <i ref={newNotebookFormRef} className={`${showNewNotebookForm ? 'text-blue-300' : ''} material-icons-outlined text-sm cursor-pointer`} onClick={handleShowNewNotebookForm}>add_circle_outline</i>
+          {
+            showNewNotebookForm &&
+            <NewNotebookForm
+              onBlur={handleNewNotebookBlur}
+              blurException={newNotebookFormRef}
+            />
+          }
         </div>
         <NotebookListContainer ref={notebookListRef}>
-          {
-
-          }
           <NotebookList
             onSelectNotebook={handleSelectNotebook}
             notebookList={notebookList}

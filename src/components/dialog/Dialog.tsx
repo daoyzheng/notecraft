@@ -4,7 +4,7 @@ import useOutsideAlerter from "../../hooks/useOutsideAlerter"
 interface Props {
   children: ReactNode
   className: string
-  exception: RefObject<Element>
+  exception?: RefObject<Element>
   onBlur?: () => void
 }
 

@@ -29,7 +29,7 @@ const Notelist = observer(({
   } : Props) => {
   const [showPopup, setShowPopup] = useState<boolean>(false)
   const notelistRef = useRef<HTMLDivElement>(null)
-  const newNoteIcon = useRef<HTMLDivElement>(null)
+  const newNoteIconRef = useRef<HTMLDivElement>(null)
   const globalNavigationStore = GlobalNavigationStore
 
   useNotelistKeybind({
@@ -71,12 +71,12 @@ const Notelist = observer(({
       <div className="flex flex row items-center justify-between my-2 pb-1">
         <div className="text-lg">New Notebook</div>
         <div className="relative flex items-center gap-x-1">
-          <i className="material-icons-outlined text-sm cursor-pointer" onClick={handleShowPopup} ref={newNoteIcon}>launch</i>
+          <i className={`${showPopup ? 'text-blue-300' : ''} material-icons-outlined text-sm cursor-pointer`} onClick={handleShowPopup} ref={newNoteIconRef}>launch</i>
           {
             showPopup &&
             <NewNoteForm
               onBlur={handleNewNoteBlur}
-              blurException={newNoteIcon}
+              blurException={newNoteIconRef}
               onCreateNewNote={handleCreateNewNote}
             />
           }
