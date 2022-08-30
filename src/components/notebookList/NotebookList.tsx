@@ -18,17 +18,6 @@ const NotebookList = observer(({ notebookList, currentFocus, onSelectNotebook }:
     onSelectNotebook && onSelectNotebook(notebook)
   }
 
-  function isWithinParent (notebook: INotebook): boolean {
-    if (!currentRootNotebook || currentRootNotebook.children.length === 0) return false
-    let found = currentRootNotebook.children.some(child => child.id === notebook.id)
-    if (found) return true
-    for (const child of currentRootNotebook.children) {
-      found = isWithinParent(child)
-      if (found) break
-    }
-    return found
-  }
-
   function isExpandNotebooks(notebook: INotebook, currentRootNotebook: INotebook|null): boolean {
     if (!currentRootNotebook || currentRootNotebook.children.length === 0) return false
     if (notebook.id === currentRootNotebook.id) return true

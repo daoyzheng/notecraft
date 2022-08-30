@@ -1,5 +1,5 @@
 import { observer } from "mobx-react"
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { menuOptions } from "../../constants/globalMenu"
 import { INotebook } from "../../interfaces/note"
@@ -32,6 +32,14 @@ const GlobalMenu = observer(() => {
       default: return menuOptions.noteshall
     }
   }
+
+  useEffect(() => {
+    if (currentFocus !== menuOptions.notebook) {
+      setCurrentNotebook(null)
+      setCurrentNotebooks([])
+      globalNavigationStore.setCurrentRootNotebook(null)
+    }
+  }, [currentFocus])
 
   const {
     setParentNotebook,
