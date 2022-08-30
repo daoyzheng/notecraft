@@ -27,10 +27,10 @@ const NewNoteForm = ({ onBlur, onCreateNewNote, blurException }: Props) => {
     onBlur()
     reset()
   },[onBlur])
-  function handleCreateNewNote (data: INote) {
+  const handleCreateNewNote = useCallback((data: INote) => {
     onCreateNewNote && onCreateNewNote(data)
     reset()
-  }
+  }, [onCreateNewNote])
   return (
     <Dialog onBlur={handleDialogBlur} exception={blurException} className="absolute right-0 top-5">
       <div className="bg-white rounded text-black p-2 h-fit" >

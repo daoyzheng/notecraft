@@ -88,7 +88,11 @@ const GlobalMenu = observer(() => {
     setShowNewNotebookForm(!showNewNotebookForm)
   }
   function handleNewNotebookBlur () {
-
+    setShowNewNotebookForm(false)
+  }
+  function handleCreateNewNotebook (data: INotebook) {
+    setShowNewNotebookForm(false)
+    console.log('data', data)
   }
   return (
     <div className="justify-between flex flex-col h-full">
@@ -114,6 +118,7 @@ const GlobalMenu = observer(() => {
             <NewNotebookForm
               onBlur={handleNewNotebookBlur}
               blurException={newNotebookFormRef}
+              onCreateNewNotebook={handleCreateNewNotebook}
             />
           }
         </div>
