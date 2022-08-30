@@ -1,6 +1,7 @@
 import InputHint from "../components/inputHint/InputHint"
 import { menuOptions } from "../constants/globalMenu"
 import { possibleNoteDetailsStates, focusOptions } from "../constants/noteDetails"
+import { INotebook } from "../interfaces/note"
 import GlobalNavigationStore from "../store/GlobalNavigationStore"
 import NotebookStore from "../store/NotebookStore"
 
@@ -11,11 +12,15 @@ const useKeybindingHints = () => {
   } = GlobalNavigationStore
   const {
     currentNote,
+    currentNotebook,
     notebookCurrentFocus,
     currentNoteDetailsState
   } = NotebookStore
   function getKeybindingHints () {
-    if (isInGlobalMenu) return <GlobalMenuHints/>
+    if (isInGlobalMenu) {
+      if (!currentNotebook) return <GlobalMenuHints/>
+      return <NotebookSelectionHints currentNotebook={currentNotebook}/>
+    }
     else {
       switch(currentFocusedPage) {
         case menuOptions.notebook: {
@@ -180,6 +185,28 @@ const GlobalMenuHints = () => {
         <InputHint label="k"/><span className="mx-1">/</span><InputHint icon="keyboard_arrow_up"/>
         <div className="ml-1 text-xs">: Prev page</div>
       </div>
+    </>
+  )
+}
+
+const NotebookSelectionHints = ({currentNotebook}: {currentNotebook: INotebook}) => {
+  return (
+    <>
+      <div className="flex items-center">
+        <InputHint label="j"/><span className="mx-1">/</span><InputHint icon="keyboard_arrow_down"/>
+        <div className="ml-1 text-xs">: Next notebook</div>
+      </div>
+      <div className="flex items-center">
+        <InputHint label="k"/><span className="mx-1">/</span><InputHint icon="keyboard_arrow_up"/>
+        <div className="ml-1 text-xs">: Prev notebook</div>
+      </div>
+      {
+        currentNotebook.children.length > 0 &&
+        <div className="flex items-center">
+          <InputHint label="Enter"/>
+          <div className="ml-1 text-xs">Select sub notebook</div>
+        </div>
+      }
     </>
   )
 }

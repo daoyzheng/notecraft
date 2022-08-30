@@ -109,6 +109,8 @@ const useGlobalMenuKeybind = ({
     if (!parentNotebook) {
       setCurrentFocus(menuOptions.notebookLanding)
       setCurrentNotebook(null)
+      setCurrentNotebooks([])
+      globalNavigationStore.setCurrentRootNotebook(null)
     }
   }
 
@@ -152,6 +154,7 @@ const useGlobalMenuKeybind = ({
           if (currentFocus === menuOptions.notebookLanding) {
             if (notebookList.length > 0) {
               setCurrentFocus(menuOptions.notebook)
+              setCurrentNotebooks(notebookList)
               const selectedNotebook = notebookList[0]
               if (!selectedNotebook.parentNotebookId)
                 globalNavigationStore.setCurrentRootNotebook(selectedNotebook)
