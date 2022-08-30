@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction, useEffect } from "react"
-import { UseFormReset } from "react-hook-form"
 import { menuOptions } from "../../constants/globalMenu"
 import { INote } from "../../interfaces/note"
 import GlobalNavigationStore from "../../store/GlobalNavigationStore"
@@ -14,7 +13,6 @@ interface Props {
   onSelectNote?: (note: INote|null) => void
   setShowPopup: Dispatch<SetStateAction<boolean>>
   onBlur?: () => void
-  reset: UseFormReset<INote>
 }
 const useNotelistKeybind = ({
   isActive,
@@ -25,8 +23,7 @@ const useNotelistKeybind = ({
   globalNavigationStore,
   onSelectNote,
   setShowPopup,
-  onBlur,
-  reset
+  onBlur
 }: Props) => {
   const offset = 0.8
   const segment = notelistRef.current && (notelistRef.current.scrollHeight / noteList.length * offset)
@@ -95,7 +92,6 @@ const useNotelistKeybind = ({
       }
       case 'i': {
         if (showPopup) break
-        reset()
         setShowPopup(true)
         e.preventDefault()
         break

@@ -1,11 +1,9 @@
 import { observer } from 'mobx-react'
-import { useCallback, useRef, useState } from 'react'
-import useOutsideAlerter from '../../hooks/useOutsideAlerter'
-import useRegisterForm from '../../hooks/useRegisterForm'
+import { MouseEvent, useCallback, useRef, useState } from 'react'
 import { INote } from '../../interfaces/note'
 import GlobalNavigationStore from '../../store/GlobalNavigationStore'
-import Input from '../input/Input'
 import NoteDisplay from '../noteDisplay/NoteDisplay'
+import NewNoteForm from './NewNoteForm'
 import { NotelistContainer } from './Notelist.styled'
 import useNotelistKeybind from './useNotelistKeybind'
 interface Props {
@@ -30,17 +28,10 @@ const Notelist = observer(({
     onBlur
   } : Props) => {
   const [showPopup, setShowPopup] = useState<boolean>(false)
-  const popupRef = useRef<HTMLDivElement>(null)
   const notelistRef = useRef<HTMLDivElement>(null)
+  const newNoteIcon = useRef<HTMLDivElement>(null)
   const globalNavigationStore = GlobalNavigationStore
 
-  const defaultValue = {
-    title: '',
-    isPublic: false,
-    tags: [],
-    createdAt: new Date().toISOString()
-  }
-  const [register, reset, handleSubmit, errors] = useRegisterForm<INote>({defaultValue})
   useNotelistKeybind({
     isActive,
     showPopup,
@@ -50,22 +41,15 @@ const Notelist = observer(({
     globalNavigationStore,
     onSelectNote,
     setShowPopup,
-    onBlur,
-    reset
-  })
-  useOutsideAlerter({
-    ref: popupRef,
-    onClickOutside: handleClickOutside
+    onBlur
   })
   function handleCreateNewNote (data: INote) {
     setShowPopup(false)
     onCreateNewNote && onCreateNewNote(data)
-    reset()
   }
 
-  function handleClickOutside () {
+  function handleNewNoteBlur () {
     setShowPopup(false)
-    reset()
   }
 
   function handleSelectNote (note: INote) {
@@ -75,48 +59,26 @@ const Notelist = observer(({
   }
 
   function handleShowPopup () {
-    reset()
-    setShowPopup(true)
+      setShowPopup(!showPopup)
   }
 
   const handleEnterNoteList = useCallback(() => {
     onMouseEnter && onMouseEnter()
   }, [onMouseEnter])
 
-  const popup = () => (
-    <div ref={popupRef} className="bg-white rounded absolute text-black p-2 right-0 h-fit top-5" >
-      <form onSubmit={handleSubmit(data => handleCreateNewNote(data))}>
-        <Input register={register('title', {
-            required: 'Please enter a title for your note'
-          })}
-          placeholder="Title"
-          className="focus:outline-none border-b-2 py-2 bg-transparent w-full placeholder-gray-400 focus:placeholder-gray-400 w-52"
-          errorMessage={errors.title?.message}
-          autoFocus
-        />
-        <div className="flex items-center justify-between">
-          <div>Make note public</div>
-          <Input
-            className="w-4 h-4"
-            register={register('isPublic')}
-            type="checkbox"
-          />
-        </div>
-        <div className="flex justify-end mt-4 mb-1">
-          <button type="submit" className="bg-blue-500 text-white px-2 rounded text-sm hover:bg-blue-600">Craft</button>
-        </div>
-      </form>
-    </div>
-  )
-
   return (
     <div className={`px-2 pt-1 bg-zinc-800 text-white ${className} relative`} onMouseEnter={handleEnterNoteList}>
       <div className="flex flex row items-center justify-between my-2 pb-1">
         <div className="text-lg">New Notebook</div>
         <div className="relative flex items-center gap-x-1">
-          <i className="material-icons-outlined text-sm cursor-pointer" onClick={handleShowPopup}>launch</i>
+          <i className="material-icons-outlined text-sm cursor-pointer" onClick={handleShowPopup} ref={newNoteIcon}>launch</i>
           {
-            showPopup && popup()
+            showPopup &&
+            <NewNoteForm
+              onBlur={handleNewNoteBlur}
+              blurException={newNoteIcon}
+              onCreateNewNote={handleCreateNewNote}
+            />
           }
         </div>
       </div>

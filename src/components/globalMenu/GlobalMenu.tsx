@@ -16,6 +16,7 @@ const GlobalMenu = observer(() => {
   const location = useLocation()
   const [currentFocus, setCurrentFocus] = useState<menuOptions>(getFocus())
   const [notebookList, setNotebookList] = useState<INotebook[]>(notebooksMock)
+  const [isCreatingNotebook, setIsCreatingNotebook] = useState<boolean>(false)
   const notebookListRef = useRef<HTMLDivElement>(null)
   const globalNavigationStore = GlobalNavigationStore
   const { setCurrentNotebook } = NotebookStore
@@ -99,9 +100,13 @@ const GlobalMenu = observer(() => {
           >
             <div>Notebooks</div>
           </GlobalMenuItem>
-          <i className={`${currentFocus === menuOptions.notebookLanding ? 'text-blue-300' : ''} material-icons-outlined text-sm cursor-pointer`}>add_circle_outline</i>
+          <div className="text-xs px-1 text-green-300 cursor-pointer italic hover:text-green-400">New</div>
+          {/* <i className={`${currentFocus === menuOptions.notebookLanding ? 'text-blue-300' : ''} material-icons-outlined text-sm cursor-pointer`}>add_circle_outline</i> */}
         </div>
         <NotebookListContainer ref={notebookListRef}>
+          {
+
+          }
           <NotebookList
             onSelectNotebook={handleSelectNotebook}
             notebookList={notebookList}
