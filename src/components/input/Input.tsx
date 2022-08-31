@@ -1,4 +1,4 @@
-import { KeyboardEvent, useState } from "react"
+import { KeyboardEvent } from "react"
 import { InputErrorMessage } from "./Input.styled"
 
 interface IInput {
