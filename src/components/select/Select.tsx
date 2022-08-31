@@ -10,7 +10,6 @@ interface Props {
   options: IOption[]
   emptyText?: string
   className?: string
-  placeholder?: string
   register: any
   errorMessage?: string | undefined
   autoFocus?: boolean
@@ -18,7 +17,6 @@ interface Props {
 const Select = ({
   className,
   label,
-  placeholder,
   options,
   emptyText='No options',
   register,
@@ -26,22 +24,22 @@ const Select = ({
   autoFocus
 }: Props) => {
   return (
-    <div>
+    <div className={`${className} flex flex-col justify-start`}>
       <label htmlFor="select">{label}</label>
       <select
-        className={`${className} focus:outline-none cursor-pointer w-full ${options.length === 0 ?'text-gray-400 focus:text-gray-500':''}`}
+        className={`focus:outline-none cursor-pointer w-full border rounded p-1 ${options.length === 0 ?'text-gray-400 focus:text-gray-500':''}`}
         {...register}
         autoFocus={autoFocus}
+        defaultValue=""
+        id="select"
       >
         {options.length > 0 ?
-          <>
-            {placeholder && <option value="" disabled selected className="text-xs italic">{placeholder}</option>}
-            {options.map(option =>
-              <option
-                className=""
-                value={option.id}
-              >{option.label}</option>)}
-            </>
+          options.map(option =>
+            <option
+              key={option.id}
+              className=""
+              value={option.id}
+            >{option.label}</option>)
           :
           <option className="text-xs italic">{emptyText}</option>
         }
