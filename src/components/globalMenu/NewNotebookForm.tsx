@@ -4,7 +4,7 @@ import { INotebook } from "../../interfaces/note"
 import { notebooksMock } from "../../utils/mock"
 import Dialog from "../dialog/Dialog"
 import Input from "../input/Input"
-import Select from "../select/Select"
+import Select, { IOption } from "../select/Select"
 
 interface Props {
   onBlur: () => void
@@ -50,7 +50,7 @@ const NewNotebookForm = ({ onBlur, blurException, onCreateNewNotebook }: Props) 
     notebooksMock.forEach(notebook => {
       getAllNotebooks(notebook, allOptions)
     })
-    return allOptions.map(option => ({id: option.id, label: option.name}))
+    return allOptions.map(option => ({id: option.id, label: option.name})) as IOption[]
   },[notebooksMock])
 
   return (
@@ -60,7 +60,7 @@ const NewNotebookForm = ({ onBlur, blurException, onCreateNewNotebook }: Props) 
           <Input register={register('name', {
               required: 'required'
             })}
-            placeholder="Name *"
+            placeholder="Name"
             className="focus:outline-none border-b-2 py-2 bg-transparent w-full placeholder-gray-400 focus:placeholder-gray-500 w-52"
             errorMessage={errors.name?.message}
             autoFocus
