@@ -1,7 +1,7 @@
 import { InputErrorMessage } from "../input/Input.styled"
 
-interface IOption {
-  id: string
+export interface IOption {
+  id: number
   label: string
 }
 
