@@ -19,7 +19,7 @@ const defaultValue = {
 }
 
 const NewNoteForm = ({ onBlur, onCreateNewNote, blurException }: Props) => {
-  const [register, reset, handleSubmit, errors] = useRegisterForm<INote>({defaultValue})
+  const {register, reset, handleSubmit, errors} = useRegisterForm<INote>({defaultValue})
   useEffect(() => {
     reset()
   },[])

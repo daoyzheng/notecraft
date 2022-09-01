@@ -5,25 +5,38 @@ import {
   useForm,
   UseFormHandleSubmit,
   UseFormRegister,
-  UseFormReset
+  UseFormReset,
+  UseFormSetValue
 } from "react-hook-form";
 
 interface Props<T> {
   defaultValue?: DeepPartial<T>
 }
 
-function useRegisterForm<T>({ defaultValue }: Props<T>) : [UseFormRegister<T>, UseFormReset<T>, UseFormHandleSubmit<T>, FieldErrorsImpl<DeepRequired<T>>] {
+function useRegisterForm<T>({ defaultValue }: Props<T>) : {
+  register: UseFormRegister<T>,
+  reset: UseFormReset<T>,
+  handleSubmit: UseFormHandleSubmit<T>,
+  setValue: UseFormSetValue<T>
+  errors:FieldErrorsImpl<DeepRequired<T>>} {
   const {
     register,
     reset,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<T>({
     reValidateMode: 'onBlur',
     shouldUseNativeValidation: false,
     defaultValues: defaultValue
   })
-  return [register, reset, handleSubmit, errors]
+  return {
+    register,
+    reset,
+    handleSubmit,
+    setValue,
+    errors
+  }
 }
 
 export default useRegisterForm

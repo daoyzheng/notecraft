@@ -21,7 +21,7 @@ const defaultValue = {
 }
 
 const NewNotebookForm = ({ onBlur, blurException, onCreateNewNotebook }: Props) => {
-  const [register, reset, handleSubmit, errors] = useRegisterForm<INotebook>({defaultValue})
+  const {register, reset, handleSubmit, setValue, errors,} = useRegisterForm<INotebook>({defaultValue})
   const [isRootNotebook, setIsRootNotebook] = useState<boolean>(true)
   const handleDialogBlur = useCallback(() => {
     onBlur()
@@ -33,6 +33,9 @@ const NewNotebookForm = ({ onBlur, blurException, onCreateNewNotebook }: Props) 
 
   function handleRootNotebookChange (e: ChangeEvent) {
     const { checked } = (e.target as HTMLInputElement)
+    if (checked) {
+      setValue('parentNotebookId', null)
+    }
     setIsRootNotebook(checked)
   }
 
@@ -56,7 +59,7 @@ const NewNotebookForm = ({ onBlur, blurException, onCreateNewNotebook }: Props) 
   return (
     <Dialog onBlur={handleDialogBlur} exception={blurException} className="absolute left-0 top-6 z-10">
       <div className="bg-white rounded text-black p-2 h-fit">
-        <form onSubmit={handleSubmit(data => handleCreateNewNotebook(data))}>
+        <form onSubmit={handleSubmit(data => handleCreateNewNotebook(data))} autoComplete="off">
           <Input register={register('name', {
               required: 'required'
             })}
