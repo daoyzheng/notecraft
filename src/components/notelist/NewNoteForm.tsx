@@ -36,7 +36,7 @@ const NewNoteForm = ({ onBlur, onCreateNewNote, blurException }: Props) => {
       <div className="bg-white rounded text-black p-2 h-fit" >
         <form onSubmit={handleSubmit(data => handleCreateNewNote(data))}>
           <Input register={register('title', {
-              required: 'Please enter a title for your note'
+              required: 'Oopsie, note title required'
             })}
             placeholder="Title"
             className="focus:outline-none border-b-2 py-2 bg-transparent w-full placeholder-gray-400 focus:placeholder-gray-500 w-52"

@@ -26,6 +26,7 @@ function useRegisterForm<T>({ defaultValue }: Props<T>) : {
     setValue,
     formState: { errors },
   } = useForm<T>({
+    mode: 'onBlur',
     reValidateMode: 'onBlur',
     shouldUseNativeValidation: false,
     defaultValues: defaultValue

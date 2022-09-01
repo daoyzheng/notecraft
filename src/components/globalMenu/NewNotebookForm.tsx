@@ -61,7 +61,7 @@ const NewNotebookForm = ({ onBlur, blurException, onCreateNewNotebook }: Props) 
       <div className="bg-white rounded text-black p-2 h-fit">
         <form onSubmit={handleSubmit(data => handleCreateNewNotebook(data))} autoComplete="off">
           <Input register={register('name', {
-              required: 'required'
+              required: 'Oopsie, notebook name required'
             })}
             placeholder="Name"
             className="focus:outline-none border-b-2 py-2 bg-transparent w-full placeholder-gray-400 focus:placeholder-gray-500 w-52"
@@ -70,7 +70,7 @@ const NewNotebookForm = ({ onBlur, blurException, onCreateNewNotebook }: Props) 
           />
           <div className="flex items-center justify-between">
             <div>Make root notebook</div>
-            <input type="checkbox" defaultChecked onChange={handleRootNotebookChange}/>
+            <input type="checkbox" defaultChecked onChange={handleRootNotebookChange} className="w-4 h-4"/>
           </div>
           {
             !isRootNotebook &&
