@@ -11,7 +11,9 @@ interface Props {
   currentFocus: menuOptions
   notebookList: INotebook[]
   notebookListRef: RefObject<HTMLDivElement>
+  showNewNotebookForm: boolean
   setCurrentFocus: Dispatch<SetStateAction<menuOptions>>
+  setShowNewNotebookForm: Dispatch<SetStateAction<boolean>>
 }
 
 const useGlobalMenuKeybind = ({
@@ -19,6 +21,8 @@ const useGlobalMenuKeybind = ({
   currentFocus,
   notebookList,
   notebookListRef,
+  showNewNotebookForm,
+  setShowNewNotebookForm,
   setCurrentFocus
 }: Props) => {
   const navigate = useNavigate()
@@ -115,6 +119,14 @@ const useGlobalMenuKeybind = ({
   }
 
   function handleKeyPress (e: KeyboardEvent) {
+    if (showNewNotebookForm) {
+      switch(e.key.toLocaleLowerCase()) {
+        case 'escape': {
+          setShowNewNotebookForm(false)
+        }
+      }
+      return
+    }
     if (currentFocus !== menuOptions.notebook) {
       switch(e.key.toLocaleLowerCase()) {
         case 'j':
@@ -213,6 +225,7 @@ const useGlobalMenuKeybind = ({
     parentNotebook,
     globalNavigationStore.isInGlobalMenu,
     currentNotebook,
+    showNewNotebookForm,
     currentNotebooks
   ])
 

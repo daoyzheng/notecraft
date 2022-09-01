@@ -1,3 +1,4 @@
+import { ChangeEvent } from "react"
 import { InputErrorMessage } from "../input/Input.styled"
 
 export interface IOption {

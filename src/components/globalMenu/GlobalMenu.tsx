@@ -52,7 +52,9 @@ const GlobalMenu = observer(() => {
     globalNavigationStore,
     currentFocus,
     notebookListRef,
+    showNewNotebookForm,
     setCurrentFocus,
+    setShowNewNotebookForm
   })
   function handleNotebookClick () {
     navigate(routes.notebooks)
@@ -92,7 +94,25 @@ const GlobalMenu = observer(() => {
   }
   function handleCreateNewNotebook (data: INotebook) {
     setShowNewNotebookForm(false)
-    console.log('data', data)
+    if (data.parentNotebookId) {
+      let notebookToUpdate = null
+      for (const notebook of notebookList) {
+        notebookToUpdate = getNotebook(notebook, data.parentNotebookId)
+        if (notebookToUpdate) break
+      }
+      if (notebookToUpdate) notebookToUpdate.children.push(data)
+    } else
+      notebookList.push(data)
+    setNotebookList(notebookList)
+  }
+  function getNotebook(notebook: INotebook, notebookId: number): INotebook | null {
+    if (notebook.id == notebookId) return notebook
+    if (notebook.children.length > 0) {
+      for (const child of notebook.children) {
+        return getNotebook(child, notebookId)
+      }
+    }
+    return null
   }
   return (
     <div className="justify-between flex flex-col h-full">
