@@ -28,6 +28,16 @@ const NotebookList = observer(({ notebookList, currentFocus, onSelectNotebook }:
     }
     return found
   }
+  function isWithinParent (notebook: INotebook): boolean {
+    if (notebook.children.length === 0 || !currentNotebook) return false
+    let found = notebook.children.some(child => child.id === currentNotebook.id)
+    if (found) return true
+    for (const child of notebook.children) {
+      found = isWithinParent(child)
+      if (found) break
+    }
+    return found
+  }
 
   return (
     <ul className="ml-2">
@@ -40,7 +50,7 @@ const NotebookList = observer(({ notebookList, currentFocus, onSelectNotebook }:
               onClick={handleSelectNotebook}
             />
             {
-              notebook.children.length > 0 && isExpandNotebooks(notebook, currentRootNotebook) &&
+              notebook.children.length > 0 && (currentNotebook?.id === notebook.id || isWithinParent(notebook)) &&
               <NotebookList
                 onSelectNotebook={handleSelectNotebook}
                 notebookList={notebook.children}

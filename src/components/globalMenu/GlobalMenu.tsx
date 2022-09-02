@@ -40,7 +40,6 @@ const GlobalMenu = observer(() => {
     if (currentFocus !== menuOptions.notebook) {
       setCurrentNotebook(null)
       setCurrentNotebooks([])
-      globalNavigationStore.setCurrentRootNotebook(null)
     }
   }, [currentFocus])
 
@@ -79,8 +78,6 @@ const GlobalMenu = observer(() => {
   }
 
   function handleSelectNotebook (notebook: INotebook) {
-    if (!notebook.parentNotebookId)
-      globalNavigationStore.setCurrentRootNotebook(notebook)
     const parentNotebook = getParentNotebook(notebookList, notebook.parentNotebookId)
     setParentNotebook(parentNotebook)
     setCurrentNotebooks(parentNotebook ? parentNotebook.children : notebookList)
