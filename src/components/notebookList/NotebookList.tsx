@@ -1,4 +1,5 @@
 import { observer } from "mobx-react"
+import { useCallback, useState } from "react"
 import { menuOptions } from "../../constants/globalMenu"
 import { INotebook } from "../../interfaces/note"
 import GlobalNavigationStore from "../../store/GlobalNavigationStore"
@@ -12,6 +13,8 @@ interface Props {
 }
 const NotebookList = observer(({ notebookList, currentFocus, onSelectNotebook }: Props) => {
   const { currentNotebook, setCurrentNotebook } = NotebookStore
+  const [isShowChildren, setIsShowChildren] = useState<boolean>(false)
+  const [notebookToExpand, setNotebookToExpand] = useState<INotebook|null>(null)
   function handleSelectNotebook (notebook: INotebook) {
     setCurrentNotebook(notebook)
     onSelectNotebook && onSelectNotebook(notebook)
@@ -28,13 +31,24 @@ const NotebookList = observer(({ notebookList, currentFocus, onSelectNotebook }:
     return found
   }
 
+  function handleExpandChildren (notebookToExpand: INotebook) {
+    setIsShowChildren(!isShowChildren)
+    if (!isShowChildren)
+      setNotebookToExpand(notebookToExpand)
+    else
+      setNotebookToExpand(null)
+  }
+
   return (
     <ul>
       {notebookList.map(notebook => {
         return (
           <li key={notebook.id}>
             <div className="flex items-center">
-              <i className={`material-icons text-xs mt-1 mr-2 ${notebook.children.length > 0 ? 'cursor-pointer' : 'text-transparent'}`}>add</i>
+              <i
+                className={`material-icons text-xs mt-1 mr-2 ${notebook.children.length > 0 ? 'cursor-pointer hover:text-blue-300' : 'text-transparent'}`}
+                onClick={() => handleExpandChildren(notebook)}
+              >{notebookToExpand?.id === notebook.id ? 'remove' : 'add'}</i>
               <NotebookItem
                 isActive={currentFocus == menuOptions.notebook && !!currentNotebook?.id && currentNotebook.id === notebook.id}
                 notebook={notebook}
@@ -42,7 +56,8 @@ const NotebookList = observer(({ notebookList, currentFocus, onSelectNotebook }:
               />
             </div>
             {
-              notebook.children.length > 0 && (currentNotebook?.id === notebook.id || isWithinParent(notebook)) &&
+              isShowChildren && notebookToExpand?.id === notebook.id &&
+              // notebook.children.length > 0 && (currentNotebook?.id === notebook.id || isWithinParent(notebook)) &&
               <NotebookList
                 onSelectNotebook={handleSelectNotebook}
                 notebookList={notebook.children}
