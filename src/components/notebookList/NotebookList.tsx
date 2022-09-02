@@ -31,12 +31,19 @@ const NotebookList = observer(({ notebookList, currentFocus, onSelectNotebook }:
     return found
   }
 
-  function handleExpandChildren (notebookToExpand: INotebook) {
-    setIsShowChildren(!isShowChildren)
-    if (!isShowChildren)
-      setNotebookToExpand(notebookToExpand)
-    else
-      setNotebookToExpand(null)
+  function handleExpandChildren (notebook: INotebook) {
+    if (isShowChildren) {
+      if (notebookToExpand?.id != notebook.id) {
+        setNotebookToExpand(notebook)
+        setIsShowChildren(true)
+      } else {
+        setNotebookToExpand(null)
+        setIsShowChildren(false)
+      }
+    } else {
+      setIsShowChildren(true)
+      setNotebookToExpand(notebook)
+    }
   }
 
   return (
@@ -46,7 +53,7 @@ const NotebookList = observer(({ notebookList, currentFocus, onSelectNotebook }:
           <li key={notebook.id}>
             <div className="flex items-center">
               <i
-                className={`material-icons text-xs mt-1 mr-2 ${notebook.children.length > 0 ? 'cursor-pointer hover:text-blue-300' : 'text-transparent'}`}
+                className={`material-icons text-xs mt-1 mr-1 ${notebook.children.length > 0 ? 'cursor-pointer hover:text-blue-300' : 'text-transparent'}`}
                 onClick={() => handleExpandChildren(notebook)}
               >{notebookToExpand?.id === notebook.id ? 'remove' : 'add'}</i>
               <NotebookItem
