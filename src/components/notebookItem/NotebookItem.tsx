@@ -22,7 +22,7 @@ const NotebookItem = ({ className, notebook, isActive, notebookToExpand, isShowC
   return (
     <div
       onClick={handleOnClick}
-      className="flex w-full"
+      className={`${className} flex w-full`}
     >
       <div className={`${isShowChildren ? 'text-amber-400': ''}`}>
         <i
