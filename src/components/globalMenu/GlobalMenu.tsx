@@ -139,7 +139,7 @@ const GlobalMenu = observer(() => {
             />
           }
         </div>
-        <NotebookListContainer ref={notebookListRef}>
+        <NotebookListContainer ref={notebookListRef} className="mt-2">
           <NotebookList
             onSelectNotebook={handleSelectNotebook}
             notebookList={notebookList}

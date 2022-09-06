@@ -1,5 +1,5 @@
 import { observer } from "mobx-react"
-import { useCallback, useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { menuOptions } from "../../constants/globalMenu"
 import { INotebook } from "../../interfaces/note"
 import GlobalNavigationStore from "../../store/GlobalNavigationStore"
@@ -46,25 +46,27 @@ const NotebookList = observer(({ notebookList, currentFocus, onSelectNotebook }:
     }
   }
 
+  const showChildren = useCallback((notebook: INotebook) => {
+    return isShowChildren && notebookToExpand?.id === notebook.id
+  }, [isShowChildren, notebookToExpand])
+
   return (
     <ul>
       {notebookList.map(notebook => {
         return (
           <li key={notebook.id}>
-            <div className="flex items-center">
-              <i
-                className={`material-icons text-xs mt-1 mr-1 ${notebook.children.length > 0 ? 'cursor-pointer hover:text-blue-300' : 'text-transparent'}`}
-                onClick={() => handleExpandChildren(notebook)}
-              >{notebookToExpand?.id === notebook.id ? 'remove' : 'add'}</i>
+            <div className="flex items-center mb-1 ">
               <NotebookItem
                 isActive={currentFocus == menuOptions.notebook && !!currentNotebook?.id && currentNotebook.id === notebook.id}
                 notebook={notebook}
+                notebookToExpand={notebookToExpand}
+                onExpandNotebook={handleExpandChildren}
                 onClick={handleSelectNotebook}
+                isShowChildren={showChildren(notebook)}
               />
             </div>
             {
-              isShowChildren && notebookToExpand?.id === notebook.id &&
-              // notebook.children.length > 0 && (currentNotebook?.id === notebook.id || isWithinParent(notebook)) &&
+              showChildren(notebook) &&
               <NotebookList
                 onSelectNotebook={handleSelectNotebook}
                 notebookList={notebook.children}
