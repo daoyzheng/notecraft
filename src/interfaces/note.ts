@@ -15,4 +15,5 @@ export interface INotebook {
   createdAt: string
   parentNotebookId: number|null
   children: INotebook[]
+  isExpanded: boolean
 }

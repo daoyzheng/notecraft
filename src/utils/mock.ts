@@ -79,24 +79,28 @@ export const notebooksMock : INotebook[]= [
     name: 'notebook1',
     createdAt: '2020-08-18',
     parentNotebookId: null,
+    isExpanded: false,
     children: [
       {
         id: 10,
         name: 'notebook1-1',
         createdAt: '2020-08-18',
         parentNotebookId: 1,
+        isExpanded: false,
         children: [
           {
             id: 21,
             name: 'notebook1-1-1',
             createdAt: '2020-08-18',
             parentNotebookId: 10,
+            isExpanded: false,
             children:[
               {
                 id: 30,
                 name: 'notebook1-1-1-1',
                 createdAt: '2020-08-18',
                 parentNotebookId: 21,
+                isExpanded: false,
                 children: []
               }
             ]
@@ -108,11 +112,13 @@ export const notebooksMock : INotebook[]= [
         name: 'notebook1-2',
         createdAt: '2020-08-18',
         parentNotebookId: 1,
+        isExpanded: false,
         children: [
           {
             id: 20,
             name: 'notebook1-2-1',
             createdAt: '2020-08-18',
+            isExpanded: false,
             parentNotebookId: 12,
             children:[]
           }
@@ -125,12 +131,14 @@ export const notebooksMock : INotebook[]= [
     name: 'notebook2',
     createdAt: '2020-08-18',
     parentNotebookId: null,
+    isExpanded: false,
     children: [],
   },
   {
     id: 3,
     name: 'notebook3',
     createdAt: '2020-08-18',
+    isExpanded: false,
     parentNotebookId: null,
     children: [
       {
@@ -138,6 +146,7 @@ export const notebooksMock : INotebook[]= [
         name: 'notebook3-1',
         createdAt: '2020-08-18',
         parentNotebookId: 3,
+        isExpanded: false,
         children: []
       }
     ]
