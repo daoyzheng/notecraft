@@ -24,7 +24,8 @@ class NotebookStore {
       setCurrentNoteBody: action,
       setCurrentNoteTags: action,
       setCurrentNotebook: action,
-      updateNotebook: action
+      updateNotebook: action,
+      updateCurrentNotebook: action
     })
   }
   setCurrentNote = (note: INote|null) => {
@@ -50,6 +51,9 @@ class NotebookStore {
   }
   setCurrentNotebook = (notebook: INotebook|null) => {
     this.currentNotebook = notebook
+  }
+  updateCurrentNotebook = (newCurrentNotebook: INotebook) => {
+    this.currentNotebook = newCurrentNotebook
   }
   updateNotebook = (newNotebook: INotebook) => {
     let parentNotebook = null

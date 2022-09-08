@@ -22,7 +22,7 @@ const GlobalMenu = observer(() => {
   const notebookListRef = useRef<HTMLDivElement>(null)
   const newNotebookFormRef = useRef<HTMLDivElement>(null)
   const globalNavigationStore = GlobalNavigationStore
-  const { setCurrentNotebook } = NotebookStore
+  const { setCurrentNotebook, updateNotebook } = NotebookStore
   const navigate = useNavigate()
 
   function getFocus () {
@@ -54,7 +54,8 @@ const GlobalMenu = observer(() => {
     notebookListRef,
     showNewNotebookForm,
     setCurrentFocus,
-    setShowNewNotebookForm
+    setShowNewNotebookForm,
+    handleExpandNotebook
   })
   function handleNotebookClick () {
     navigate(routes.notebooks)
@@ -83,6 +84,11 @@ const GlobalMenu = observer(() => {
     setParentNotebook(parentNotebook)
     setCurrentNotebooks(parentNotebook ? parentNotebook.children : notebookList)
     setCurrentFocus(menuOptions.notebook)
+  }
+  function handleExpandNotebook (notebook: INotebook) {
+    const notebookToUpdate = {...notebook}
+    notebookToUpdate.expand = !notebook.expand
+    updateNotebook(notebookToUpdate)
   }
   function handleShowNewNotebookForm () {
     setShowNewNotebookForm(!showNewNotebookForm)
@@ -143,6 +149,7 @@ const GlobalMenu = observer(() => {
         <NotebookListContainer ref={notebookListRef} className="mt-2">
           <NotebookList
             onSelectNotebook={handleSelectNotebook}
+            onExpandNotebook={handleExpandNotebook}
             notebookList={notebookList}
             currentFocus={currentFocus}
           />

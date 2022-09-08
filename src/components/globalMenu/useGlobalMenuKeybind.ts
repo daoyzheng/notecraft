@@ -14,6 +14,7 @@ interface Props {
   showNewNotebookForm: boolean
   setCurrentFocus: Dispatch<SetStateAction<menuOptions>>
   setShowNewNotebookForm: Dispatch<SetStateAction<boolean>>
+  handleExpandNotebook: (notebook: INotebook) => void
 }
 
 const useGlobalMenuKeybind = ({
@@ -23,10 +24,11 @@ const useGlobalMenuKeybind = ({
   notebookListRef,
   showNewNotebookForm,
   setShowNewNotebookForm,
-  setCurrentFocus
+  setCurrentFocus,
+  handleExpandNotebook
 }: Props) => {
   const navigate = useNavigate()
-  const { currentNotebook, setCurrentNotebook } = NotebookStore
+  const { currentNotebook, setCurrentNotebook, updateCurrentNotebook } = NotebookStore
   const [currentNotebooks, setCurrentNotebooks] = useState<INotebook[]>(notebookList)
   const [parentNotebook, setParentNotebook] = useState<INotebook|null>(null)
 
@@ -196,6 +198,14 @@ const useGlobalMenuKeybind = ({
         case 'escape': {
           setNotebookListOfParent()
           break
+        }
+        case 'e': {
+          if (currentNotebook && currentNotebook.children.length > 0) {
+            handleExpandNotebook(currentNotebook)
+            const currentNotebookToUpdate = {...currentNotebook}
+            currentNotebookToUpdate.expand = !currentNotebook.expand
+            updateCurrentNotebook(currentNotebookToUpdate)
+          }
         }
       }
     }

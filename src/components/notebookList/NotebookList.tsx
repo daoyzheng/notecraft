@@ -1,34 +1,26 @@
 import { observer } from "mobx-react"
+import { useCallback } from "react"
 import { menuOptions } from "../../constants/globalMenu"
 import { INotebook } from "../../interfaces/note"
-import GlobalNavigationStore from "../../store/GlobalNavigationStore"
 import NotebookStore from "../../store/NotebookStore"
 import NotebookItem from "../notebookItem/NotebookItem"
-import useNotebookListKeybind from "./useNotebookListKeybind"
 
 interface Props {
   notebookList: INotebook[]
   currentFocus: menuOptions
   onSelectNotebook?: (notebook: INotebook) => void
+  onExpandNotebook?: (notebook: INotebook) => void
 }
-const NotebookList = observer(({ notebookList, currentFocus, onSelectNotebook }: Props) => {
-  const { currentNotebook, setCurrentNotebook, updateNotebook } = NotebookStore
-  const globalNavigationStore = GlobalNavigationStore
-  useNotebookListKeybind({
-    globalNavigationStore,
-    currentFocus,
-    currentNotebook
-  })
-  function handleSelectNotebook (notebook: INotebook) {
+const NotebookList = observer(({ notebookList, currentFocus, onSelectNotebook, onExpandNotebook }: Props) => {
+  const { currentNotebook, setCurrentNotebook } = NotebookStore
+  const handleSelectNotebook = useCallback((notebook: INotebook) => {
     setCurrentNotebook(notebook)
     onSelectNotebook && onSelectNotebook(notebook)
-  }
+  },[onSelectNotebook])
 
-  function handleOnExpandNotebook (notebook: INotebook) {
-    const notebookToUpdate = {...notebook}
-    notebookToUpdate.expand = !notebook.expand
-    updateNotebook(notebookToUpdate)
-  }
+  const handleOnExpandNotebook = useCallback((notebook: INotebook) => {
+    onExpandNotebook && onExpandNotebook(notebook)
+  }, [onExpandNotebook])
 
   return (
     <ul>
