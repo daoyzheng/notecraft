@@ -14,7 +14,7 @@ interface Props {
   showNewNotebookForm: boolean
   setCurrentFocus: Dispatch<SetStateAction<menuOptions>>
   setShowNewNotebookForm: Dispatch<SetStateAction<boolean>>
-  handleExpandNotebook: (notebook: INotebook) => void
+  handleExpandNotebook: (notebook: INotebook, forceExpand?: boolean) => void
 }
 
 const useGlobalMenuKeybind = ({
@@ -111,6 +111,102 @@ const useGlobalMenuKeybind = ({
     }
   }
 
+  function MenuNavigationKeybind(e: KeyboardEvent) {
+    switch(e.key.toLocaleLowerCase()) {
+      case 'j':
+      case 'arrowdown': {
+        if (currentFocus !== menuOptions.notebookLanding) {
+          setCurrentFocus(currentFocus+1)
+          navigate(getRouteFromFocus(currentFocus+1))
+        }
+        break
+      }
+      case 'k':
+      case 'arrowup': {
+        if (currentFocus !== menuOptions.noteshall) {
+          setCurrentFocus(currentFocus-1)
+          navigate(getRouteFromFocus(currentFocus-1))
+        }
+        break
+      }
+      case 'l':
+      case 'arrowright': {
+        switch(currentFocus) {
+          case menuOptions.noteshall: {
+            globalNavigationStore.setCurrentFocusedPage(menuOptions.noteshall)
+            globalNavigationStore.setToPageNavigation()
+            break
+          }
+          case menuOptions.notebookLanding: {
+            globalNavigationStore.setCurrentFocusedPage(menuOptions.notebookLanding)
+            globalNavigationStore.setToPageNavigation()
+            break
+          }
+          default: break
+        }
+        break
+      }
+      case 'enter': {
+        if (currentFocus === menuOptions.notebookLanding) {
+          if (notebookList.length > 0) {
+            setCurrentFocus(menuOptions.notebook)
+            setCurrentNotebooks(notebookList)
+            const selectedNotebook = notebookList[0]
+            setCurrentNotebook(selectedNotebook)
+            break
+          }
+        }
+      }
+    }
+  }
+
+  function NotebookNavigationKeybind (e: KeyboardEvent) {
+    switch(e.key.toLocaleLowerCase()) {
+      case 'j':
+      case 'arrowdown': {
+        setCurrentFocus(menuOptions.notebook)
+        incrementNotebook()
+        break
+      }
+      case 'k':
+      case 'arrowup': {
+        setCurrentFocus(menuOptions.notebook)
+        decrementNotebook()
+        break
+      }
+      case 'l':
+      case 'arrowright': {
+        globalNavigationStore.setCurrentFocusedPage(menuOptions.notebook)
+        globalNavigationStore.setToPageNavigation()
+        break
+      }
+      case 'enter': {
+        if (currentNotebook && currentNotebook.children.length > 0) {
+          setParentNotebook(currentNotebook)
+          setCurrentNotebooks(currentNotebook.children)
+          handleExpandNotebook(currentNotebook, true)
+          const currentNotebookToUpdate = {...currentNotebook}
+          currentNotebookToUpdate.expand = !currentNotebook.expand
+          updateCurrentNotebook(currentNotebookToUpdate)
+          setCurrentNotebook(currentNotebook.children[0])
+        }
+        break
+      }
+      case 'escape': {
+        setNotebookListOfParent()
+        break
+      }
+      case 'e': {
+        if (currentNotebook && currentNotebook.children.length > 0) {
+          handleExpandNotebook(currentNotebook)
+          const currentNotebookToUpdate = {...currentNotebook}
+          currentNotebookToUpdate.expand = !currentNotebook.expand
+          updateCurrentNotebook(currentNotebookToUpdate)
+        }
+      }
+    }
+  }
+
   function handleKeyPress (e: KeyboardEvent) {
     if (showNewNotebookForm) {
       switch(e.key.toLocaleLowerCase()) {
@@ -121,97 +217,9 @@ const useGlobalMenuKeybind = ({
       return
     }
     if (currentFocus !== menuOptions.notebook) {
-      switch(e.key.toLocaleLowerCase()) {
-        case 'j':
-        case 'arrowdown': {
-          if (currentFocus !== menuOptions.notebookLanding) {
-            setCurrentFocus(currentFocus+1)
-            navigate(getRouteFromFocus(currentFocus+1))
-          }
-          break
-        }
-        case 'k':
-        case 'arrowup': {
-          if (currentFocus !== menuOptions.noteshall) {
-            setCurrentFocus(currentFocus-1)
-            navigate(getRouteFromFocus(currentFocus-1))
-          }
-          break
-        }
-        case 'l':
-        case 'arrowright': {
-          switch(currentFocus) {
-            case menuOptions.noteshall: {
-              globalNavigationStore.setCurrentFocusedPage(menuOptions.noteshall)
-              globalNavigationStore.setToPageNavigation()
-              break
-            }
-            case menuOptions.notebookLanding: {
-              globalNavigationStore.setCurrentFocusedPage(menuOptions.notebookLanding)
-              globalNavigationStore.setToPageNavigation()
-              break
-            }
-            default: break
-          }
-          break
-        }
-        case 'enter': {
-          if (currentFocus === menuOptions.notebookLanding) {
-            if (notebookList.length > 0) {
-              setCurrentFocus(menuOptions.notebook)
-              setCurrentNotebooks(notebookList)
-              const selectedNotebook = notebookList[0]
-              setCurrentNotebook(selectedNotebook)
-              break
-            }
-          }
-        }
-      }
+      MenuNavigationKeybind(e)
     } else {
-      switch(e.key.toLocaleLowerCase()) {
-        case 'j':
-        case 'arrowdown': {
-          setCurrentFocus(menuOptions.notebook)
-          incrementNotebook()
-          break
-        }
-        case 'k':
-        case 'arrowup': {
-          setCurrentFocus(menuOptions.notebook)
-          decrementNotebook()
-          break
-        }
-        case 'l':
-        case 'arrowright': {
-          globalNavigationStore.setCurrentFocusedPage(menuOptions.notebook)
-          globalNavigationStore.setToPageNavigation()
-          break
-        }
-        case 'enter': {
-          if (currentNotebook && currentNotebook.children.length > 0) {
-            setParentNotebook(currentNotebook)
-            setCurrentNotebooks(currentNotebook.children)
-            handleExpandNotebook(currentNotebook, true)
-            const currentNotebookToUpdate = {...currentNotebook}
-            currentNotebookToUpdate.expand = !currentNotebook.expand
-            updateCurrentNotebook(currentNotebookToUpdate)
-            setCurrentNotebook(currentNotebook.children[0])
-          }
-          break
-        }
-        case 'escape': {
-          setNotebookListOfParent()
-          break
-        }
-        case 'e': {
-          if (currentNotebook && currentNotebook.children.length > 0) {
-            handleExpandNotebook(currentNotebook)
-            const currentNotebookToUpdate = {...currentNotebook}
-            currentNotebookToUpdate.expand = !currentNotebook.expand
-            updateCurrentNotebook(currentNotebookToUpdate)
-          }
-        }
-      }
+      NotebookNavigationKeybind(e)
     }
   }
 
