@@ -13,13 +13,9 @@ interface Props {
   onSelectNotebook?: (notebook: INotebook) => void
 }
 const NotebookList = observer(({ notebookList, currentFocus, onSelectNotebook }: Props) => {
-  const { currentNotebook, setCurrentNotebook } = NotebookStore
+  const { currentNotebook, setCurrentNotebook, updateNotebook } = NotebookStore
   const globalNavigationStore = GlobalNavigationStore
-  const {
-    isShowChildren,
-    notebookToExpand,
-    handleExpandChildren
-  } = useNotebookListKeybind({
+  useNotebookListKeybind({
     globalNavigationStore,
     currentFocus,
     currentNotebook
@@ -29,9 +25,11 @@ const NotebookList = observer(({ notebookList, currentFocus, onSelectNotebook }:
     onSelectNotebook && onSelectNotebook(notebook)
   }
 
-  const showChildren = useCallback((notebook: INotebook) => {
-    return isShowChildren && notebookToExpand?.id === notebook.id
-  }, [isShowChildren, notebookToExpand])
+  function handleOnExpandNotebook (notebook: INotebook) {
+    const notebookToUpdate = {...notebook}
+    notebookToUpdate.expand = !notebook.expand
+    updateNotebook(notebookToUpdate)
+  }
 
   return (
     <ul>
@@ -42,14 +40,12 @@ const NotebookList = observer(({ notebookList, currentFocus, onSelectNotebook }:
               <NotebookItem
                 isActive={currentFocus == menuOptions.notebook && !!currentNotebook?.id && currentNotebook.id === notebook.id}
                 notebook={notebook}
-                notebookToExpand={notebookToExpand}
-                onExpandNotebook={handleExpandChildren}
+                onExpandNotebook={handleOnExpandNotebook}
                 onClick={handleSelectNotebook}
-                isShowChildren={showChildren(notebook)}
               />
             </div>
             {
-              showChildren(notebook) &&
+              notebook.expand &&
               <NotebookList
                 onSelectNotebook={handleSelectNotebook}
                 notebookList={notebook.children}

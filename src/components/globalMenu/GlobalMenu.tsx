@@ -15,8 +15,9 @@ import useGlobalMenuKeybind from "./useGlobalMenuKeybind"
 
 const GlobalMenu = observer(() => {
   const location = useLocation()
+  const { allNotebooks } = NotebookStore
   const [currentFocus, setCurrentFocus] = useState<menuOptions>(getFocus())
-  const [notebookList, setNotebookList] = useState<INotebook[]>(notebooksMock)
+  const [notebookList, setNotebookList] = useState<INotebook[]>(allNotebooks)
   const [showNewNotebookForm, setShowNewNotebookForm] = useState<boolean>(false)
   const notebookListRef = useRef<HTMLDivElement>(null)
   const newNotebookFormRef = useRef<HTMLDivElement>(null)
