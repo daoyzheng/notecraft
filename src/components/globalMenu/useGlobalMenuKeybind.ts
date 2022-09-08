@@ -191,7 +191,7 @@ const useGlobalMenuKeybind = ({
           if (currentNotebook && currentNotebook.children.length > 0) {
             setParentNotebook(currentNotebook)
             setCurrentNotebooks(currentNotebook.children)
-            handleExpandNotebook(currentNotebook)
+            handleExpandNotebook(currentNotebook, true)
             const currentNotebookToUpdate = {...currentNotebook}
             currentNotebookToUpdate.expand = !currentNotebook.expand
             updateCurrentNotebook(currentNotebookToUpdate)

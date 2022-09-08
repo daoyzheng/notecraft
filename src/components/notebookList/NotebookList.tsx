@@ -39,6 +39,7 @@ const NotebookList = observer(({ notebookList, currentFocus, onSelectNotebook, o
               notebook.expand &&
               <NotebookList
                 onSelectNotebook={handleSelectNotebook}
+                onExpandNotebook={handleOnExpandNotebook}
                 notebookList={notebook.children}
                 currentFocus={currentFocus}
               />

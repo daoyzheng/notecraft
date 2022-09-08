@@ -85,9 +85,9 @@ const GlobalMenu = observer(() => {
     setCurrentNotebooks(parentNotebook ? parentNotebook.children : notebookList)
     setCurrentFocus(menuOptions.notebook)
   }
-  function handleExpandNotebook (notebook: INotebook) {
+  function handleExpandNotebook (notebook: INotebook, forceExpand: boolean = false) {
     const notebookToUpdate = {...notebook}
-    notebookToUpdate.expand = !notebook.expand
+    notebookToUpdate.expand = forceExpand || !notebook.expand
     updateNotebook(notebookToUpdate)
   }
   function handleShowNewNotebookForm () {
