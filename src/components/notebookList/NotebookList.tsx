@@ -1,5 +1,4 @@
 import { observer } from "mobx-react"
-import { useCallback, useMemo, useState } from "react"
 import { menuOptions } from "../../constants/globalMenu"
 import { INotebook } from "../../interfaces/note"
 import GlobalNavigationStore from "../../store/GlobalNavigationStore"

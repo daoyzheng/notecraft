@@ -28,7 +28,7 @@ const NotebookItem = ({ className, notebook, isActive, onClick, onExpandNotebook
         >{!notebook.expand ? 'keyboard_arrow_right' : 'keyboard_arrow_down'}</i>
       </div>
       <div
-        className={`${isActive ? 'bg-gray-500' : ''} bg-gray-800 pl-2 w-full rounded cursor-pointer flex items-center`}
+        className={`${isActive ? 'bg-gray-600' : ''} bg-gray-800 pl-2 w-full rounded cursor-pointer flex items-center`}
       >{notebook.name}</div>
     </div>
   )
