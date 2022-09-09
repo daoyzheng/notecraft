@@ -65,7 +65,6 @@ const useGlobalMenuKeybind = ({
 
   }
 
-
   function getRouteFromFocus (focus: menuOptions) {
     switch(focus) {
       case menuOptions.notebookLanding: return routes.notebooks
@@ -74,47 +73,10 @@ const useGlobalMenuKeybind = ({
     }
   }
 
-  function getTargetNotebooks (notebookList: INotebook[]): INotebook[] {
-    let targetNotebooks: INotebook[] = []
-    if (!parentNotebook || !parentNotebook.parentNotebookId) return targetNotebooks
-    if (parentNotebook.parentNotebookId) {
-      for (const notebook of notebookList) {
-        if (notebook.children.length > 0) {
-          const targetNotebook = notebook.children.find(child => child.id === parentNotebook.parentNotebookId)
-            || (notebook.id === parentNotebook.parentNotebookId && notebook)
-          if (targetNotebook) {
-            setParentNotebook(targetNotebook)
-            targetNotebooks = targetNotebook.children
-            return targetNotebooks
-          }
-          return getTargetNotebooks(notebook.children)
-        }
-      }
-    }
-    return targetNotebooks
-  }
-
   function updateCurrentNotebookExpandState (notebook: INotebook) {
     const currentNotebookToUpdate = {...notebook}
     currentNotebookToUpdate.expand = !notebook.expand
     updateCurrentNotebook(currentNotebookToUpdate)
-  }
-
-  function setNotebookListOfParent () {
-    const targetNotebooks = getTargetNotebooks(notebookList)
-    if (targetNotebooks.length > 0) {
-      setCurrentNotebook(targetNotebooks.find(n => n.id === parentNotebook?.id) ?? null)
-      setCurrentNotebooks(targetNotebooks)
-    } else {
-      setCurrentNotebook(notebookList.find(n => n.id === parentNotebook?.id) ?? null)
-      setCurrentNotebooks(notebookList)
-      setParentNotebook(null)
-    }
-    if (!parentNotebook) {
-      setCurrentFocus(menuOptions.notebookLanding)
-      setCurrentNotebook(null)
-      setCurrentNotebooks([])
-    }
   }
 
   function MenuNavigationKeybind(e: KeyboardEvent) {
@@ -223,7 +185,6 @@ const useGlobalMenuKeybind = ({
             }
           }
         }
-        // setNotebookListOfParent()
         break
       }
       case 'e': {
