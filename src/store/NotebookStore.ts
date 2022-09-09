@@ -79,6 +79,9 @@ class NotebookStore {
     }
     return null
   }
+  // collapseAllNotebooks = () => {
+  //   for (const notebook of this.allNotebooks)
+  // }
 }
 
 function getGrandparentNotebookHelper (notebook: INotebook, notebookId: number): INotebook|null {

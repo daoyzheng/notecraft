@@ -34,7 +34,7 @@ const NewNotebookForm = ({ onBlur, blurException, onCreateNewNotebook }: Props) 
   function handleRootNotebookChange (e: ChangeEvent) {
     const { checked } = (e.target as HTMLInputElement)
     if (checked) {
-      setValue('parentNotebookId', null)
+      setValue('parentNotebookId', null as never)
     }
     setIsRootNotebook(checked)
   }

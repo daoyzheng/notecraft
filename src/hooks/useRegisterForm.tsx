@@ -2,6 +2,7 @@ import {
   DeepPartial,
   DeepRequired,
   FieldErrorsImpl,
+  FieldValues,
   useForm,
   UseFormHandleSubmit,
   UseFormRegister,
@@ -13,7 +14,7 @@ interface Props<T> {
   defaultValue?: DeepPartial<T>
 }
 
-function useRegisterForm<T>({ defaultValue }: Props<T>) : {
+function useRegisterForm<T extends FieldValues>({ defaultValue }: Props<T>) : {
   register: UseFormRegister<T>,
   reset: UseFormReset<T>,
   handleSubmit: UseFormHandleSubmit<T>,
@@ -26,7 +27,6 @@ function useRegisterForm<T>({ defaultValue }: Props<T>) : {
     setValue,
     formState: { errors },
   } = useForm<T>({
-    mode: 'onBlur',
     reValidateMode: 'onBlur',
     shouldUseNativeValidation: false,
     defaultValues: defaultValue

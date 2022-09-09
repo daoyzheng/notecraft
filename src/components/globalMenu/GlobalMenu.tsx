@@ -6,8 +6,8 @@ import { INotebook } from "../../interfaces/note"
 import routes from "../../routes"
 import GlobalNavigationStore from "../../store/GlobalNavigationStore"
 import NotebookStore from "../../store/NotebookStore"
-import { notebooksMock } from "../../utils/mock"
 import NotebookList from "../notebookList/NotebookList"
+import { IconWrapper } from "./GlobalMenu.styled"
 import GlobalMenuItem from "./GlobalMenuItem"
 import { NotebookListContainer } from "./GlobalMenuItem.styled"
 import NewNotebookForm from "./NewNotebookForm"
@@ -136,7 +136,13 @@ const GlobalMenu = observer(() => {
           >
             <div>Notebooks</div>
           </GlobalMenuItem>
-          <i ref={newNotebookFormRef} className={`${showNewNotebookForm ? 'text-blue-300' : ''} material-icons-outlined text-sm cursor-pointer`} onClick={handleShowNewNotebookForm}>add_circle_outline</i>
+          <IconWrapper
+            size="15"
+            marginBottom="1"
+            ref={newNotebookFormRef}
+            className={`${showNewNotebookForm ? 'bg-green-600' : 'bg-green-700'} material-icons-outlined cursor-pointer rounded-sm hover:bg-green-600`}
+            onClick={handleShowNewNotebookForm}>add
+          </IconWrapper>
           {
             showNewNotebookForm &&
             <NewNotebookForm
@@ -145,6 +151,7 @@ const GlobalMenu = observer(() => {
               onCreateNewNotebook={handleCreateNewNotebook}
             />
           }
+          <IconWrapper className="material-icons ml-2 cursor-pointer rounded-sm text-gray-400 rounded-sm border border-gray-400 bg-gray-700">minimize</IconWrapper>
         </div>
         <NotebookListContainer ref={notebookListRef} className="mt-2">
           <NotebookList
