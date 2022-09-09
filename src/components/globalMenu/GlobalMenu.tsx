@@ -147,7 +147,7 @@ const GlobalMenu = observer(() => {
           </GlobalMenuItem>
           <IconWrapper
             size="14"
-            marginBottom="0.5"
+            marginBottom="1"
             ref={newNotebookFormRef}
             className={`${showNewNotebookForm ? 'bg-green-500' : 'bg-green-600'} material-icons-outlined cursor-pointer rounded-sm hover:bg-green-500`}
             onClick={handleShowNewNotebookForm}

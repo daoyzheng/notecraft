@@ -200,11 +200,26 @@ const NotebookSelectionHints = ({currentNotebook}: {currentNotebook: INotebook})
         <InputHint label="k"/><span className="mx-1">/</span><InputHint icon="keyboard_arrow_up"/>
         <div className="ml-1 text-xs">: Prev notebook</div>
       </div>
+      <div className="flex items-center">
+        <InputHint label="l"/><span className="mx-1">/</span><InputHint icon="keyboard_arrow_right"/>
+        <div className="ml-1 text-xs">: Enter notes selection</div>
+      </div>
+      <div className="flex items-center">
+        <InputHint label="e"/>
+        <div className="ml-1 text-xs">: Toggle Expand</div>
+      </div>
       {
         currentNotebook.children.length > 0 &&
         <div className="flex items-center">
           <InputHint label="Enter"/>
-          <div className="ml-1 text-xs">Select sub notebook</div>
+          <div className="ml-1 text-xs">: Next level</div>
+        </div>
+      }
+      {
+        currentNotebook.parentNotebookId &&
+        <div className="flex items-center">
+          <InputHint label="Esc"/>
+          <div className="ml-1 text-xs">: Previous level</div>
         </div>
       }
     </>
