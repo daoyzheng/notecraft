@@ -22,6 +22,18 @@ const NotebookList = observer(({ notebookList, currentFocus, onSelectNotebook, o
     onExpandNotebook && onExpandNotebook(notebook)
   }, [onExpandNotebook])
 
+  function isNotebookAncestorOfCurrentNotebook(notebook: INotebook) {
+    return isAncestor(notebook)
+  }
+  function isAncestor(notebook: INotebook): boolean {
+    if (!currentNotebook) return false
+    if (notebook.children.some(child => child.id === currentNotebook.id)) return true
+    for (const child of notebook.children) {
+      return isAncestor(child)
+    }
+    return false
+  }
+
   return (
     <ul>
       {notebookList.map(notebook => {
@@ -34,6 +46,10 @@ const NotebookList = observer(({ notebookList, currentFocus, onSelectNotebook, o
                 onExpandNotebook={handleOnExpandNotebook}
                 onClick={handleSelectNotebook}
               />
+              {
+                notebook.children.length > 0 && !notebook.expand && isNotebookAncestorOfCurrentNotebook(notebook) &&
+                <div>*</div>
+              }
             </div>
             {
               notebook.expand &&
