@@ -14,7 +14,7 @@ interface Props {
   showNewNotebookForm: boolean
   setCurrentFocus: Dispatch<SetStateAction<menuOptions>>
   setShowNewNotebookForm: Dispatch<SetStateAction<boolean>>
-  handleExpandNotebook: (notebook: INotebook, forceExpand?: boolean) => void
+  handleExpandNotebook: (notebook: INotebook, forceState?: boolean) => void
 }
 
 const useGlobalMenuKeybind = ({
@@ -28,7 +28,7 @@ const useGlobalMenuKeybind = ({
   handleExpandNotebook
 }: Props) => {
   const navigate = useNavigate()
-  const { currentNotebook, setCurrentNotebook, updateCurrentNotebook } = NotebookStore
+  const { currentNotebook, setCurrentNotebook, updateCurrentNotebook, getGrandparentNotebook } = NotebookStore
   const [currentNotebooks, setCurrentNotebooks] = useState<INotebook[]>(notebookList)
   const [parentNotebook, setParentNotebook] = useState<INotebook|null>(null)
 
@@ -92,6 +92,12 @@ const useGlobalMenuKeybind = ({
       }
     }
     return targetNotebooks
+  }
+
+  function updateCurrentNotebookExpandState (notebook: INotebook) {
+    const currentNotebookToUpdate = {...notebook}
+    currentNotebookToUpdate.expand = !notebook.expand
+    updateCurrentNotebook(currentNotebookToUpdate)
   }
 
   function setNotebookListOfParent () {
@@ -185,23 +191,45 @@ const useGlobalMenuKeybind = ({
           setParentNotebook(currentNotebook)
           setCurrentNotebooks(currentNotebook.children)
           handleExpandNotebook(currentNotebook, true)
-          const currentNotebookToUpdate = {...currentNotebook}
-          currentNotebookToUpdate.expand = !currentNotebook.expand
-          updateCurrentNotebook(currentNotebookToUpdate)
+          updateCurrentNotebookExpandState(currentNotebook)
           setCurrentNotebook(currentNotebook.children[0])
         }
         break
       }
       case 'escape': {
-        setNotebookListOfParent()
+        if (!currentNotebook) break
+        if (!currentNotebook.parentNotebookId) {
+          setCurrentNotebook(null)
+          setCurrentFocus(menuOptions.notebookLanding)
+          setCurrentNotebooks(notebookList)
+        } else {
+          const grandParentNotebook = getGrandparentNotebook(currentNotebook.id!)
+          if (!grandParentNotebook) {
+            setCurrentNotebooks(notebookList)
+            const parentNotebook = notebookList.find(notebook => notebook.id === currentNotebook.parentNotebookId)
+            setCurrentNotebook(parentNotebook ?? null)
+            if (parentNotebook) {
+              handleExpandNotebook(parentNotebook, false)
+              updateCurrentNotebookExpandState(parentNotebook)
+            }
+          }
+          else {
+            setCurrentNotebooks(grandParentNotebook.children)
+            const parentNotebook = grandParentNotebook.children.find(notebook => notebook.id === currentNotebook.parentNotebookId)
+            setCurrentNotebook(parentNotebook ?? null)
+            if (parentNotebook) {
+              handleExpandNotebook(parentNotebook, false)
+              updateCurrentNotebookExpandState(parentNotebook)
+            }
+          }
+        }
+        // setNotebookListOfParent()
         break
       }
       case 'e': {
         if (currentNotebook && currentNotebook.children.length > 0) {
           handleExpandNotebook(currentNotebook)
-          const currentNotebookToUpdate = {...currentNotebook}
-          currentNotebookToUpdate.expand = !currentNotebook.expand
-          updateCurrentNotebook(currentNotebookToUpdate)
+          updateCurrentNotebookExpandState(currentNotebook)
         }
       }
     }

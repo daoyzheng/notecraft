@@ -25,7 +25,8 @@ class NotebookStore {
       setCurrentNoteTags: action,
       setCurrentNotebook: action,
       updateNotebook: action,
-      updateCurrentNotebook: action
+      updateCurrentNotebook: action,
+      getGrandparentNotebook: action
     })
   }
   setCurrentNote = (note: INote|null) => {
@@ -70,6 +71,26 @@ class NotebookStore {
       parentNotebook.children[index] = newNotebook
     }
   }
+  getGrandparentNotebook = (notebookId: number) => {
+    let grandParentNotebook = null
+    for (const notebook of this.allNotebooks) {
+      grandParentNotebook = getGrandparentNotebookHelper(notebook, notebookId)
+      if (grandParentNotebook) return grandParentNotebook
+    }
+    return null
+  }
+}
+
+function getGrandparentNotebookHelper (notebook: INotebook, notebookId: number): INotebook|null {
+  if (notebook.children.length === 0) return null
+  if (notebook.children.some(child => child.children.some(grandChild => grandChild.id === notebookId)))
+    return notebook
+  let grandParent = null
+  for (const child of notebook.children) {
+    grandParent = getGrandparentNotebookHelper(child, notebookId)
+    if (grandParent) return grandParent
+  }
+  return null
 }
 
 function getParentNotebook(notebook: INotebook, parentNotebookId: number|null): INotebook|null {
