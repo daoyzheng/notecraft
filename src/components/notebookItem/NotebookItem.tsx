@@ -4,11 +4,12 @@ import { INotebook } from "../../interfaces/note"
 interface Props {
   notebook: INotebook
   isActive: boolean
+  isCurrentNotebookHidden: boolean
   onClick?: (notebook: INotebook) => void
   onExpandNotebook?: (notebook: INotebook) => void
   className?: string
 }
-const NotebookItem = ({ className, notebook, isActive, onClick, onExpandNotebook }: Props) => {
+const NotebookItem = ({ className, notebook, isActive, isCurrentNotebookHidden, onClick, onExpandNotebook }: Props) => {
   const handleOnClick = useCallback(() => {
     onClick && onClick(notebook)
   }, [onClick])
@@ -18,7 +19,7 @@ const NotebookItem = ({ className, notebook, isActive, onClick, onExpandNotebook
   }, [onExpandNotebook])
   return (
     <div
-      className={`${className} flex w-full ${isActive ? 'bg-gray-600' : ''} rounded-sm pl-1 hover:bg-gray-600 items-center`}
+      className={`${className} flex w-full ${isActive && 'bg-blue-500'} rounded-sm pl-1 hover:bg-blue-500 items-center ${isCurrentNotebookHidden && 'bg-gray-700'}`}
     >
       {
         notebook.children.length > 0 ?

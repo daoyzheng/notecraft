@@ -34,6 +34,10 @@ const NotebookList = observer(({ notebookList, currentFocus, onSelectNotebook, o
     return false
   }
 
+  const isCurrentNotebookHidden = useCallback((notebook: INotebook) => {
+    return notebook.children.length > 0 && !notebook.expand && isNotebookAncestorOfCurrentNotebook(notebook)
+  }, [currentNotebook])
+
   return (
     <ul>
       {notebookList.map(notebook => {
@@ -42,14 +46,11 @@ const NotebookList = observer(({ notebookList, currentFocus, onSelectNotebook, o
             <div className="flex items-center mb-1 ">
               <NotebookItem
                 isActive={currentFocus == menuOptions.notebook && !!currentNotebook?.id && currentNotebook.id === notebook.id}
+                isCurrentNotebookHidden={isCurrentNotebookHidden(notebook)}
                 notebook={notebook}
                 onExpandNotebook={handleOnExpandNotebook}
                 onClick={handleSelectNotebook}
               />
-              {
-                notebook.children.length > 0 && !notebook.expand && isNotebookAncestorOfCurrentNotebook(notebook) &&
-                <div>*</div>
-              }
             </div>
             {
               notebook.expand &&
