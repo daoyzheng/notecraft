@@ -26,7 +26,8 @@ class NotebookStore {
       setCurrentNotebook: action,
       updateNotebook: action,
       updateCurrentNotebook: action,
-      getGrandparentNotebook: action
+      getGrandparentNotebook: action,
+      collapseAllNotebooks: action
     })
   }
   setCurrentNote = (note: INote|null) => {
@@ -79,9 +80,19 @@ class NotebookStore {
     }
     return null
   }
-  // collapseAllNotebooks = () => {
-  //   for (const notebook of this.allNotebooks)
-  // }
+  collapseAllNotebooks = () => {
+    for (const notebook of this.allNotebooks) {
+      collapseAllNotebooksHelper(notebook)
+    }
+  }
+}
+
+function collapseAllNotebooksHelper (notebook: INotebook) {
+  notebook.expand = false
+  for (const child of notebook.children) {
+    collapseAllNotebooksHelper(child)
+  }
+  return
 }
 
 function getGrandparentNotebookHelper (notebook: INotebook, notebookId: number): INotebook|null {

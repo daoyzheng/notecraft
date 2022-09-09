@@ -18,21 +18,21 @@ const NotebookItem = ({ className, notebook, isActive, onClick, onExpandNotebook
   }, [onExpandNotebook])
   return (
     <div
-      onClick={handleOnClick}
-      className={`${className} flex w-full ${isActive ? 'bg-gray-600' : ''} rounded-sm pl-1 hover:bg-gray-600`}
+      className={`${className} flex w-full ${isActive ? 'bg-gray-600' : ''} rounded-sm pl-1 hover:bg-gray-600 items-center`}
     >
       {
         notebook.children.length > 0 ?
-        <div className={`${notebook.expand ? 'text-amber-400': ''} h-7 w-5`}>
-          <i
-            className="material-icons text-sm mt-1 mr-1 hover:text-amber-400 cursor-pointer"
+        <div className={`${notebook.expand ? 'text-amber-400': ''} h-7 w-5 mb-1`}>
+          <button
+            className="material-icons text-sm mt-1 mr-1 hover:text-amber-400 cursor-pointer h-6 w-5"
             onClick={(e) => handleExpandNotebook(notebook,e)}
-          >{!notebook.expand ? 'keyboard_arrow_right' : 'keyboard_arrow_down'}</i>
+          >{!notebook.expand ? 'keyboard_arrow_right' : 'keyboard_arrow_down'}</button>
         </div> :
-        <div className="h-7 w-5"/>
+        <div className="h-7 w-5 mb-1"/>
       }
       <div
-        className="pl-2 w-full rounded cursor-pointer flex items-center"
+        className="ml-2 w-full rounded cursor-pointer flex items-center"
+        onClick={handleOnClick}
       >{notebook.name}</div>
     </div>
   )

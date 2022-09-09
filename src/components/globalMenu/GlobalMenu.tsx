@@ -22,7 +22,7 @@ const GlobalMenu = observer(() => {
   const notebookListRef = useRef<HTMLDivElement>(null)
   const newNotebookFormRef = useRef<HTMLDivElement>(null)
   const globalNavigationStore = GlobalNavigationStore
-  const { setCurrentNotebook, updateNotebook } = NotebookStore
+  const { currentNotebook, setCurrentNotebook, updateNotebook, collapseAllNotebooks, updateCurrentNotebook } = NotebookStore
   const navigate = useNavigate()
 
   function getFocus () {
@@ -118,6 +118,15 @@ const GlobalMenu = observer(() => {
     }
     return null
   }
+  function handleMinimizeAllNotebooks() {
+    collapseAllNotebooks()
+    if (currentNotebook) {
+      const currentNotebookToUpdate = {...currentNotebook}
+      currentNotebookToUpdate.expand = false
+      updateCurrentNotebook(currentNotebookToUpdate)
+    }
+  }
+
   return (
     <div className="justify-between flex flex-col h-full">
       <div>
@@ -141,8 +150,8 @@ const GlobalMenu = observer(() => {
             marginBottom="0.5"
             ref={newNotebookFormRef}
             className={`${showNewNotebookForm ? 'bg-green-500' : 'bg-green-600'} material-icons-outlined cursor-pointer rounded-sm hover:bg-green-500`}
-            onClick={handleShowNewNotebookForm}>add
-          </IconWrapper>
+            onClick={handleShowNewNotebookForm}
+          >add</IconWrapper>
           {
             showNewNotebookForm &&
             <NewNotebookForm
@@ -151,7 +160,10 @@ const GlobalMenu = observer(() => {
               onCreateNewNotebook={handleCreateNewNotebook}
             />
           }
-          <IconWrapper className="material-icons ml-2 cursor-pointer rounded-sm text-gray-400 rounded-sm border border-gray-400 bg-gray-700 hover:bg-gray-600">minimize</IconWrapper>
+          <IconWrapper
+            className="material-icons ml-2 cursor-pointer rounded-sm text-gray-400 rounded-sm border border-gray-400 bg-gray-700 hover:bg-gray-600"
+            onClick={handleMinimizeAllNotebooks}
+          >minimize</IconWrapper>
         </div>
         <NotebookListContainer ref={notebookListRef} className="mt-2">
           <NotebookList
