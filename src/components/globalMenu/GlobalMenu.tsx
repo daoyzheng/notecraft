@@ -137,10 +137,10 @@ const GlobalMenu = observer(() => {
             <div>Notebooks</div>
           </GlobalMenuItem>
           <IconWrapper
-            size="15"
-            marginBottom="1"
+            size="14"
+            marginBottom="0.5"
             ref={newNotebookFormRef}
-            className={`${showNewNotebookForm ? 'bg-green-600' : 'bg-green-700'} material-icons-outlined cursor-pointer rounded-sm hover:bg-green-600`}
+            className={`${showNewNotebookForm ? 'bg-green-500' : 'bg-green-600'} material-icons-outlined cursor-pointer rounded-sm hover:bg-green-500`}
             onClick={handleShowNewNotebookForm}>add
           </IconWrapper>
           {
@@ -151,7 +151,7 @@ const GlobalMenu = observer(() => {
               onCreateNewNotebook={handleCreateNewNotebook}
             />
           }
-          <IconWrapper className="material-icons ml-2 cursor-pointer rounded-sm text-gray-400 rounded-sm border border-gray-400 bg-gray-700">minimize</IconWrapper>
+          <IconWrapper className="material-icons ml-2 cursor-pointer rounded-sm text-gray-400 rounded-sm border border-gray-400 bg-gray-700 hover:bg-gray-600">minimize</IconWrapper>
         </div>
         <NotebookListContainer ref={notebookListRef} className="mt-2">
           <NotebookList
