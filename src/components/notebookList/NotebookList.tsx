@@ -28,8 +28,10 @@ const NotebookList = observer(({ notebookList, currentFocus, onSelectNotebook, o
   function isAncestor(notebook: INotebook): boolean {
     if (!currentNotebook) return false
     if (notebook.children.some(child => child.id === currentNotebook.id)) return true
+    let isFound = false
     for (const child of notebook.children) {
-      return isAncestor(child)
+      isFound = isAncestor(child)
+      if (isFound) return isFound
     }
     return false
   }
