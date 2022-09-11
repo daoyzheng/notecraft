@@ -1,8 +1,9 @@
 import { observer } from "mobx-react"
-import { useCallback } from "react"
+import { useCallback, useContext } from "react"
 import { menuOptions } from "../../constants/globalMenu"
 import { INotebook } from "../../interfaces/note"
 import NotebookStore from "../../store/NotebookStore"
+import { NotebookListContext } from "../globalMenu/useNotebookListContext"
 import NotebookItem from "../notebookItem/NotebookItem"
 
 interface Props {
@@ -12,7 +13,8 @@ interface Props {
   onExpandNotebook?: (notebook: INotebook) => void
 }
 const NotebookList = observer(({ notebookList, currentFocus, onSelectNotebook, onExpandNotebook }: Props) => {
-  const { currentNotebook, setCurrentNotebook, updateCurrentNotebook } = NotebookStore
+  const { allNotebooks, currentNotebook, setCurrentNotebook, updateCurrentNotebook, getParentNotebook } = NotebookStore
+  const { setCurrentNotebooks } = useContext(NotebookListContext)
   const handleSelectNotebook = useCallback((notebook: INotebook) => {
     setCurrentNotebook(notebook)
     onSelectNotebook && onSelectNotebook(notebook)
@@ -24,6 +26,11 @@ const NotebookList = observer(({ notebookList, currentFocus, onSelectNotebook, o
       const currentNotebookToUpdate = {...notebook}
       currentNotebookToUpdate.expand = false
       updateCurrentNotebook(currentNotebookToUpdate)
+      const parentNotebook = getParentNotebook(notebook.parentNotebookId)
+      if (parentNotebook)
+        setCurrentNotebooks(parentNotebook.children)
+      else
+        setCurrentNotebooks(allNotebooks)
     }
     onExpandNotebook && onExpandNotebook(notebook)
   }, [onExpandNotebook])

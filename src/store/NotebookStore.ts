@@ -27,7 +27,8 @@ class NotebookStore {
       updateNotebook: action,
       updateCurrentNotebook: action,
       getGrandparentNotebook: action,
-      collapseAllNotebooks: action
+      getParentNotebook: action,
+      collapseAllNotebooks: action,
     })
   }
   setCurrentNote = (note: INote|null) => {
@@ -58,12 +59,7 @@ class NotebookStore {
     this.currentNotebook = newCurrentNotebook
   }
   updateNotebook = (newNotebook: INotebook) => {
-    let parentNotebook = null
-    for (const notebook of this.allNotebooks) {
-      parentNotebook = getParentNotebook(notebook, newNotebook.parentNotebookId)
-      if (parentNotebook)
-        break
-    }
+    let parentNotebook = this.getParentNotebook(newNotebook.parentNotebookId)
     if (!parentNotebook) {
       const index = this.allNotebooks.findIndex(notebook => notebook.id === newNotebook.id)
       this.allNotebooks[index] = newNotebook
@@ -84,6 +80,15 @@ class NotebookStore {
     for (const notebook of this.allNotebooks) {
       collapseAllNotebooksHelper(notebook)
     }
+  }
+  getParentNotebook = (parentNotebookId: number|null) => {
+    if (!parentNotebookId) return null
+    let parentNotebook = null
+    for (const notebook of this.allNotebooks) {
+      parentNotebook = getParentNotebookHelper(notebook, parentNotebookId)
+      if (parentNotebook) return parentNotebook
+    }
+    return null
   }
 }
 
@@ -107,12 +112,12 @@ function getGrandparentNotebookHelper (notebook: INotebook, notebookId: number):
   return null
 }
 
-function getParentNotebook(notebook: INotebook, parentNotebookId: number|null): INotebook|null {
+function getParentNotebookHelper(notebook: INotebook, parentNotebookId: number|null): INotebook|null {
   if (!parentNotebookId) return null
   if (notebook.id === parentNotebookId) return notebook
   let parentNotebook = null
   for (const child of notebook.children) {
-    parentNotebook = getParentNotebook(child, parentNotebookId)
+    parentNotebook = getParentNotebookHelper(child, parentNotebookId)
     if (parentNotebook) return parentNotebook
   }
   return null

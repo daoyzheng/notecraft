@@ -12,6 +12,7 @@ import GlobalMenuItem from "./GlobalMenuItem"
 import { NotebookListContainer } from "./GlobalMenuItem.styled"
 import NewNotebookForm from "./NewNotebookForm"
 import useGlobalMenuKeybind from "./useGlobalMenuKeybind"
+import { NotebookListContextProvider } from "./useNotebookListContext"
 
 const GlobalMenu = observer(() => {
   const location = useLocation()
@@ -166,12 +167,16 @@ const GlobalMenu = observer(() => {
           >minimize</IconWrapper>
         </div>
         <NotebookListContainer ref={notebookListRef} className="mt-2">
-          <NotebookList
-            onSelectNotebook={handleSelectNotebook}
-            onExpandNotebook={handleExpandNotebook}
-            notebookList={notebookList}
-            currentFocus={currentFocus}
-          />
+          <NotebookListContextProvider
+            setCurrentNotebooks={setCurrentNotebooks}
+          >
+            <NotebookList
+              onSelectNotebook={handleSelectNotebook}
+              onExpandNotebook={handleExpandNotebook}
+              notebookList={notebookList}
+              currentFocus={currentFocus}
+            />
+          </NotebookListContextProvider>
         </NotebookListContainer>
       </div>
       <div>
