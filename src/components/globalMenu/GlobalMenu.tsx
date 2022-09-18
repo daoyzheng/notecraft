@@ -23,7 +23,13 @@ const GlobalMenu = observer(() => {
   const notebookListRef = useRef<HTMLDivElement>(null)
   const newNotebookFormRef = useRef<HTMLDivElement>(null)
   const globalNavigationStore = GlobalNavigationStore
-  const { currentNotebook, setCurrentNotebook, updateNotebook, collapseAllNotebooks, updateCurrentNotebook } = NotebookStore
+  const {
+    isNotebookAncestorOfCurrentNotebook,
+    setCurrentNotebook,
+    updateNotebook,
+    collapseAllNotebooks,
+    updateCurrentNotebook
+  } = NotebookStore
   const navigate = useNavigate()
 
   function getFocus () {
@@ -121,10 +127,14 @@ const GlobalMenu = observer(() => {
   }
   function handleMinimizeAllNotebooks() {
     collapseAllNotebooks()
-    if (currentNotebook) {
-      const currentNotebookToUpdate = {...currentNotebook}
-      currentNotebookToUpdate.expand = false
-      updateCurrentNotebook(currentNotebookToUpdate)
+    for (const rootNotebook of allNotebooks) {
+      if (isNotebookAncestorOfCurrentNotebook(rootNotebook)) {
+        setCurrentNotebook(rootNotebook)
+        const currentNotebookToUpdate = {...rootNotebook}
+        currentNotebookToUpdate.expand = false
+        updateCurrentNotebook(currentNotebookToUpdate)
+        setCurrentNotebooks(allNotebooks)
+      }
     }
   }
 

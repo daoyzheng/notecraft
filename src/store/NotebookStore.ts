@@ -90,6 +90,9 @@ class NotebookStore {
     }
     return null
   }
+  isNotebookAncestorOfCurrentNotebook = (notebook: INotebook) => {
+    return isAncestor(notebook, this.currentNotebook)
+  }
 }
 
 function collapseAllNotebooksHelper (notebook: INotebook) {
@@ -121,6 +124,16 @@ function getParentNotebookHelper(notebook: INotebook, parentNotebookId: number|n
     if (parentNotebook) return parentNotebook
   }
   return null
+}
+function isAncestor(notebook: INotebook, currentNotebook: INotebook|null): boolean {
+  if (!currentNotebook) return false
+  if (notebook.children.some(child => child.id === currentNotebook.id)) return true
+  let isFound = false
+  for (const child of notebook.children) {
+    isFound = isAncestor(child, currentNotebook)
+    if (isFound) return isFound
+  }
+  return false
 }
 
 export default new NotebookStore()
