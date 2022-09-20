@@ -1,5 +1,6 @@
 import { MouseEvent, useCallback } from "react"
 import { INotebook } from "../../interfaces/note"
+import NotebookStore from "../../store/NotebookStore"
 
 interface Props {
   notebook: INotebook
@@ -9,6 +10,7 @@ interface Props {
   className?: string
 }
 const NotebookItem = ({ className, notebook, isActive, onClick, onExpandNotebook }: Props) => {
+  const { isNotebookAncestorOfCurrentNotebook } = NotebookStore
   const handleOnClick = useCallback(() => {
     onClick && onClick(notebook)
   }, [onClick])
@@ -22,18 +24,22 @@ const NotebookItem = ({ className, notebook, isActive, onClick, onExpandNotebook
     >
       {
         notebook.children.length > 0 ?
-        <div className={`${notebook.expand ? 'text-amber-400': ''} h-7 w-5 mb-1`}>
+        <div className={`${notebook.expand ? 'text-amber-400': ''} h-7 w-5 flex items-center justify-center`}>
           <button
-            className="material-icons text-sm mt-1 mr-1 hover:text-amber-400 cursor-pointer h-6 w-5 focus:outline-none"
+            className="material-icons text-sm mr-1 text-amber-400 hover:bg-gray-500 cursor-pointer h-5 w-4 focus:outline-none bg-gray-800 rounded-sm shadow-lg"
             onClick={(e) => handleExpandNotebook(notebook,e)}
           >{!notebook.expand ? 'keyboard_arrow_right' : 'keyboard_arrow_down'}</button>
         </div> :
-        <div className="h-7 w-5 mb-1 mr-1"/>
+        <div className="h-7 w-5 mr-1"/>
       }
       <div
         className="ml-2 w-full rounded cursor-pointer flex items-center"
         onClick={handleOnClick}
       >{notebook.name}</div>
+      {
+        isNotebookAncestorOfCurrentNotebook(notebook) && !notebook.expand &&
+        <span className="material-icons text-sm text-amber-500">keyboard_double_arrow_down</span>
+      }
     </div>
   )
 }

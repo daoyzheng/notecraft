@@ -24,11 +24,9 @@ const GlobalMenu = observer(() => {
   const newNotebookFormRef = useRef<HTMLDivElement>(null)
   const globalNavigationStore = GlobalNavigationStore
   const {
-    isNotebookAncestorOfCurrentNotebook,
     setCurrentNotebook,
     updateNotebook,
     collapseAllNotebooks,
-    updateCurrentNotebook
   } = NotebookStore
   const navigate = useNavigate()
 
@@ -127,15 +125,6 @@ const GlobalMenu = observer(() => {
   }
   function handleMinimizeAllNotebooks() {
     collapseAllNotebooks()
-    for (const rootNotebook of allNotebooks) {
-      if (isNotebookAncestorOfCurrentNotebook(rootNotebook)) {
-        setCurrentNotebook(rootNotebook)
-        const currentNotebookToUpdate = {...rootNotebook}
-        currentNotebookToUpdate.expand = false
-        updateCurrentNotebook(currentNotebookToUpdate)
-        setCurrentNotebooks(allNotebooks)
-      }
-    }
   }
 
   return (

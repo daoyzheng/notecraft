@@ -29,6 +29,7 @@ class NotebookStore {
       getGrandparentNotebook: action,
       getParentNotebook: action,
       collapseAllNotebooks: action,
+      isNotebookAncestorOfCurrentNotebook: action
     })
   }
   setCurrentNote = (note: INote|null) => {

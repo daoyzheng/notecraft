@@ -14,31 +14,15 @@ interface Props {
 }
 const NotebookList = observer(({ notebookList, currentFocus, onSelectNotebook, onExpandNotebook }: Props) => {
   const {
-    allNotebooks,
     currentNotebook,
-    setCurrentNotebook,
-    updateCurrentNotebook,
-    getParentNotebook,
-    isNotebookAncestorOfCurrentNotebook
+    setCurrentNotebook
   } = NotebookStore
-  const { setCurrentNotebooks } = useContext(NotebookListContext)
   const handleSelectNotebook = useCallback((notebook: INotebook) => {
     setCurrentNotebook(notebook)
     onSelectNotebook && onSelectNotebook(notebook)
   },[onSelectNotebook])
 
   const handleOnExpandNotebook = useCallback((notebook: INotebook) => {
-    if (isNotebookAncestorOfCurrentNotebook(notebook) && notebook.expand) {
-      setCurrentNotebook(notebook)
-      const currentNotebookToUpdate = {...notebook}
-      currentNotebookToUpdate.expand = false
-      updateCurrentNotebook(currentNotebookToUpdate)
-      const parentNotebook = getParentNotebook(notebook.parentNotebookId)
-      if (parentNotebook)
-        setCurrentNotebooks(parentNotebook.children)
-      else
-        setCurrentNotebooks(allNotebooks)
-    }
     onExpandNotebook && onExpandNotebook(notebook)
   }, [onExpandNotebook])
 
