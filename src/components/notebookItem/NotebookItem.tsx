@@ -20,11 +20,11 @@ const NotebookItem = ({ className, notebook, isActive, onClick, onExpandNotebook
   }, [onExpandNotebook])
   return (
     <div
-      className={`${className} flex w-full ${isActive && 'bg-blue-500'} rounded-sm pl-1 hover:bg-blue-500 items-center`}
+      className={`${className} flex w-full min-w-fit ${isActive && 'bg-blue-500'} rounded-sm pl-1 hover:bg-blue-500 items-center`}
     >
       {
         notebook.children.length > 0 ?
-        <div className={`${notebook.expand ? 'text-amber-400': ''} h-7 w-5 flex items-center justify-center`}>
+        <div className="h-7 w-5 flex items-center">
           <button
             className="material-icons text-sm mr-1 text-amber-400 hover:bg-gray-500 cursor-pointer h-5 w-4 focus:outline-none bg-gray-800 rounded-sm shadow-lg"
             onClick={(e) => handleExpandNotebook(notebook,e)}

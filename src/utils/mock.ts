@@ -102,6 +102,23 @@ export const notebooksMock : INotebook[]= [
                 parentNotebookId: 21,
                 expand: false,
                 children: []
+              },
+              {
+                id: 32,
+                name: 'notebook1-1-1-2',
+                createdAt: '2020-08-18',
+                parentNotebookId: 21,
+                expand: false,
+                children: [
+                  {
+                    id: 40,
+                    name: 'notebook1-1-1-2',
+                    createdAt: '2020-08-18',
+                    parentNotebookId: 32,
+                    expand: false,
+                    children: []
+                  }
+                ]
               }
             ]
           }
@@ -120,7 +137,16 @@ export const notebooksMock : INotebook[]= [
             createdAt: '2020-08-18',
             expand: false,
             parentNotebookId: 12,
-            children:[]
+            children:[
+              {
+                id: 21,
+                name: 'notebook1-2-1-1',
+                createdAt: '2020-08-18',
+                expand: false,
+                parentNotebookId: 20,
+                children:[]
+              }
+            ]
           }
         ]
       }
