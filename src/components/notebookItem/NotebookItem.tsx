@@ -33,7 +33,7 @@ const NotebookItem = ({ className, notebook, isActive, onClick, onExpandNotebook
         <div className="h-7 w-5 mr-1"/>
       }
       <div
-        className="ml-2 w-full rounded cursor-pointer flex items-center"
+        className="ml-2 w-full rounded cursor-pointer flex items-center whitespace-nowrap"
         onClick={handleOnClick}
       >{notebook.name}</div>
       {
