@@ -18,9 +18,17 @@ const NotebookItem = ({ className, notebook, isActive, onClick, onExpandNotebook
     e.stopPropagation()
     onExpandNotebook && onExpandNotebook(notebook)
   }, [onExpandNotebook])
+
+  function isCurrentNotebookHidden(notebook: INotebook) {
+    return isNotebookAncestorOfCurrentNotebook(notebook) && !notebook.expand
+  }
+
   return (
     <div
-      className={`${className} flex w-full min-w-fit ${isActive && 'bg-blue-500'} rounded-sm pl-1 hover:bg-blue-500 items-center`}
+      className={`${className} flex w-full min-w-fit
+        ${isActive && 'bg-blue-500'} rounded-sm pl-1 hover:bg-blue-500 items-center
+        ${isCurrentNotebookHidden(notebook) && 'bg-amber-500 hover:bg-amber-600'}`
+      }
     >
       {
         notebook.children.length > 0 ?
@@ -36,10 +44,6 @@ const NotebookItem = ({ className, notebook, isActive, onClick, onExpandNotebook
         className="ml-2 w-full rounded cursor-pointer flex items-center whitespace-nowrap"
         onClick={handleOnClick}
       >{notebook.name}</div>
-      {
-        isNotebookAncestorOfCurrentNotebook(notebook) && !notebook.expand &&
-        <span className="material-icons text-sm text-amber-500">keyboard_double_arrow_down</span>
-      }
     </div>
   )
 }
