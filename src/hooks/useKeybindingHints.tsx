@@ -191,7 +191,7 @@ const GlobalMenuHints = () => {
 
 const NotebookSelectionHints = ({currentNotebook}: {currentNotebook: INotebook}) => {
   return (
-    <>
+    <div className="flex gap-x-3 flex-wrap">
       <div className="flex items-center">
         <InputHint label="j"/><span className="mx-1">/</span><InputHint icon="keyboard_arrow_down"/>
         <div className="ml-1 text-xs">: Next notebook</div>
@@ -208,6 +208,10 @@ const NotebookSelectionHints = ({currentNotebook}: {currentNotebook: INotebook})
         <InputHint label="e"/>
         <div className="ml-1 text-xs">: Toggle Expand</div>
       </div>
+      <div className="flex items-center">
+        <InputHint label="t"/>
+        <div className="ml-1 text-xs">Expand to current notebook</div>
+      </div>
       {
         currentNotebook.children.length > 0 &&
         <div className="flex items-center">
@@ -222,6 +226,6 @@ const NotebookSelectionHints = ({currentNotebook}: {currentNotebook: INotebook})
           <div className="ml-1 text-xs">: Previous level</div>
         </div>
       }
-    </>
+    </div>
   )
 }
