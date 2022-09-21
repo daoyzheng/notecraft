@@ -70,8 +70,8 @@ const Notelist = observer(({
 
   return (
     <div className={`px-2 pt-1 bg-zinc-800 text-white ${className} relative`} onMouseEnter={handleEnterNoteList}>
-      <div className="flex row items-center justify-between my-2 pb-1">
-        <div className="text-lg">{notebookName || 'Please select a notebook' }</div>
+      <div className="flex row items-center justify-between my-2 pb-1 border-b">
+        <div className="text-lg font-bold">{notebookName || 'Please select a notebook' }</div>
         <div className="relative flex items-center gap-x-1">
           <i className={`${showPopup ? 'text-blue-300' : ''} material-icons-outlined text-sm cursor-pointer`} onClick={handleShowPopup} ref={newNoteIconRef}>launch</i>
           {
