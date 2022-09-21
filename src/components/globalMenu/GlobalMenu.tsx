@@ -27,6 +27,7 @@ const GlobalMenu = observer(() => {
     setCurrentNotebook,
     updateNotebook,
     collapseAllNotebooks,
+    getParentNotebook
   } = NotebookStore
   const navigate = useNavigate()
 
@@ -72,20 +73,8 @@ const GlobalMenu = observer(() => {
     setCurrentFocus(menuOptions.noteshall)
   }
 
-  function getParentNotebook (notebooks: INotebook[], parentNotebookId: number|null) : INotebook|null {
-    const parentNotebook = notebooks.find(notebook => notebook.id === parentNotebookId)
-    if (parentNotebook) return parentNotebook
-    for (const notebook of notebooks) {
-      if (notebook.children.length > 0) {
-        return getParentNotebook(notebook.children, parentNotebookId)
-      }
-      return null
-    }
-    return null
-  }
-
   function handleSelectNotebook (notebook: INotebook) {
-    const parentNotebook = getParentNotebook(notebookList, notebook.parentNotebookId)
+    const parentNotebook = getParentNotebook(notebook.parentNotebookId)
     setParentNotebook(parentNotebook)
     setCurrentNotebooks(parentNotebook ? parentNotebook.children : notebookList)
     setCurrentFocus(menuOptions.notebook)
@@ -161,7 +150,7 @@ const GlobalMenu = observer(() => {
             />
           }
           <IconWrapper
-            className="material-icons ml-2 cursor-pointer rounded-sm text-gray-400 rounded-sm border border-gray-400 bg-gray-700 hover:bg-gray-600"
+            className="material-icons ml-2 cursor-pointer text-gray-400 rounded-sm border border-gray-400 bg-gray-700 hover:bg-gray-600"
             onClick={handleMinimizeAllNotebooks}
           >minimize</IconWrapper>
         </div>
