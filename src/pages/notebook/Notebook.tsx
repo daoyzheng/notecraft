@@ -112,6 +112,7 @@ const Notebook = observer(() => {
         <Notelist
           className={`${!isInGlobalMenu && currentNotebook?.id && notebookCurrentFocus === focusOptions.notelist ? 'border-blue-500' : inactiveNodeListBorderColor} col-span-3 border`}
           noteList={noteList}
+          notebookName={currentNotebook ? currentNotebook.name : ''}
           currentNote={currentNote}
           onCreateNewNote={handleCreateNewNote}
           onSelectNote={handleSelectNote}
