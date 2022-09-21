@@ -25,7 +25,7 @@ const NotebookItem = ({ className, notebook, isActive, onClick, onExpandNotebook
 
   return (
     <div
-      className={`${className} flex w-full min-w-fit
+      className={`${className} flex w-full min-w-fit max-w-48
         ${isActive && 'bg-blue-500'} rounded-sm pl-1 hover:bg-blue-500 items-center
         ${isCurrentNotebookHidden(notebook) && 'bg-amber-500 hover:bg-amber-600'}`
       }
@@ -41,7 +41,7 @@ const NotebookItem = ({ className, notebook, isActive, onClick, onExpandNotebook
         <div className="h-7 w-5 mr-1"/>
       }
       <div
-        className="ml-2 w-full rounded cursor-pointer flex items-center whitespace-nowrap"
+        className="ml-2 w-full rounded cursor-pointer flex items-center text-ellipsis max-w-48 truncate"
         onClick={handleOnClick}
       >{notebook.name}</div>
     </div>

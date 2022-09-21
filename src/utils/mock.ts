@@ -112,7 +112,7 @@ export const notebooksMock : INotebook[]= [
                 children: [
                   {
                     id: 40,
-                    name: 'notebook1-1-1-2',
+                    name: 'notebook1-1-1-211111111111111111111111111 1111111111111111',
                     createdAt: '2020-08-18',
                     parentNotebookId: 32,
                     expand: false,

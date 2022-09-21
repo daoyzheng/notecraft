@@ -34,8 +34,8 @@ const NotebookList = observer(({ notebookList, currentFocus, onSelectNotebook, o
         return (
           <li key={notebook.id}>
             <div className="flex items-center mb-1 relative">
-              { notebook.parentNotebookId && <Line className={`${lineColor} absolute -left-1 top-3`} height={2} width={8} />}
-              { notebook.children.length > 0 && notebook.expand && <Line className={`absolute ${lineColor} top-7 left-2`} style={{ height: 'calc(100% - 10px)'}} width={2} />}
+              { notebook.parentNotebookId && <Line className={`${lineColor} absolute -left-2 top-3`} height={2} width={8} />}
+              { notebook.children.length > 0 && notebook.expand && <Line className={`absolute ${lineColor} top-7 left-1`} style={{ height: 'calc(100% - 10px)'}} width={2} />}
               <NotebookItem
                 isActive={currentFocus == menuOptions.notebook && !!currentNotebook?.id && currentNotebook.id === notebook.id}
                 notebook={notebook}
@@ -46,8 +46,8 @@ const NotebookList = observer(({ notebookList, currentFocus, onSelectNotebook, o
             {
               notebook.expand &&
               <div className="relative">
-                { notebook.children.length > 0 && notebook.expand && <Line className={`absolute ${lineColor} left-2 top-3`} width={2} style={{height: 'calc(100% - 27px)'}}/>}
-                { notebookList.length - 1 === index && <Line className="absolute bg-zinc-900 -left-1" width={2} style={{height: 'calc(100% + 3px)'}} top={-18}/> }
+                { notebook.children.length > 0 && notebook.expand && <Line className={`absolute ${lineColor} left-1 top-3`} width={2} style={{height: 'calc(100% - 27px)'}}/>}
+                { notebookList.length - 1 === index && <Line className="absolute bg-zinc-900 -left-2" width={2} style={{height: 'calc(100% + 3px)'}} top={-18}/> }
                 <NotebookList
                   onSelectNotebook={handleSelectNotebook}
                   onExpandNotebook={handleOnExpandNotebook}
