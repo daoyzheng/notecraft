@@ -28,7 +28,7 @@ const useGlobalMenuKeybind = ({
   handleExpandNotebook
 }: Props) => {
   const navigate = useNavigate()
-  const { currentNotebook, setCurrentNotebook, updateCurrentNotebook, getGrandparentNotebook } = NotebookStore
+  const { currentNotebook, setCurrentNotebook, updateCurrentNotebook, getGrandparentNotebook, expandUpToCurrentNotebook } = NotebookStore
   const [currentNotebooks, setCurrentNotebooks] = useState<INotebook[]>(notebookList)
   const [parentNotebook, setParentNotebook] = useState<INotebook|null>(null)
 
@@ -192,6 +192,13 @@ const useGlobalMenuKeybind = ({
           handleExpandNotebook(currentNotebook)
           updateCurrentNotebookExpandState(currentNotebook)
         }
+        break
+      }
+      case 't': {
+        if (currentNotebook) {
+          expandUpToCurrentNotebook()
+        }
+        break
       }
     }
   }

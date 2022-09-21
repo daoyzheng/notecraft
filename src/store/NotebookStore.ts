@@ -29,7 +29,8 @@ class NotebookStore {
       getGrandparentNotebook: action,
       getParentNotebook: action,
       collapseAllNotebooks: action,
-      isNotebookAncestorOfCurrentNotebook: action
+      isNotebookAncestorOfCurrentNotebook: action,
+      expandUpToCurrentNotebook: action
     })
   }
   setCurrentNote = (note: INote|null) => {
@@ -93,6 +94,17 @@ class NotebookStore {
   }
   isNotebookAncestorOfCurrentNotebook = (notebook: INotebook) => {
     return isAncestor(notebook, this.currentNotebook)
+  }
+  expandUpToCurrentNotebook = () => {
+    if (!this.currentNotebook) return
+    let targetNotebook = this.currentNotebook
+    while(targetNotebook.parentNotebookId) {
+      if (targetNotebook.parentNotebookId) {
+        targetNotebook = this.getParentNotebook(targetNotebook.parentNotebookId)!
+        targetNotebook.expand = true
+        this.updateNotebook(targetNotebook)
+      }
+    }
   }
 }
 
