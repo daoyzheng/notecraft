@@ -28,7 +28,14 @@ const useGlobalMenuKeybind = ({
   handleExpandNotebook
 }: Props) => {
   const navigate = useNavigate()
-  const { currentNotebook, setCurrentNotebook, updateCurrentNotebook, getGrandparentNotebook, expandUpToCurrentNotebook } = NotebookStore
+  const {
+    currentNotebook,
+    setCurrentNotebook,
+    updateCurrentNotebook,
+    getGrandparentNotebook,
+    collapseAllNotebooks,
+    expandUpToCurrentNotebook
+  } = NotebookStore
   const [currentNotebooks, setCurrentNotebooks] = useState<INotebook[]>(notebookList)
   const [parentNotebook, setParentNotebook] = useState<INotebook|null>(null)
 
@@ -134,7 +141,7 @@ const useGlobalMenuKeybind = ({
   }
 
   function NotebookNavigationKeybind (e: KeyboardEvent) {
-    switch(e.key.toLocaleLowerCase()) {
+    switch(e.key) {
       case 'j':
       case 'arrowdown': {
         setCurrentFocus(menuOptions.notebook)
@@ -153,7 +160,7 @@ const useGlobalMenuKeybind = ({
         globalNavigationStore.setToPageNavigation()
         break
       }
-      case 'enter': {
+      case 'Enter': {
         if (currentNotebook && currentNotebook.children.length > 0) {
           setParentNotebook(currentNotebook)
           setCurrentNotebooks(currentNotebook.children)
@@ -163,7 +170,7 @@ const useGlobalMenuKeybind = ({
         }
         break
       }
-      case 'escape': {
+      case 'Escape': {
         if (!currentNotebook) break
         if (!currentNotebook.parentNotebookId) {
           setCurrentNotebook(null)
@@ -203,6 +210,10 @@ const useGlobalMenuKeybind = ({
         if (currentNotebook) {
           expandUpToCurrentNotebook()
         }
+        break
+      }
+      case 'T': {
+        collapseAllNotebooks()
         break
       }
       case 'i': {

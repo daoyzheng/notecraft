@@ -220,6 +220,10 @@ const NotebookSelectionHints = ({currentNotebook}: {currentNotebook: INotebook})
         <InputHint label="t"/>
         <div className="ml-1 text-xs">Expand to current notebook</div>
       </div>
+      <div className="flex items-center">
+        <InputHint label="T"/>
+        <div className="ml-1 text-xs">Minimize all notebooks</div>
+      </div>
       {
         currentNotebook.children.length > 0 &&
         <div className="flex items-center">
