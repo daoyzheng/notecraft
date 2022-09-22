@@ -128,9 +128,9 @@ const useGlobalMenuKeybind = ({
             setCurrentNotebooks(notebookList)
             const selectedNotebook = notebookList[0]
             setCurrentNotebook(selectedNotebook)
-            break
           }
         }
+        break
       }
       case 'i': {
         e.preventDefault()

@@ -38,7 +38,6 @@ const Select = ({
           options.map(option =>
             <option
               key={option.id}
-              className=""
               value={option.id}
             >{option.label}</option>)
           :
