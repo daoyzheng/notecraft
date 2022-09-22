@@ -125,6 +125,11 @@ const useGlobalMenuKeybind = ({
           }
         }
       }
+      case 'i': {
+        e.preventDefault()
+        setShowNewNotebookForm(true)
+        break
+      }
     }
   }
 
@@ -198,6 +203,11 @@ const useGlobalMenuKeybind = ({
         if (currentNotebook) {
           expandUpToCurrentNotebook()
         }
+        break
+      }
+      case 'i': {
+        e.preventDefault()
+        setShowNewNotebookForm(true)
         break
       }
     }

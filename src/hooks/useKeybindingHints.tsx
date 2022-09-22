@@ -185,13 +185,17 @@ const GlobalMenuHints = () => {
         <InputHint label="k"/><span className="mx-1">/</span><InputHint icon="keyboard_arrow_up"/>
         <div className="ml-1 text-xs">: Prev page</div>
       </div>
+      <div className="flex items-center">
+        <InputHint label="i"/>
+        <div className="ml-1 text-xs">: New notebook</div>
+      </div>
     </>
   )
 }
 
 const NotebookSelectionHints = ({currentNotebook}: {currentNotebook: INotebook}) => {
   return (
-    <div className="flex gap-x-3 flex-wrap">
+    <div className="flex gap-x-3 flex-wrap gap-y-1">
       <div className="flex items-center">
         <InputHint label="j"/><span className="mx-1">/</span><InputHint icon="keyboard_arrow_down"/>
         <div className="ml-1 text-xs">: Next notebook</div>
@@ -203,6 +207,10 @@ const NotebookSelectionHints = ({currentNotebook}: {currentNotebook: INotebook})
       <div className="flex items-center">
         <InputHint label="l"/><span className="mx-1">/</span><InputHint icon="keyboard_arrow_right"/>
         <div className="ml-1 text-xs">: Enter notes selection</div>
+      </div>
+      <div className="flex items-center">
+        <InputHint label="i"/>
+        <div className="ml-1 text-xs">: New notebook</div>
       </div>
       <div className="flex items-center">
         <InputHint label="e"/>
