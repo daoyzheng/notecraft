@@ -183,8 +183,8 @@ const useGlobalMenuKeybind = ({
             const parentNotebook = notebookList.find(notebook => notebook.id === currentNotebook.parentNotebookId)
             setCurrentNotebook(parentNotebook ?? null)
             if (parentNotebook) {
-              handleExpandNotebook(parentNotebook, false)
-              updateCurrentNotebookExpandState(parentNotebook)
+              handleExpandNotebook(parentNotebook, true)
+              // updateCurrentNotebookExpandState(parentNotebook)
             }
           }
           else {
@@ -192,8 +192,8 @@ const useGlobalMenuKeybind = ({
             const parentNotebook = grandParentNotebook.children.find(notebook => notebook.id === currentNotebook.parentNotebookId)
             setCurrentNotebook(parentNotebook ?? null)
             if (parentNotebook) {
-              handleExpandNotebook(parentNotebook, false)
-              updateCurrentNotebookExpandState(parentNotebook)
+              handleExpandNotebook(parentNotebook, true)
+              // updateCurrentNotebookExpandState(parentNotebook)
             }
           }
         }
@@ -201,6 +201,7 @@ const useGlobalMenuKeybind = ({
       }
       case 'e': {
         if (currentNotebook && currentNotebook.children.length > 0) {
+          console.log('he', currentNotebook)
           handleExpandNotebook(currentNotebook)
           updateCurrentNotebookExpandState(currentNotebook)
         }
