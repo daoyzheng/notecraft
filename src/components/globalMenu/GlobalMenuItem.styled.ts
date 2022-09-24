@@ -6,8 +6,15 @@ const slide = keyframes`
   }
 `
 
+const bounce = keyframes`
+  100% {
+    transform: translateY(-2px);
+  }
+
+`
+
 export const GlobalMenuItemIconWrapper = styled.i`
-  animation: ${slide} 800ms infinite;
+  animation: ${bounce} 800ms infinite;
 `
 
 export const NotebookListContainer = styled.div`
