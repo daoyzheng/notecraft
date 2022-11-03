@@ -13,7 +13,13 @@ export interface INotebook {
   id: number|null
   name: string
   createdAt: string
-  parentNotebookId: number|null
-  children: INotebook[]
+  folderId: number|null
+}
+
+export interface IFolder {
+  id: number|null
+  name: string
+  createdAt: string
+  children: IFolder[]
   expand: boolean
 }
