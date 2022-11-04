@@ -1,4 +1,64 @@
-import { INote, INotebook } from "../interfaces/note"
+import { IDirectoryTree, IFolder, INote, INotebook } from "../interfaces/note"
+
+export const foldersMock : IFolder[] = [
+  {
+    id: 1,
+    name: 'folder1',
+    createdAt: '2020-08-18',
+    parentFolderId: null
+  },
+  {
+    id: 2,
+    name: 'folder2',
+    createdAt: '2020-08-18',
+    parentFolderId: null
+  },
+  {
+    id: 3,
+    name: 'folder3',
+    createdAt: '2020-08-18',
+    parentFolderId: null,
+  },
+  {
+    id: 4,
+    name: 'folder4',
+    createdAt: '2020-08-18',
+    parentFolderId: 3,
+  },
+  {
+    id: 5,
+    name: 'folder5',
+    createdAt: '2020-08-18',
+    parentFolderId: 4,
+  }
+]
+
+export const notebooksMock : INotebook[]= [
+  {
+    id: 10,
+    name: 'notebook1',
+    createdAt: '2020-08-18',
+    folderId: null
+  },
+  {
+    id: 20,
+    name: 'notebook2',
+    createdAt: '2020-08-18',
+    folderId: null
+  },
+  {
+    id: 30,
+    name: 'notebook3',
+    createdAt: '2020-08-18',
+    folderId: 4
+  },
+  {
+    id: 40,
+    name: 'notebook4',
+    createdAt: '2020-08-18',
+    folderId: 4
+  }
+]
 
 export const notesMock : INote[] = [
   {
@@ -9,7 +69,7 @@ export const notesMock : INote[] = [
     body: 'loremloremloremloremloremlor emloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremlorem',
     tags: ['new', 'hey', 'ho', 'here'],
     isPublic: true,
-    notebookId: 1
+    notebookId: 10
   },
   {
     id: 2,
@@ -19,7 +79,7 @@ export const notesMock : INote[] = [
     body: 'hey body',
     tags: ['new', 'hey', 'ho'],
     isPublic: false,
-    notebookId: 1
+    notebookId: 10
   },
   {
     id: 3,
@@ -29,7 +89,7 @@ export const notesMock : INote[] = [
     body: 'HEHLKJCIOENO',
     tags: [],
     isPublic: false,
-    notebookId: 2
+    notebookId: 20
   },
   {
     id: 4,
@@ -39,7 +99,7 @@ export const notesMock : INote[] = [
     body: null,
     tags: [],
     isPublic: true,
-    notebookId: 2
+    notebookId: 20
   },
   {
     id: 5,
@@ -49,7 +109,7 @@ export const notesMock : INote[] = [
     body: 'NOTECRAFT IS AWESOME',
     tags: [],
     isPublic: true,
-    notebookId: 3
+    notebookId: 30
   },
   {
     id: 6,
@@ -59,7 +119,7 @@ export const notesMock : INote[] = [
     body: 'NOTECRAFT IS AWESOME',
     tags: [],
     isPublic: true,
-    notebookId: 12
+    notebookId: 30
   },
   {
     id: 7,
@@ -69,111 +129,73 @@ export const notesMock : INote[] = [
     body: 'NOTECRAFT IS AWESOME',
     tags: [],
     isPublic: true,
-    notebookId: 12
+    notebookId: 30
   }
 ]
 
-export const notebooksMock : INotebook[]= [
+export const directoryTreeMock : IDirectoryTree[] = [
   {
     id: 1,
-    name: 'notebook1',
-    createdAt: '2020-08-18',
-    parentNotebookId: null,
+    name: 'folder1',
+    isFolder: true,
     expand: false,
-    children: [
-      {
-        id: 10,
-        name: 'notebook1-1',
-        createdAt: '2020-08-18',
-        parentNotebookId: 1,
-        expand: false,
-        children: [
-          {
-            id: 21,
-            name: 'notebook1-1-1',
-            createdAt: '2020-08-18',
-            parentNotebookId: 10,
-            expand: false,
-            children:[
-              {
-                id: 30,
-                name: 'notebook1-1-1-1',
-                createdAt: '2020-08-18',
-                parentNotebookId: 21,
-                expand: false,
-                children: []
-              },
-              {
-                id: 32,
-                name: 'notebook1-1-1-2',
-                createdAt: '2020-08-18',
-                parentNotebookId: 21,
-                expand: false,
-                children: [
-                  {
-                    id: 40,
-                    name: 'notebook1-1-1-211111111111111111111111111 1111111111111111',
-                    createdAt: '2020-08-18',
-                    parentNotebookId: 32,
-                    expand: false,
-                    children: []
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      {
-        id: 12,
-        name: 'notebook1-2',
-        createdAt: '2020-08-18',
-        parentNotebookId: 1,
-        expand: false,
-        children: [
-          {
-            id: 20,
-            name: 'notebook1-2-1',
-            createdAt: '2020-08-18',
-            expand: false,
-            parentNotebookId: 12,
-            children:[
-              {
-                id: 51,
-                name: 'notebook1-2-1-1',
-                createdAt: '2020-08-18',
-                expand: false,
-                parentNotebookId: 20,
-                children:[]
-              }
-            ]
-          }
-        ]
-      }
-    ]
+    children: []
+  },
+  {
+    id: 10,
+    name: 'notebook1',
+    isFolder: false,
+    expand: false,
+    children: []
   },
   {
     id: 2,
-    name: 'notebook2',
-    createdAt: '2020-08-18',
-    parentNotebookId: null,
+    name: 'folder2',
+    isFolder: true,
     expand: false,
-    children: [],
+    children: []
+  },
+  {
+    id: 20,
+    name: 'notebook2',
+    isFolder: false,
+    expand: false,
+    children: []
   },
   {
     id: 3,
-    name: 'notebook3',
-    createdAt: '2020-08-18',
+    name: 'folder3',
+    isFolder: true,
     expand: false,
-    parentNotebookId: null,
     children: [
       {
-        id: 14,
-        name: 'notebook3-1',
-        createdAt: '2020-08-18',
-        parentNotebookId: 3,
+        id: 4,
+        name: 'folder4',
+        isFolder: true,
         expand: false,
-        children: []
+        children: [
+          {
+            id: 5,
+            name: 'folder5',
+            isFolder: true,
+            expand: false,
+            children: []
+          },
+          {
+            id: 30,
+            name: 'notebook3',
+            expand: false,
+            isFolder: false,
+            children: []
+          },
+          {
+            id: 40,
+            name: 'notebook4',
+            expand: false,
+            isFolder: false,
+            children: []
+          }
+        ]
       }
     ]
   }

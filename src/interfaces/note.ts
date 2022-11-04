@@ -20,6 +20,14 @@ export interface IFolder {
   id: number|null
   name: string
   createdAt: string
-  children: IFolder[]
+  parentFolderId: number|null
+}
+
+export interface IDirectoryTree {
+  id: number
+  name: string
   expand: boolean
+  // parentId: number|null
+  children: IDirectoryTree[]
+  isFolder: boolean
 }
