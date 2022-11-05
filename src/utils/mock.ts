@@ -1,4 +1,4 @@
-import { IDirectoryTree, IFolder, INote, INotebook } from "../interfaces/note"
+import { IDirectoryItem, IFolder, INote, INotebook } from "../interfaces/note"
 
 export const foldersMock : IFolder[] = [
   {
@@ -133,7 +133,7 @@ export const notesMock : INote[] = [
   }
 ]
 
-export const directoryTreeMock : IDirectoryTree[] = [
+export const notebookListMock : IDirectoryItem[] = [
   {
     id: 1,
     name: 'folder1',

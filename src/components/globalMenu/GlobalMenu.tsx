@@ -2,23 +2,23 @@ import { observer } from "mobx-react"
 import { useEffect, useRef, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { menuOptions } from "../../constants/globalMenu"
-import { INotebook } from "../../interfaces/note"
+import { IDirectoryItem, INotebook } from "../../interfaces/note"
 import routes from "../../routes"
 import GlobalNavigationStore from "../../store/GlobalNavigationStore"
 import NotebookStore from "../../store/NotebookStore"
+import { notebookListMock } from "../../utils/mock"
 import NotebookList from "../notebookList/NotebookList"
 import { IconWrapper } from "./GlobalMenu.styled"
 import GlobalMenuItem from "./GlobalMenuItem"
-import { NotebookListContainer } from "./GlobalMenuItem.styled"
 import NewNotebookForm from "./NewNotebookForm"
 import useGlobalMenuKeybind from "./useGlobalMenuKeybind"
-import { NotebookListContextProvider } from "./useNotebookListContext"
 
 const GlobalMenu = observer(() => {
   const location = useLocation()
   const { allNotebooks } = NotebookStore
+  const [notebookList, setNotebookList] = useState<IDirectoryItem[]>(notebookListMock)
   const [currentFocus, setCurrentFocus] = useState<menuOptions>(getFocus())
-  const [notebookList, setNotebookList] = useState<INotebook[]>(allNotebooks)
+  const [isDirTreeActive, setIsDirTreeActive] = useState<boolean>(false)
   const [showNewNotebookForm, setShowNewNotebookForm] = useState<boolean>(false)
   const notebookListRef = useRef<HTMLDivElement>(null)
   const newNotebookFormRef = useRef<HTMLDivElement>(null)
@@ -51,6 +51,7 @@ const GlobalMenu = observer(() => {
   }, [currentFocus])
 
   const {
+    menuIndex,
     setParentNotebook,
     setCurrentNotebooks
   } = useGlobalMenuKeybind({
@@ -154,18 +155,7 @@ const GlobalMenu = observer(() => {
             onClick={handleMinimizeAllNotebooks}
           >minimize</IconWrapper>
         </div>
-        <NotebookListContainer ref={notebookListRef} className="mt-2">
-          <NotebookListContextProvider
-            setCurrentNotebooks={setCurrentNotebooks}
-          >
-            <NotebookList
-              onSelectNotebook={handleSelectNotebook}
-              onExpandNotebook={handleExpandNotebook}
-              notebookList={notebookList}
-              currentFocus={currentFocus}
-            />
-          </NotebookListContextProvider>
-        </NotebookListContainer>
+        <NotebookList notebookList={notebookList} isActive={true}/>
       </div>
       <div>
         Dao Zheng

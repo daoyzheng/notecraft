@@ -23,11 +23,11 @@ export interface IFolder {
   parentFolderId: number|null
 }
 
-export interface IDirectoryTree {
+export interface IDirectoryItem {
   id: number
   name: string
   expand: boolean
   // parentId: number|null
-  children: IDirectoryTree[]
+  children: IDirectoryItem[]
   isFolder: boolean
 }

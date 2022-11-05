@@ -69,7 +69,6 @@ const useGlobalMenuKeybind = ({
       if (notebookListRef.current)
         notebookListRef.current.scrollTop = notebookListRef.current.scrollHeight
     }
-
   }
 
   function getRouteFromFocus (focus: menuOptions) {
