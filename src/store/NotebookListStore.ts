@@ -16,7 +16,8 @@ function getNotebookParentHelper(items: IDirectoryItem[], id: number): IDirector
   const folders = items.filter(item => item.isFolder)
   for (const folder of folders) {
     if (folder.children.some(c => c.id === id)) return folder
-    return getNotebookParentHelper(folder.children, id)
+    const parent = getNotebookParentHelper(folder.children, id)
+    if (parent) return parent
   }
   return null
 }

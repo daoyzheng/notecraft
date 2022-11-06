@@ -24,57 +24,43 @@ const useNotebookListKeybind = ({
       setSelectedItem(notebookList[0])
       return
     }
-    if (selectedItem.isFolder) {
-      moveToNextItemWhenSelectedItemIsFolder() 
+    if (selectedItem.expand) {
+      moveToNextExpandedItem()
       return
     }
-    moveToNextItemWhenSelectedItemIsNotFolder()
+    moveToNextNonExpandedItem()
   }
 
-  function moveToNextItemWhenSelectedItemIsFolder() {
-    if (selectedItem!.expand) {
+  function moveToNextExpandedItem() {
+    if (selectedItem!.children.length > 0) {
       setSelectedItem(selectedItem!.children[0])
       return
     }
-    const folder = notebookListStore.getNotebookParent(notebookList, selectedItem!.id)
-    if (!folder) {
-      moveToNextRootItem()
-      return
+    moveToNextNonExpandedItem()
+  }
+
+  function moveToNextNonExpandedItem() {
+    let currentItem = selectedItem!
+    let folder = notebookListStore.getNotebookParent(notebookList, currentItem.id)
+    while(folder) {
+      const currentItemIndex = folder.children.findIndex(c => c.id === currentItem.id)
+      if (currentItemIndex !== folder.children.length - 1) {
+        setSelectedItem(folder.children[currentItemIndex+1])
+        return
+      }
+      currentItem = folder
+      folder = notebookListStore.getNotebookParent(notebookList, folder.id)
     }
-    const selectedItemIndex = folder.children.findIndex(c => c.id === selectedItem!.id)
-    if (selectedItemIndex !== folder.children.length - 1) {
-      setSelectedItem(folder.children[selectedItemIndex+1])
+    if (!folder) {
+      moveToNextRootItem(currentItem)
       return
     }
   }
 
-  function moveToNextItemWhenSelectedItemIsNotFolder() {
-    const folder = notebookListStore.getNotebookParent(notebookList, selectedItem!.id)
-    if (!folder) {
-      moveToNextRootItem()
-      return
-    }
-    const selectedItemIndex = folder.children.findIndex(c => c.id === selectedItem!.id)
-    if (selectedItemIndex !== folder.children.length - 1) {
-      setSelectedItem(folder.children[selectedItemIndex+1])
-      return
-    }
-    const parentFolder = notebookListStore.getNotebookParent(notebookList, folder.id)
-    if (!parentFolder) {
-      moveToNextRootItem()
-      return
-    }
-    const childItemIndex = parentFolder.children.findIndex(c => c.id === folder.id)
-    if (childItemIndex !== parentFolder.children.length - 1) {
-      setSelectedItem(parentFolder.children[selectedItemIndex+1])
-      return
-    }
-  }
-
-  function moveToNextRootItem() {
-    const selectedItemIndex = notebookList.findIndex(n => n.id === selectedItem!.id)
-    if (notebookList.length - 1 === selectedItemIndex) return
-    setSelectedItem(notebookList[selectedItemIndex+1])
+  function moveToNextRootItem(currentItem: IDirectoryItem) {
+    const currentItemIndex = notebookList.findIndex(n => n.id === currentItem.id)
+    if (notebookList.length - 1 === currentItemIndex) return
+    setSelectedItem(notebookList[currentItemIndex+1])
   }
 
 
