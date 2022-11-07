@@ -77,24 +77,26 @@ const useNotebookListNavigation = ({ notebookList, selectedItem, setSelectedItem
     if (!selectedItem) 
       return
     let folder = notebookListStore.getNotebookParent(notebookList, selectedItem.id)
-    while (folder) {
-      const currentItemIndex = folder.children.findIndex(c => c.id === selectedItem.id)
-      if (currentItemIndex === 0) {
-        const parentFolder = notebookListStore.getNotebookParent(notebookList, folder.id) 
-        if (parentFolder) {
-          setSelectedItem(parentFolder.children[parentFolder.children.length-1])
-          return
-        }
-        setSelectedItem(folder)
-        return
-      }
-      setSelectedItem(folder.children[currentItemIndex-1])
-      return
-    }
     if (!folder) {
       moveToPrevRootItem(selectedItem)
       return
     }
+    const selectedItemIndex = folder.children.findIndex(n => n.id === selectedItem.id)
+    if (selectedItemIndex === 0) {
+      setSelectedItem(folder)
+      return
+    }
+    let prevItem = folder.children[selectedItemIndex-1]
+    while (prevItem.expand) {
+      const lastItemInPrevFolder = prevItem.children[prevItem.children.length - 1]
+      if (lastItemInPrevFolder.expand) {
+        prevItem = lastItemInPrevFolder
+        continue
+      }
+      setSelectedItem(lastItemInPrevFolder)
+      return
+    }
+    setSelectedItem(notebookList[selectedItemIndex-1])
   }
 
 //*************** move to prev item end ****************************
