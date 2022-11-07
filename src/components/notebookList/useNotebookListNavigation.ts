@@ -62,6 +62,10 @@ const useNotebookListNavigation = ({ notebookList, selectedItem, setSelectedItem
     if (currentItemIndex === 0) return
     let prevItem = notebookList[currentItemIndex-1]
     while (prevItem.expand) {
+      if (prevItem.children.length === 0) {
+        setSelectedItem(prevItem)
+        return
+      }
       const lastItemInPrevFolder = prevItem.children[prevItem.children.length - 1]
       if (lastItemInPrevFolder.expand) {
         prevItem = lastItemInPrevFolder
@@ -70,7 +74,7 @@ const useNotebookListNavigation = ({ notebookList, selectedItem, setSelectedItem
       setSelectedItem(lastItemInPrevFolder)
       return
     }
-    setSelectedItem(notebookList[currentItemIndex-1])
+    setSelectedItem(prevItem)
   }
 
   function moveToPrevItem () {
@@ -88,6 +92,10 @@ const useNotebookListNavigation = ({ notebookList, selectedItem, setSelectedItem
     }
     let prevItem = folder.children[selectedItemIndex-1]
     while (prevItem.expand) {
+      if (prevItem.children.length === 0) {
+        setSelectedItem(prevItem)
+        return
+      }
       const lastItemInPrevFolder = prevItem.children[prevItem.children.length - 1]
       if (lastItemInPrevFolder.expand) {
         prevItem = lastItemInPrevFolder
@@ -96,7 +104,7 @@ const useNotebookListNavigation = ({ notebookList, selectedItem, setSelectedItem
       setSelectedItem(lastItemInPrevFolder)
       return
     }
-    setSelectedItem(notebookList[selectedItemIndex-1])
+    setSelectedItem(prevItem)
   }
 
 //*************** move to prev item end ****************************

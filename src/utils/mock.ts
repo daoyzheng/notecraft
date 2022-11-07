@@ -138,7 +138,7 @@ export const notebookListMock : IDirectoryItem[] = [
     id: 1,
     name: 'folder1',
     isFolder: true,
-    expand: false,
+    expand: true,
     children: []
   },
   {
