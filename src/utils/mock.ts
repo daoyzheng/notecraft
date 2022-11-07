@@ -179,6 +179,13 @@ export const notebookListMock : IDirectoryItem[] = [
             id: 5,
             name: 'folder5',
             isFolder: true,
+            expand: true,
+            children: []
+          },
+          {
+            id: 20,
+            name: 'notebook2',
+            isFolder: false,
             expand: false,
             children: []
           }
@@ -192,12 +199,5 @@ export const notebookListMock : IDirectoryItem[] = [
         children: []
       }
     ]
-  },
-  {
-    id: 20,
-    name: 'notebook2',
-    isFolder: false,
-    expand: false,
-    children: []
   }
 ]
