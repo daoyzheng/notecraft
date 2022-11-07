@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction, useEffect } from "react"
 import { IDirectoryItem } from "../../interfaces/note"
 import GlobalNavigationStore from "../../store/GlobalNavigationStore"
 import NotebookListStore from "../../store/NotebookListStore"
+import useNotebookListNavigation from "./useNotebookListNavigation"
 
 interface Props {
   globalNavigationStore: typeof GlobalNavigationStore
@@ -19,57 +20,25 @@ const useNotebookListKeybind = ({
   selectedItem,
   setSelectedItem
 }: Props) => {
-  function moveToNextItem() {
-    if (!selectedItem) {
-      setSelectedItem(notebookList[0])
-      return
-    }
-    if (selectedItem.expand) {
-      moveToNextExpandedItem()
-      return
-    }
-    moveToNextNonExpandedItem()
-  }
-
-  function moveToNextExpandedItem() {
-    if (selectedItem!.children.length > 0) {
-      setSelectedItem(selectedItem!.children[0])
-      return
-    }
-    moveToNextNonExpandedItem()
-  }
-
-  function moveToNextNonExpandedItem() {
-    let currentItem = selectedItem!
-    let folder = notebookListStore.getNotebookParent(notebookList, currentItem.id)
-    while(folder) {
-      const currentItemIndex = folder.children.findIndex(c => c.id === currentItem.id)
-      if (currentItemIndex !== folder.children.length - 1) {
-        setSelectedItem(folder.children[currentItemIndex+1])
-        return
-      }
-      currentItem = folder
-      folder = notebookListStore.getNotebookParent(notebookList, folder.id)
-    }
-    if (!folder) {
-      moveToNextRootItem(currentItem)
-      return
-    }
-  }
-
-  function moveToNextRootItem(currentItem: IDirectoryItem) {
-    const currentItemIndex = notebookList.findIndex(n => n.id === currentItem.id)
-    if (notebookList.length - 1 === currentItemIndex) return
-    setSelectedItem(notebookList[currentItemIndex+1])
-  }
-
-
+  const { moveToPrevItem, moveToNextItem } = useNotebookListNavigation({
+    notebookListStore,
+    notebookList,
+    selectedItem,
+    setSelectedItem
+  })
   function handleKeyPress (e: KeyboardEvent) {
     switch(e.key.toLocaleLowerCase()) {
       case 'arrowdown':
       case 'j': {
         if (notebookList.length === 0) return
         moveToNextItem()
+        break
+      }
+      case 'arrowup':
+      case 'k': {
+        if (notebookList.length === 0) return
+        moveToPrevItem()
+        break
       }
     }
   }
