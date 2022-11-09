@@ -11,14 +11,13 @@ const DirectoryTree = ({ directoryItems, selectedItem }: Props) => {
         directoryItems.map(item => {
           return (
             <li key={item.id}>
-              <div className="flex items-center bg-red-300 w-full">
-                <i className={`material-symbols-outlined cursor-pointer ${!item.isFolder && 'text-transparent'}`}>{item.expand ? 'arrow_drop_down': 'arrow_right'}</i>
-                <i className="material-symbols-outlined mr-1 text-zinc-500">{ item.isFolder ? item.expand ? 'folder_open' : 'folder' : 'description'}</i>
-                { item.name }
-                {
-                  selectedItem && selectedItem.id === item.id &&
-                  <i className="material-icons-outlined">arrow_left</i>
-                }
+              <div className="flex">
+                { selectedItem && selectedItem.id === item.id && <div className="bg-slate-700 fixed left-2 right-0 h-6 z-0"/>}
+                <div className="z-10 flex items-center">
+                  <i className={`material-symbols-outlined cursor-pointer ${!item.isFolder && 'text-transparent'}`}>{item.expand ? 'arrow_drop_down': 'arrow_right'}</i>
+                  <i className="material-symbols-outlined mr-1 text-zinc-500">{ item.isFolder ? item.expand ? 'folder_open' : 'folder' : 'description'}</i>
+                  { item.name }
+                </div>
               </div>
               {
                 item.children.length > 0 && 
