@@ -24,13 +24,7 @@ class NotebookStore {
       setCurrentNoteBody: action,
       setCurrentNoteTags: action,
       setCurrentNotebook: action,
-      updateNotebook: action,
-      updateCurrentNotebook: action,
-      getGrandparentNotebook: action,
-      getParentNotebook: action,
-      collapseAllNotebooks: action,
-      isNotebookAncestorOfCurrentNotebook: action,
-      expandUpToCurrentNotebook: action
+      updateCurrentNotebook: action
     })
   }
   setCurrentNote = (note: INote|null) => {
@@ -60,93 +54,7 @@ class NotebookStore {
   updateCurrentNotebook = (newCurrentNotebook: INotebook) => {
     this.currentNotebook = newCurrentNotebook
   }
-  updateNotebook = (newNotebook: INotebook) => {
-    let parentNotebook = this.getParentNotebook(newNotebook.parentNotebookId)
-    if (!parentNotebook) {
-      const index = this.allNotebooks.findIndex(notebook => notebook.id === newNotebook.id)
-      this.allNotebooks[index] = newNotebook
-    } else {
-      const index = parentNotebook.children.findIndex(notebook => notebook.id === newNotebook.id)
-      parentNotebook.children[index] = newNotebook
-    }
-  }
-  getGrandparentNotebook = (notebookId: number) => {
-    let grandParentNotebook = null
-    for (const notebook of this.allNotebooks) {
-      grandParentNotebook = getGrandparentNotebookHelper(notebook, notebookId)
-      if (grandParentNotebook) return grandParentNotebook
-    }
-    return null
-  }
-  collapseAllNotebooks = () => {
-    for (const notebook of this.allNotebooks) {
-      collapseAllNotebooksHelper(notebook)
-    }
-  }
-  getParentNotebook = (parentNotebookId: number|null) => {
-    if (!parentNotebookId) return null
-    let parentNotebook = null
-    for (const notebook of this.allNotebooks) {
-      parentNotebook = getParentNotebookHelper(notebook, parentNotebookId)
-      if (parentNotebook) return parentNotebook
-    }
-    return null
-  }
-  isNotebookAncestorOfCurrentNotebook = (notebook: INotebook) => {
-    return isAncestor(notebook, this.currentNotebook)
-  }
-  expandUpToCurrentNotebook = () => {
-    if (!this.currentNotebook) return
-    let targetNotebook = this.currentNotebook
-    while(targetNotebook.parentNotebookId) {
-      if (targetNotebook.parentNotebookId) {
-        targetNotebook = this.getParentNotebook(targetNotebook.parentNotebookId)!
-        targetNotebook.expand = true
-        this.updateNotebook(targetNotebook)
-      }
-    }
-  }
 }
 
-function collapseAllNotebooksHelper (notebook: INotebook) {
-  notebook.expand = false
-  for (const child of notebook.children) {
-    collapseAllNotebooksHelper(child)
-  }
-  return
-}
-
-function getGrandparentNotebookHelper (notebook: INotebook, notebookId: number): INotebook|null {
-  if (notebook.children.length === 0) return null
-  if (notebook.children.some(child => child.children.some(grandChild => grandChild.id === notebookId)))
-    return notebook
-  let grandParent = null
-  for (const child of notebook.children) {
-    grandParent = getGrandparentNotebookHelper(child, notebookId)
-    if (grandParent) return grandParent
-  }
-  return null
-}
-
-function getParentNotebookHelper(notebook: INotebook, parentNotebookId: number|null): INotebook|null {
-  if (!parentNotebookId) return null
-  if (notebook.id === parentNotebookId) return notebook
-  let parentNotebook = null
-  for (const child of notebook.children) {
-    parentNotebook = getParentNotebookHelper(child, parentNotebookId)
-    if (parentNotebook) return parentNotebook
-  }
-  return null
-}
-function isAncestor(notebook: INotebook, currentNotebook: INotebook|null): boolean {
-  if (!currentNotebook) return false
-  if (notebook.children.some(child => child.id === currentNotebook.id)) return true
-  let isFound = false
-  for (const child of notebook.children) {
-    isFound = isAncestor(child, currentNotebook)
-    if (isFound) return isFound
-  }
-  return false
-}
 
 export default new NotebookStore()

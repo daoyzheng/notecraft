@@ -1,20 +1,19 @@
 import { action, makeObservable, observable } from "mobx"
 import { menuOptions } from "../constants/globalMenu"
-import { INotebook } from "../interfaces/note"
 
 class GlobalNavigationStore {
   isInGlobalMenu: boolean = localStorage.getItem('isInGlobalMenu') ? localStorage.getItem('isInGlobalMenu') === 'true' ? true : false : true
-  currentFocusedPage: menuOptions|null = null
+  currentFocusedPage: menuOptions = menuOptions.noteshall
   constructor() {
     makeObservable(this, {
       isInGlobalMenu: observable,
       currentFocusedPage: observable,
-      setToMenuNavigation: action,
+      setToGlobalMenuNavigation: action,
       setToPageNavigation: action,
       setCurrentFocusedPage: action,
     })
   }
-  setToMenuNavigation () {
+  setToGlobalMenuNavigation () {
     this.isInGlobalMenu = true
   }
   setToPageNavigation () {

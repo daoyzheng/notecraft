@@ -8,9 +8,8 @@ import useNotebookListKeybind from "./NotebookListKeybind"
 
 interface Props {
   notebookList: IDirectoryItem[]
-  isActive: boolean
 }
-const NotebookList = observer(({ notebookList, isActive }: Props) => {
+const NotebookList = observer(({ notebookList }: Props) => {
   const [selectedItem, setSelectedItem] = useState<IDirectoryItem|null>(null)
   const globalNavigationStore = GlobalNavigationStore
   const notebookListStore = NotebookListStore
@@ -19,8 +18,7 @@ const NotebookList = observer(({ notebookList, isActive }: Props) => {
     notebookList,
     selectedItem,
     setSelectedItem,
-    globalNavigationStore,
-    isActive
+    globalNavigationStore
   })
   return (
     <DirectoryTree directoryItems={notebookList} selectedItem={selectedItem}/>

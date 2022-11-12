@@ -8,7 +8,7 @@ const HomeLayout: React.FC = observer(() => {
   const globalNavigationStore = GlobalNavigationStore
   const { isInGlobalMenu } = globalNavigationStore
   function handleEnterMenu() {
-    globalNavigationStore.setToMenuNavigation()
+    globalNavigationStore.setToGlobalMenuNavigation()
   }
   const { getKeybindingHints } = useKeybindingHints()
   return (

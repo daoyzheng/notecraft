@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction, useEffect } from "react"
+import { menuOptions } from "../../constants/globalMenu"
 import { IDirectoryItem } from "../../interfaces/note"
 import GlobalNavigationStore from "../../store/GlobalNavigationStore"
 import NotebookListStore from "../../store/NotebookListStore"
@@ -7,7 +8,6 @@ import useNotebookListNavigation from "./useNotebookListNavigation"
 interface Props {
   globalNavigationStore: typeof GlobalNavigationStore
   notebookListStore: typeof NotebookListStore
-  isActive: boolean
   notebookList: IDirectoryItem[]
   selectedItem: IDirectoryItem | null
   setSelectedItem: Dispatch<SetStateAction<IDirectoryItem|null>>
@@ -15,7 +15,6 @@ interface Props {
 const useNotebookListKeybind = ({
   notebookListStore,
   globalNavigationStore,
-  isActive,
   notebookList,
   selectedItem,
   setSelectedItem
@@ -43,7 +42,7 @@ const useNotebookListKeybind = ({
     }
   }
   useEffect(() => {
-    if (isActive && globalNavigationStore.isInGlobalMenu) {
+    if (globalNavigationStore.isInGlobalMenu && globalNavigationStore.currentFocusedPage === menuOptions.notebookList) {
       document.addEventListener('keydown', handleKeyPress)
     }
     return () => {

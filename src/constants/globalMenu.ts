@@ -1,5 +1,5 @@
 export enum menuOptions {
   noteshall,
   notebookLanding,
-  notebook
+  notebookList
 }
