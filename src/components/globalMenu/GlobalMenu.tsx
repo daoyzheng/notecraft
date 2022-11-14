@@ -1,11 +1,10 @@
 import { observer } from "mobx-react"
 import { useEffect, useRef, useState } from "react"
-import { useLocation, useNavigate } from "react-router-dom"
+import { useLocation, useNavigate, useParams } from "react-router-dom"
 import { menuOptions } from "../../constants/globalMenu"
 import routes from "../../routes"
 import GlobalNavigationStore from "../../store/GlobalNavigationStore"
 import NotebookListStore from "../../store/NotebookListStore"
-import NotebookStore from "../../store/NotebookStore"
 import NotebookList from "../notebookList/NotebookList"
 import { IconWrapper } from "./GlobalMenu.styled"
 import GlobalMenuItem from "./GlobalMenuItem"
@@ -14,31 +13,33 @@ import useGlobalMenuKeybind from "./useGlobalMenuKeybind"
 
 const GlobalMenu = observer(() => {
   const location = useLocation()
-  const { notebookList } = NotebookListStore
+  const { notebookList, setCurrentItem, getItem } = NotebookListStore
   const [showNewNotebookForm, setShowNewNotebookForm] = useState<boolean>(false)
+  const { itemId } = useParams()
   const newNotebookFormRef = useRef<HTMLDivElement>(null)
   const globalNavigationStore = GlobalNavigationStore
-  const {
-    setCurrentNotebook,
-  } = NotebookStore
   const navigate = useNavigate()
 
   function getFocus () {
-    switch (location.pathname) {
-      case `/${routes.notebooks}`: {
-        return menuOptions.notebookLanding
-      }
-      case `/${routes.noteshall}`: {
-        return menuOptions.noteshall
-      }
-      default: return menuOptions.noteshall
+    if (location.pathname.includes(`/${routes.notebooks}`)) {
+      if (itemId)
+        return menuOptions.notebookList
+      return menuOptions.notebookLanding
     }
+    if (location.pathname.includes(`/${routes.noteshall}`)) {
+      return menuOptions.noteshall
+    }
+    return menuOptions.noteshall
   }
 
   useEffect(() => {
+    if (itemId) {
+      const item = getItem(notebookList, Number(itemId))
+      setCurrentItem(item)
+    }
     globalNavigationStore.setCurrentFocusedPage(getFocus())
     if (globalNavigationStore.currentFocusedPage !== menuOptions.notebookList) {
-      setCurrentNotebook(null)
+      setCurrentItem(null)
     }
   }, [globalNavigationStore.currentFocusedPage])
 
@@ -50,7 +51,6 @@ const GlobalMenu = observer(() => {
   function handleNotebookClick () {
     navigate(routes.notebooks)
     globalNavigationStore.setCurrentFocusedPage(menuOptions.notebookLanding)
-    setCurrentNotebook(null)
   }
   function handleNotesHallClick () {
     navigate(routes.noteshall)

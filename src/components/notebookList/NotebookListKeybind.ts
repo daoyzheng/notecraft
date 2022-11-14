@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect } from "react"
+import { useEffect } from "react"
 import { menuOptions } from "../../constants/globalMenu"
 import { IDirectoryItem } from "../../interfaces/note"
 import GlobalNavigationStore from "../../store/GlobalNavigationStore"
@@ -9,21 +9,21 @@ interface Props {
   globalNavigationStore: typeof GlobalNavigationStore
   notebookListStore: typeof NotebookListStore
   notebookList: IDirectoryItem[]
-  selectedItem: IDirectoryItem | null
-  setSelectedItem: Dispatch<SetStateAction<IDirectoryItem|null>>
+  currentItem: IDirectoryItem | null
+  setCurrentItem: (item: IDirectoryItem|null) => void
 }
 const useNotebookListKeybind = ({
   notebookListStore,
   globalNavigationStore,
   notebookList,
-  selectedItem,
-  setSelectedItem
+  currentItem,
+  setCurrentItem
 }: Props) => {
   const { moveToPrevItem, moveToNextItem } = useNotebookListNavigation({
     notebookListStore,
     notebookList,
-    selectedItem,
-    setSelectedItem
+    currentItem,
+    setCurrentItem
   })
   function handleKeyPress (e: KeyboardEvent) {
     switch(e.key.toLocaleLowerCase()) {
@@ -48,7 +48,7 @@ const useNotebookListKeybind = ({
     return () => {
       document.removeEventListener('keydown', handleKeyPress)
     }
-  }, [selectedItem, notebookList])
+  }, [currentItem, notebookList])
 }
 
 export default useNotebookListKeybind

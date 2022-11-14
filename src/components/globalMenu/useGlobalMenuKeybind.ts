@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom"
 import { menuOptions } from "../../constants/globalMenu"
 import routes from "../../routes"
 import GlobalNavigationStore from "../../store/GlobalNavigationStore"
-import NotebookStore from "../../store/NotebookStore"
 
 interface Props {
   globalNavigationStore: typeof GlobalNavigationStore
@@ -23,9 +22,6 @@ const useGlobalMenuKeybind = ({
     setToPageNavigation
   } = globalNavigationStore
   const navigate = useNavigate()
-  const {
-    currentNotebook,
-  } = NotebookStore
 
   function getRouteFromFocus (focus: menuOptions) {
     switch(focus) {
@@ -41,6 +37,7 @@ const useGlobalMenuKeybind = ({
       case 'j':
       case 'arrowdown': {
         if (currentFocusedPage === menuOptions.notebookLanding) {
+          console.log('lkhl', currentFocusedPage)
           setCurrentFocusedPage(currentFocusedPage+1)
           break 
         }
@@ -107,7 +104,6 @@ const useGlobalMenuKeybind = ({
   }, [
     currentFocusedPage,
     isInGlobalMenu,
-    currentNotebook,
     showNewNotebookForm,
   ])
 

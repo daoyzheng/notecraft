@@ -86,8 +86,8 @@ const useNotelistKeybind = ({
       case 'h':
       case 'arrowleft': {
         if (showPopup) break
-        globalNavigationStore.setToMenuNavigation()
-        globalNavigationStore.setCurrentFocusedPage(menuOptions.notebook)
+        globalNavigationStore.setToGlobalMenuNavigation()
+        globalNavigationStore.setCurrentFocusedPage(menuOptions.notebookList)
         break
       }
       case 'i': {
@@ -100,8 +100,8 @@ const useNotelistKeybind = ({
         if (showPopup)
           setShowPopup(false)
         else {
-          globalNavigationStore.setCurrentFocusedPage(menuOptions.notebook)
-          globalNavigationStore.setToMenuNavigation()
+          globalNavigationStore.setCurrentFocusedPage(menuOptions.notebookList)
+          globalNavigationStore.setToGlobalMenuNavigation()
         }
         break
       }

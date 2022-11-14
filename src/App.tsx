@@ -6,10 +6,10 @@ import Notebook from "./pages/notebook/Notebook"
 import NotebookLanding from "./pages/notebook/NotebookLanding"
 import NoteHall from "./pages/noteHall/NoteHall"
 import routes from "./routes"
-import NotebookStore from "./store/NotebookStore"
+// import NotebookStore from "./store/NotebookStore"
 
 const App = observer(() => {
-  const { currentNotebook } = NotebookStore
+  // const { currentNotebook } = NotebookStore
   return (
     <Router>
       <Routes>
@@ -17,7 +17,7 @@ const App = observer(() => {
           <Route path="/" element={<NoteHall/>}/>
           <Route path={routes.notebooks}>
             <Route path="" element={<NotebookLanding/>}/>
-            <Route path=":notebookId" element={<Notebook/>}/>
+            <Route path=":itemId" element={<Notebook/>}/>
           </Route>
           <Route path={routes.noteshall} element={<NoteHall/>}/>
         </Route>

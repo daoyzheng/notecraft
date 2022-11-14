@@ -4,15 +4,35 @@ import { notebookListMock } from "../utils/mock";
 
 class NotebookListStore {
   notebookList: IDirectoryItem[] = notebookListMock
+  currentItem: IDirectoryItem|null = null
   constructor() {
     makeObservable(this, {
       notebookList: observable,
-      getNotebookParent: action
+      currentItem: observable,
+      setCurrentItem: action,
+      getNotebookParent: action,
+      getItem: action
     })
   }
-  getNotebookParent(notebookList: IDirectoryItem[], id: number): null|IDirectoryItem {
+  setCurrentItem = (item: IDirectoryItem|null) => {
+    this.currentItem = item
+  }
+  getNotebookParent = (notebookList: IDirectoryItem[], id: number): null|IDirectoryItem => {
     return getNotebookParentHelper(notebookList, id)
   }
+  getItem(notebookList: IDirectoryItem[], id: number): IDirectoryItem|null {
+    return getItemHelper(notebookList, id)  
+  }
+}
+
+function getItemHelper(items: IDirectoryItem[], id: number): IDirectoryItem|null {
+  for (const item of items) {
+    if (item.id === id) return item
+    if (!item.children || item.children.length === 0) continue
+    const foundItem = getItemHelper(item.children, id)
+    if (foundItem) return foundItem
+  }
+  return null
 }
 
 function getNotebookParentHelper(items: IDirectoryItem[], id: number): IDirectoryItem|null {
