@@ -1,6 +1,8 @@
 import { useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 import { menuOptions } from "../../constants/globalMenu"
 import { IDirectoryItem } from "../../interfaces/note"
+import routes from "../../routes"
 import GlobalNavigationStore from "../../store/GlobalNavigationStore"
 import NotebookListStore from "../../store/NotebookListStore"
 import useNotebookListNavigation from "./useNotebookListNavigation"
@@ -19,6 +21,8 @@ const useNotebookListKeybind = ({
   currentItem,
   setCurrentItem
 }: Props) => {
+  const { setCurrentFocusedPage } = globalNavigationStore
+  const navigate = useNavigate()
   const { moveToPrevItem, moveToNextItem } = useNotebookListNavigation({
     notebookListStore,
     notebookList,
@@ -36,8 +40,20 @@ const useNotebookListKeybind = ({
       case 'arrowup':
       case 'k': {
         if (notebookList.length === 0) return
+        const firstItem = notebookList[0]
+        if (currentItem?.id === firstItem.id) {
+          setCurrentItem(null)
+          setCurrentFocusedPage(menuOptions.notebookLanding) 
+          navigate(routes.notebooks)
+          break
+        }
         moveToPrevItem()
         break
+      }
+      case 'escape': {
+        setCurrentItem(null)
+        setCurrentFocusedPage(menuOptions.notebookLanding) 
+        navigate(routes.notebooks)
       }
     }
   }

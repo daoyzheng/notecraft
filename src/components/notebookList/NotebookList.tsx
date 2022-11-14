@@ -17,13 +17,22 @@ const NotebookList = observer(({ notebookList }: Props) => {
   const { currentFocusedPage } = GlobalNavigationStore
   const { currentItem, setCurrentItem } = NotebookListStore
   useEffect(() => {
+    defaultFirstItemIfNotExist()
+    setRouteItemId()
+  }, [currentFocusedPage, currentItem])
+  const defaultFirstItemIfNotExist = () => {
     if (currentFocusedPage === menuOptions.notebookList && !currentItem) {
       const firstItem = notebookList.length > 0 ? notebookList[0] : null
       setCurrentItem(firstItem)
       if (firstItem)
         navigate(`${routes.notebooks}/${firstItem.id}`)
     }
-  }, [currentFocusedPage, currentItem])
+  }
+  const setRouteItemId = () => {
+    if (currentItem) {
+      navigate(`${routes.notebooks}/${currentItem.id}`)
+    }
+  }
   const globalNavigationStore = GlobalNavigationStore
   const notebookListStore = NotebookListStore
   useNotebookListKeybind({

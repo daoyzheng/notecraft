@@ -37,7 +37,6 @@ const useGlobalMenuKeybind = ({
       case 'j':
       case 'arrowdown': {
         if (currentFocusedPage === menuOptions.notebookLanding) {
-          console.log('lkhl', currentFocusedPage)
           setCurrentFocusedPage(currentFocusedPage+1)
           break 
         }
