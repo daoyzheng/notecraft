@@ -9,6 +9,7 @@ import { observer } from "mobx-react"
 import NotebookStore from "../../store/NotebookStore"
 import { menuOptions } from "../../constants/globalMenu"
 import { notesMock } from "../../utils/mock"
+import NotebookListStore from "../../store/NotebookListStore"
 
 
 const Notebook = observer(() => {
@@ -22,14 +23,15 @@ const Notebook = observer(() => {
   } = NotebookStore
   const globalNavigationStore = GlobalNavigationStore
   const { isInGlobalMenu } = globalNavigationStore
-  const { currentNotebook } = NotebookStore
+  const { selectedNotebook } = NotebookListStore
   const [noteList, setNoteList] = useState<INote[]>([])
 
   useEffect(() => {
-    const notes = notesMock.filter(n => n.notebookId === currentNotebook?.id)
+    if (!selectedNotebook) return
+    const notes = notesMock.filter(n => n.notebookId === selectedNotebook.id)
     setNoteList(notes)
     setCurrentNote(null)
-  }, [currentNotebook])
+  }, [selectedNotebook])
 
   function handleCreateNewNote (newNote: INote) {
     //TODO: This needs to change, can't incrementally assign id, will cause error
@@ -101,7 +103,7 @@ const Notebook = observer(() => {
 
   function handleEnterNotebook () {
     globalNavigationStore.setToPageNavigation()
-    globalNavigationStore.setCurrentFocusedPage(menuOptions.notebook)
+    globalNavigationStore.setCurrentFocusedPage(menuOptions.notebookList)
   }
   function handleEnterElement (el: focusOptions) {
     setNotebookCurrentFocus(el)
@@ -110,9 +112,9 @@ const Notebook = observer(() => {
   return (
     <div className="grid grid-cols-10 h-full w-full relative" onMouseEnter={handleEnterNotebook}>
         <Notelist
-          className={`${!isInGlobalMenu && currentNotebook?.id && notebookCurrentFocus === focusOptions.notelist ? 'border-blue-500' : inactiveNodeListBorderColor} col-span-3 border`}
+          className={`${!isInGlobalMenu && selectedNotebook?.id && notebookCurrentFocus === focusOptions.notelist ? 'border-blue-500' : inactiveNodeListBorderColor} col-span-3 border`}
           noteList={noteList}
-          notebookName={currentNotebook ? currentNotebook.name : ''}
+          notebookName={selectedNotebook ? selectedNotebook.name : ''}
           currentNote={currentNote}
           onCreateNewNote={handleCreateNewNote}
           onSelectNote={handleSelectNote}
@@ -122,7 +124,7 @@ const Notebook = observer(() => {
         />
       <NoteDetailsStateContextProvider setCurrentNoteDetailsState={setCurrentNoteDetailsState}>
         <NoteDetails
-          className={`${!isInGlobalMenu && currentNotebook?.id && notebookCurrentFocus === focusOptions.notedetails && currentNote ? 'border-blue-500' : 'border-transparent'} col-span-7 border`}
+          className={`${!isInGlobalMenu && selectedNotebook?.id && notebookCurrentFocus === focusOptions.notedetails && currentNote ? 'border-blue-500' : 'border-transparent'} col-span-7 border`}
           currentNote={currentNote}
           onDocChange={handleDocChange}
           onFinishEditDoc={handleFinishEditDoc}

@@ -6,18 +6,21 @@ import Notebook from "./pages/notebook/Notebook"
 import NotebookLanding from "./pages/notebook/NotebookLanding"
 import NoteHall from "./pages/noteHall/NoteHall"
 import routes from "./routes"
+import NotebookListStore from "./store/NotebookListStore"
 // import NotebookStore from "./store/NotebookStore"
 
 const App = observer(() => {
-  // const { currentNotebook } = NotebookStore
+  const { selectedNotebook } = NotebookListStore
   return (
     <Router>
       <Routes>
         <Route element={<HomeLayout/>}>
           <Route path="/" element={<NoteHall/>}/>
-          <Route path={routes.notebooks}>
-            <Route path="" element={<NotebookLanding/>}/>
-            <Route path=":itemId" element={<Notebook/>}/>
+          <Route path={routes.notebooks} element={<NotebookLanding/>}>
+            { selectedNotebook
+              ? <Route path=":itemId" element={<Notebook/>}/>
+              : <Route path=":itemId" element={<NotebookLanding/>}/>
+            }
           </Route>
           <Route path={routes.noteshall} element={<NoteHall/>}/>
         </Route>

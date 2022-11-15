@@ -5,11 +5,14 @@ import { notebookListMock } from "../utils/mock";
 class NotebookListStore {
   notebookList: IDirectoryItem[] = notebookListMock
   currentItem: IDirectoryItem|null = null
+  selectedNotebook: IDirectoryItem|null = null
   constructor() {
     makeObservable(this, {
       notebookList: observable,
       currentItem: observable,
+      selectedNotebook: observable,
       setCurrentItem: action,
+      setSelectedNotebook: action,
       getNotebookParent: action,
       getItem: action
     })
@@ -17,12 +20,27 @@ class NotebookListStore {
   setCurrentItem = (item: IDirectoryItem|null) => {
     this.currentItem = item
   }
+  setSelectedNotebook = (notebook: IDirectoryItem|null) => {
+    this.selectedNotebook = notebook
+  }
   getNotebookParent = (notebookList: IDirectoryItem[], id: number): null|IDirectoryItem => {
     return getNotebookParentHelper(notebookList, id)
   }
-  getItem(notebookList: IDirectoryItem[], id: number): IDirectoryItem|null {
-    return getItemHelper(notebookList, id)  
+  getItem = (notebookList: IDirectoryItem[], id: number): IDirectoryItem|null => {
+    return getItemHelper(notebookList, id)
   }
+  replaceItem = (item: IDirectoryItem): void => {
+    this.notebookList = replaceItemHelper(this.notebookList, item)
+  }
+}
+
+function replaceItemHelper(items: IDirectoryItem[], item: IDirectoryItem): IDirectoryItem[] {
+  return items.map(i => {
+    if (i.id === item.id) {
+      return item
+    }
+    return {...i, ...(i.children.length > 0 ? {children: replaceItemHelper(i.children, item)} : {})}
+  })
 }
 
 function getItemHelper(items: IDirectoryItem[], id: number): IDirectoryItem|null {

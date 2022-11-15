@@ -22,6 +22,7 @@ const useNotebookListKeybind = ({
   setCurrentItem
 }: Props) => {
   const { setCurrentFocusedPage } = globalNavigationStore
+  const { setSelectedNotebook, replaceItem } = notebookListStore
   const navigate = useNavigate()
   const { moveToPrevItem, moveToNextItem } = useNotebookListNavigation({
     notebookListStore,
@@ -43,16 +44,38 @@ const useNotebookListKeybind = ({
         const firstItem = notebookList[0]
         if (currentItem?.id === firstItem.id) {
           setCurrentItem(null)
-          setCurrentFocusedPage(menuOptions.notebookLanding) 
+          setCurrentFocusedPage(menuOptions.notebookLanding)
           navigate(routes.notebooks)
           break
         }
         moveToPrevItem()
         break
       }
+      case 'l':
+      case 'enter':
+      case 'arrowright': {
+        if (!currentItem) break
+        if (currentItem.isFolder) {
+          const newItem = { ...currentItem, expand: true  }
+          setCurrentItem(newItem)
+          replaceItem(newItem)
+          break
+        }
+        setSelectedNotebook(currentItem)
+        break
+      }
+      case 'h':
+      case 'arrowleft': {
+        if (!currentItem) break
+        if (!currentItem.isFolder) break
+        const newItem = { ...currentItem, expand: false }
+        setCurrentItem(newItem)
+        replaceItem(newItem)
+        break
+      }
       case 'escape': {
         setCurrentItem(null)
-        setCurrentFocusedPage(menuOptions.notebookLanding) 
+        setCurrentFocusedPage(menuOptions.notebookLanding)
         navigate(routes.notebooks)
       }
     }
