@@ -16,7 +16,7 @@ const App = observer(() => {
       <Routes>
         <Route element={<HomeLayout/>}>
           <Route path="/" element={<NoteHall/>}/>
-          <Route path={routes.notebooks} element={<NotebookLanding/>}>
+          <Route path={routes.notebooks}>
             { selectedNotebook
               ? <Route path=":itemId" element={<Notebook/>}/>
               : <Route path=":itemId" element={<NotebookLanding/>}/>

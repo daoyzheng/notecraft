@@ -14,6 +14,7 @@ class NotebookListStore {
       setCurrentItem: action,
       setSelectedNotebook: action,
       getNotebookParent: action,
+      replaceItem: action,
       getItem: action
     })
   }
