@@ -56,7 +56,7 @@ const useNotebookListKeybind = ({
       case 'arrowright': {
         if (!currentItem) break
         if (currentItem.isFolder) {
-          const newItem = { ...currentItem, expand: true  }
+          const newItem = { ...currentItem, expand: !currentItem.expand }
           setCurrentItem(newItem)
           replaceItem(newItem)
           break
@@ -68,7 +68,7 @@ const useNotebookListKeybind = ({
       case 'arrowleft': {
         if (!currentItem) break
         if (!currentItem.isFolder) break
-        const newItem = { ...currentItem, expand: false }
+        const newItem = { ...currentItem, expand: !currentItem.expand }
         setCurrentItem(newItem)
         replaceItem(newItem)
         break
