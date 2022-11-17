@@ -7,14 +7,15 @@ interface Props {
   notebookListStore: typeof NotebookListStore
   notebookList: IDirectoryItem[]
 }
-const useNotebookListNavigation = ({ 
-  notebookList, 
-  currentItem, 
-  setCurrentItem, 
-  notebookListStore 
+const useNotebookListNavigation = ({
+  notebookList,
+  currentItem,
+  setCurrentItem,
+  notebookListStore
 }: Props) => {
 //*************** move to next item start ****************************
   function moveToNextItem() {
+    console.log('curre', currentItem)
     if (!currentItem) {
       setCurrentItem(notebookList[0])
       return
@@ -82,7 +83,7 @@ const useNotebookListNavigation = ({
   }
 
   function moveToPrevItem () {
-    if (!currentItem) 
+    if (!currentItem)
       return
     let folder = notebookListStore.getNotebookParent(notebookList, currentItem.id)
     if (!folder) {

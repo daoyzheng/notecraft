@@ -15,9 +15,9 @@ const useGlobalMenuKeybind = ({
   showNewNotebookForm,
   setShowNewNotebookForm,
 }: Props) => {
-  const { 
+  const {
     isInGlobalMenu,
-    setCurrentFocusedPage, 
+    setCurrentFocusedPage,
     currentFocusedPage,
     setToPageNavigation
   } = globalNavigationStore
@@ -36,14 +36,9 @@ const useGlobalMenuKeybind = ({
     switch(e.key.toLocaleLowerCase()) {
       case 'j':
       case 'arrowdown': {
-        if (currentFocusedPage === menuOptions.notebookLanding) {
-          setCurrentFocusedPage(currentFocusedPage+1)
-          break 
-        }
-        if (currentFocusedPage !== menuOptions.notebookList) {
-          setCurrentFocusedPage(currentFocusedPage+1)
-          navigate(getRouteFromFocus(currentFocusedPage+1))
-        }
+        if (currentFocusedPage === menuOptions.notebookList) break
+        setCurrentFocusedPage(currentFocusedPage+1)
+        navigate(getRouteFromFocus(currentFocusedPage+1))
         break
       }
       case 'k':

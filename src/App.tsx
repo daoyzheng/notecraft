@@ -1,5 +1,5 @@
 import { observer } from "mobx-react"
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom"
+import { Route, BrowserRouter as Router, Routes, useParams } from "react-router-dom"
 import HomeLayout from "./layouts/HomeLayout"
 import Error from "./pages/error/Error"
 import Notebook from "./pages/notebook/Notebook"
@@ -10,18 +10,14 @@ import NotebookListStore from "./store/NotebookListStore"
 // import NotebookStore from "./store/NotebookStore"
 
 const App = observer(() => {
-  const { selectedNotebook } = NotebookListStore
+  const { itemId } = useParams()
   return (
     <Router>
       <Routes>
         <Route element={<HomeLayout/>}>
           <Route path="/" element={<NoteHall/>}/>
-          <Route path={routes.notebooks}>
-            { selectedNotebook
-              ? <Route path=":itemId" element={<Notebook/>}/>
-              : <Route path=":itemId" element={<NotebookLanding/>}/>
-            }
-          </Route>
+          <Route path={routes.notebooks} element={!itemId && <NotebookLanding/>}/>
+          <Route path={`${routes.notebooks}/:itemId`} element={<Notebook/>}/>
           <Route path={routes.noteshall} element={<NoteHall/>}/>
         </Route>
         <Route path="*" element={<Error/>}/>

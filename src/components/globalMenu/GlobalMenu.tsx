@@ -13,7 +13,7 @@ import useGlobalMenuKeybind from "./useGlobalMenuKeybind"
 
 const GlobalMenu = observer(() => {
   const location = useLocation()
-  const { notebookList, setCurrentItem, getItem } = NotebookListStore
+  const { notebookList, currentItem, setCurrentItem, getItem } = NotebookListStore
   const [showNewNotebookForm, setShowNewNotebookForm] = useState<boolean>(false)
   const { itemId } = useParams()
   const newNotebookFormRef = useRef<HTMLDivElement>(null)
@@ -22,9 +22,9 @@ const GlobalMenu = observer(() => {
 
   function getFocus () {
     if (location.pathname.includes(`/${routes.notebooks}`)) {
-      if (itemId)
-        return menuOptions.notebookList
-      return menuOptions.notebookLanding
+      if (!itemId)
+        return menuOptions.notebookLanding
+      return menuOptions.notebookList
     }
     if (location.pathname.includes(`/${routes.noteshall}`)) {
       return menuOptions.noteshall
@@ -33,14 +33,7 @@ const GlobalMenu = observer(() => {
   }
 
   useEffect(() => {
-    if (itemId) {
-      const item = getItem(notebookList, Number(itemId))
-      setCurrentItem(item)
-    }
     globalNavigationStore.setCurrentFocusedPage(getFocus())
-    if (globalNavigationStore.currentFocusedPage !== menuOptions.notebookList) {
-      setCurrentItem(null)
-    }
   }, [globalNavigationStore.currentFocusedPage])
 
   useGlobalMenuKeybind({
