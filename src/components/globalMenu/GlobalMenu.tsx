@@ -34,7 +34,7 @@ const GlobalMenu = observer(() => {
 
   useEffect(() => {
     globalNavigationStore.setCurrentFocusedPage(getFocus())
-  }, [globalNavigationStore.currentFocusedPage])
+  }, [])
 
   useGlobalMenuKeybind({
     globalNavigationStore,

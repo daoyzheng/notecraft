@@ -15,7 +15,6 @@ const useNotebookListNavigation = ({
 }: Props) => {
 //*************** move to next item start ****************************
   function moveToNextItem() {
-    console.log('curre', currentItem)
     if (!currentItem) {
       setCurrentItem(notebookList[0])
       return
