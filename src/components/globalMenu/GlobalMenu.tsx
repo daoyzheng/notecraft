@@ -13,7 +13,7 @@ import useGlobalMenuKeybind from "./useGlobalMenuKeybind"
 
 const GlobalMenu = observer(() => {
   const location = useLocation()
-  const { notebookList, currentItem, setCurrentItem, getItem } = NotebookListStore
+  const { notebookList } = NotebookListStore
   const [showNewNotebookForm, setShowNewNotebookForm] = useState<boolean>(false)
   const { itemId } = useParams()
   const newNotebookFormRef = useRef<HTMLDivElement>(null)

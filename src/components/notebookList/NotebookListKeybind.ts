@@ -60,8 +60,9 @@ const useNotebookListKeybind = ({
           setCurrentItem(newItem)
           replaceItem(newItem)
           break
-        }
+        } 
         setSelectedNotebook(currentItem)
+        navigate(`${routes.notebooks}/${currentItem.id}`)
         break
       }
       case 'h':

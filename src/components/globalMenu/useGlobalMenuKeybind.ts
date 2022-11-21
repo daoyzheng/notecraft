@@ -43,6 +43,7 @@ const useGlobalMenuKeybind = ({
       }
       case 'k':
       case 'arrowup': {
+        if (currentFocusedPage === menuOptions.noteshall) break
         if (currentFocusedPage !== menuOptions.notebookList) {
           setCurrentFocusedPage(currentFocusedPage-1)
           navigate(getRouteFromFocus(currentFocusedPage-1))
