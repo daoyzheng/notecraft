@@ -20,8 +20,11 @@ const DirectoryTree = ({ directoryItems, selectedItem }: Props) => {
                 </div>
               </div>
               {
-                item.children.length > 0 && item.expand &&
-                <DirectoryTree directoryItems={item.children} selectedItem={selectedItem}/>
+                item.children.length > 0 && item.expand
+                ? <DirectoryTree directoryItems={item.children} selectedItem={selectedItem}/>
+                : item.isFolder && item.expand && <div className="ml-12 italic text-sm text-zinc-500">
+                  empty
+                </div>
               }
             </li>
           )
