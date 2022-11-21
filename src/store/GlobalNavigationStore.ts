@@ -13,10 +13,10 @@ class GlobalNavigationStore {
       setCurrentFocusedPage: action,
     })
   }
-  setToGlobalMenuNavigation () {
+  setToGlobalMenuNavigation = () => {
     this.isInGlobalMenu = true
   }
-  setToPageNavigation () {
+  setToPageNavigation = () => {
     this.isInGlobalMenu = false
   }
   setCurrentFocusedPage = (menu: menuOptions) => {
