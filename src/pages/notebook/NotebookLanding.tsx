@@ -1,12 +1,22 @@
 import { observer } from "mobx-react"
 import { menuOptions } from "../../constants/globalMenu"
 import GlobalNavigationStore from "../../store/GlobalNavigationStore"
+import useNotebookLandingKeybind from "./useNotebookLandingKeybind"
 
 const NotebookLanding = observer(() => {
-  const { currentFocusedPage, isInGlobalMenu } = GlobalNavigationStore
+  const { currentFocusedPage, isInGlobalMenu, setToPageNavigation, setCurrentFocusedPage } = GlobalNavigationStore
+  useNotebookLandingKeybind({
+    globalNavigationStore: GlobalNavigationStore
+  })
+  function handleMouseEnter () {
+    setToPageNavigation()
+    setCurrentFocusedPage(menuOptions.notebookLanding)
+  }
   return (
-    <div className={`${!isInGlobalMenu && currentFocusedPage === menuOptions.notebookLanding ? 'border-blue-500 border' : ''} h-full w-full relative bg-zinc-800 text-white`}>
-      Notebooklandinga
+    <div 
+      onMouseEnter={handleMouseEnter}
+      className={`${!isInGlobalMenu && currentFocusedPage === menuOptions.notebookLanding ? 'border-blue-500 border' : ''} h-full w-full relative bg-zinc-800 text-white`}>
+      Notebooklanding
     </div>
   )
 })
