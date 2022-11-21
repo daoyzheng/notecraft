@@ -88,7 +88,7 @@ const useNotebookListKeybind = ({
     }
   }
   useEffect(() => {
-    if (isInGlobalMenu) {
+    if (isInGlobalMenu && currentFocusedPage === menuOptions.notebookList) {
       document.addEventListener('keydown', handleKeyPress)
     }
     return () => {
