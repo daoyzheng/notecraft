@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { menuOptions } from "../../constants/globalMenu"
 import { IDirectoryItem } from "../../interfaces/note"
 import routes from "../../routes"
@@ -21,9 +21,10 @@ const useNotebookListKeybind = ({
   currentItem,
   setCurrentItem
 }: Props) => {
-  const { setCurrentFocusedPage } = globalNavigationStore
+  const { setCurrentFocusedPage, setToPageNavigation, currentFocusedPage, isInGlobalMenu } = globalNavigationStore
   const { setSelectedNotebook, replaceItem } = notebookListStore
   const navigate = useNavigate()
+  const { itemId } = useParams()
   const { moveToPrevItem, moveToNextItem } = useNotebookListNavigation({
     notebookListStore,
     notebookList,
@@ -63,6 +64,10 @@ const useNotebookListKeybind = ({
         } 
         setSelectedNotebook(currentItem)
         navigate(`${routes.notebooks}/${currentItem.id}`)
+        if (itemId && currentItem.id === Number(itemId)) {
+          setToPageNavigation()
+          setCurrentFocusedPage(menuOptions.notebookList)
+        }
         break
       }
       case 'h':
@@ -75,20 +80,21 @@ const useNotebookListKeybind = ({
         break
       }
       case 'escape': {
-        setCurrentItem(null)
-        setCurrentFocusedPage(menuOptions.notebookLanding)
-        navigate(routes.notebooks)
+        // setCurrentItem(null)
+        // setCurrentFocusedPage(menuOptions.notebookLanding)
+        // navigate(routes.notebooks)
+        break
       }
     }
   }
   useEffect(() => {
-    if (globalNavigationStore.isInGlobalMenu && globalNavigationStore.currentFocusedPage === menuOptions.notebookList) {
+    if (isInGlobalMenu) {
       document.addEventListener('keydown', handleKeyPress)
     }
     return () => {
       document.removeEventListener('keydown', handleKeyPress)
     }
-  }, [currentItem, notebookList])
+  }, [currentItem, notebookList, itemId, isInGlobalMenu])
 }
 
 export default useNotebookListKeybind
