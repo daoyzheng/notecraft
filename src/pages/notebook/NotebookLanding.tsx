@@ -10,12 +10,12 @@ const NotebookLanding = observer(() => {
   })
   function handleMouseEnter () {
     setToPageNavigation()
-    setCurrentFocusedPage(menuOptions.notebookLanding)
   }
   return (
     <div 
       onMouseEnter={handleMouseEnter}
-      className={`${!isInGlobalMenu && currentFocusedPage === menuOptions.notebookLanding ? 'border-blue-500 border' : ''} h-full w-full relative bg-zinc-800 text-white`}>
+      className={`${!isInGlobalMenu 
+        && (currentFocusedPage === menuOptions.notebookLanding || currentFocusedPage === menuOptions.notebookList) ? 'border-blue-500 border' : ''} h-full w-full relative bg-zinc-800 text-white`}>
       Notebooklanding
     </div>
   )
