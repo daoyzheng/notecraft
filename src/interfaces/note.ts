@@ -27,7 +27,6 @@ export interface IDirectoryItem {
   id: number
   name: string
   expand: boolean
-  // parentId: number|null
   children: IDirectoryItem[]
   isFolder: boolean
 }

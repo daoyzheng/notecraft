@@ -30,6 +30,12 @@ const NotebookList = observer(({ notebookList }: Props) => {
       }
     }
   }, [])
+  const handleItemClick = (item: IDirectoryItem) => {
+    if (!item.isFolder) {
+      setSelectedNotebook(item)
+    }
+    setCurrentItem(item)
+  }
   useNotebookListKeybind({
     notebookListStore,
     notebookList,
@@ -38,7 +44,7 @@ const NotebookList = observer(({ notebookList }: Props) => {
     globalNavigationStore
   })
   return (
-    <DirectoryTree directoryItems={notebookList} selectedItem={currentItem}/>
+    <DirectoryTree directoryItems={notebookList} selectedItem={currentItem} onClick={handleItemClick}/>
   )
 })
 

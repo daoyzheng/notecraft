@@ -4,8 +4,12 @@ import { EmptyWrapper } from "./DirectoryTree.styled"
 interface Props {
   directoryItems: IDirectoryItem[]
   selectedItem: IDirectoryItem|null
+  onClick?: (item: IDirectoryItem) => void
 }
-const DirectoryTree = ({ directoryItems, selectedItem }: Props) => {
+const DirectoryTree = ({ directoryItems, selectedItem, onClick }: Props) => {
+  const handleItemClick = (item: IDirectoryItem) => {
+    onClick && onClick(item)
+  }
   return (
     <ul>
       {
@@ -15,14 +19,21 @@ const DirectoryTree = ({ directoryItems, selectedItem }: Props) => {
               <div className="flex">
                 { selectedItem && selectedItem.id === item.id && <div className="bg-slate-700 fixed left-2 right-0 h-6 z-0"/>}
                 <div className="z-10 flex items-center">
-                  <i className={`material-symbols-outlined cursor-pointer ${!item.isFolder && 'text-transparent'}`}>{item.expand ? 'arrow_drop_down': 'arrow_right'}</i>
-                  <i className="material-symbols-outlined mr-1 text-zinc-500">{ item.isFolder ? item.expand ? 'folder_open' : 'folder' : 'description'}</i>
-                  { item.name }
+                  {
+                    false &&
+                    <>
+                      <i className={`material-symbols-outlined cursor-pointer ${!item.isFolder && 'text-transparent'}`}>{item.expand ? 'arrow_drop_down': 'arrow_right'}</i>
+                      <i className="material-symbols-outlined mr-1 text-zinc-500">{ item.isFolder ? item.expand ? 'folder_open' : 'folder' : 'description'}</i>
+                    </>
+                  }
+                  <div className="cursor-pointer" onClick={() => handleItemClick(item)}>
+                    { item.name }
+                  </div>
                 </div>
               </div>
               {
                 item.children.length > 0 && item.expand
-                ? <DirectoryTree directoryItems={item.children} selectedItem={selectedItem}/>
+                ? <DirectoryTree directoryItems={item.children} selectedItem={selectedItem} onClick={handleItemClick}/>
                 : item.isFolder && item.expand && <EmptyWrapper className="ml-12 italic text-sm">
                   empty
                 </EmptyWrapper>
