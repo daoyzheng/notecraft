@@ -1,8 +1,9 @@
 import { observer } from "mobx-react-lite"
 import { useEffect } from "react"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { menuOptions } from "../../constants/globalMenu"
 import { IDirectoryItem } from "../../interfaces/note"
+import routes from "../../routes"
 import GlobalNavigationStore from "../../store/GlobalNavigationStore"
 import NotebookListStore from "../../store/NotebookListStore"
 import DirectoryTree from "../directoryTree/DirectoryTree"
@@ -16,6 +17,7 @@ const NotebookList = observer(({ notebookList }: Props) => {
   const globalNavigationStore = GlobalNavigationStore
   const notebookListStore = NotebookListStore
   const { itemId } = useParams()
+  const navigate = useNavigate()
   useEffect(() => {
     if (globalNavigationStore.currentFocusedPage === menuOptions.notebookList && !currentItem) {
       setCurrentItem(notebookList[0])
@@ -33,8 +35,10 @@ const NotebookList = observer(({ notebookList }: Props) => {
   const handleItemClick = (item: IDirectoryItem) => {
     if (!item.isFolder) {
       setSelectedNotebook(item)
+      navigate(`${routes.notebooks}/${item.id}`)
     }
     setCurrentItem(item)
+    globalNavigationStore.setCurrentFocusedPage(menuOptions.notebookList)
   }
   useNotebookListKeybind({
     notebookListStore,
