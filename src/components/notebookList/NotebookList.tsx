@@ -13,7 +13,7 @@ interface Props {
   notebookList: IDirectoryItem[]
 }
 const NotebookList = observer(({ notebookList }: Props) => {
-  const { currentItem, setCurrentItem, getItem, setSelectedNotebook } = NotebookListStore
+  const { currentItem, setCurrentItem, getItem, setSelectedNotebook, replaceItem } = NotebookListStore
   const globalNavigationStore = GlobalNavigationStore
   const notebookListStore = NotebookListStore
   const { itemId } = useParams()
@@ -40,6 +40,12 @@ const NotebookList = observer(({ notebookList }: Props) => {
     setCurrentItem(item)
     globalNavigationStore.setCurrentFocusedPage(menuOptions.notebookList)
   }
+
+  const handleExpandToggle = (item: IDirectoryItem) => {
+    if (!item.isFolder) return
+    const newItem = { ...item, expand: !item.expand }
+    replaceItem(newItem)
+  }
   useNotebookListKeybind({
     notebookListStore,
     notebookList,
@@ -48,7 +54,12 @@ const NotebookList = observer(({ notebookList }: Props) => {
     globalNavigationStore
   })
   return (
-    <DirectoryTree directoryItems={notebookList} selectedItem={currentItem} onClick={handleItemClick}/>
+    <DirectoryTree 
+      directoryItems={notebookList} 
+      selectedItem={currentItem} 
+      onClick={handleItemClick}
+      onExpandToggle={handleExpandToggle}
+    />
   )
 })
 
