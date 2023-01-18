@@ -33,6 +33,13 @@ class NotebookListStore {
   replaceItem = (item: IDirectoryItem): void => {
     this.notebookList = replaceItemHelper(this.notebookList, item)
   }
+  isCurrentItemChildOfGivenItem = (item: IDirectoryItem): boolean => {
+    if (item.id === this.currentItem?.id) return false
+    if (!this.currentItem) return false
+    const foundItem = getItemHelper(item.children, this.currentItem?.id)
+    if (foundItem) return true
+    return false
+  }
 }
 
 function replaceItemHelper(items: IDirectoryItem[], item: IDirectoryItem): IDirectoryItem[] {

@@ -13,7 +13,14 @@ interface Props {
   notebookList: IDirectoryItem[]
 }
 const NotebookList = observer(({ notebookList }: Props) => {
-  const { currentItem, setCurrentItem, getItem, setSelectedNotebook, replaceItem } = NotebookListStore
+  const { 
+    currentItem, 
+    setCurrentItem, 
+    getItem, 
+    setSelectedNotebook, 
+    replaceItem,
+    isCurrentItemChildOfGivenItem
+  } = NotebookListStore
   const globalNavigationStore = GlobalNavigationStore
   const notebookListStore = NotebookListStore
   const { itemId } = useParams()
@@ -44,6 +51,9 @@ const NotebookList = observer(({ notebookList }: Props) => {
   const handleExpandToggle = (item: IDirectoryItem) => {
     if (!item.isFolder) return
     const newItem = { ...item, expand: !item.expand }
+    if (isCurrentItemChildOfGivenItem(item)) {
+      setCurrentItem(newItem)
+    }
     replaceItem(newItem)
   }
   useNotebookListKeybind({
