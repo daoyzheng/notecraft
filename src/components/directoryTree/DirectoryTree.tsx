@@ -10,6 +10,7 @@ interface Props {
 }
 const DirectoryTree = ({ directoryItems, selectedItem, onClick, onExpandToggle }: Props) => {
   const handleExpandToggle = (item: IDirectoryItem, e: MouseEvent) => {
+    if (!item.isFolder) return
     e.stopPropagation()
     onExpandToggle && onExpandToggle(item)
   }
@@ -25,12 +26,17 @@ const DirectoryTree = ({ directoryItems, selectedItem, onClick, onExpandToggle }
               <div className="flex cursor-pointer mt-1" onClick={() => handleItemClick(item)}>
                 { selectedItem && selectedItem.id === item.id && <div className="bg-slate-700 fixed left-2 right-0 h-6 z-0"/>}
                 <div className="z-10 flex items-center">
-                  <i 
-                    className={`material-symbols-outlined cursor-pointer hover:text-zinc-400 ${!item.isFolder && 'text-transparent'}`} 
-                    onClick={(e) => handleExpandToggle(item, e)}
-                  >
-                    {item.expand ? 'arrow_drop_down': 'arrow_right'}
-                  </i>
+                  {
+                    item.isFolder ?
+                    <i 
+                      className="material-symbols-outlined cursor-pointer hover:text-zinc-400"
+                      onClick={(e) => handleExpandToggle(item, e)}
+                    >
+                      {item.expand ? 'arrow_drop_down': 'arrow_right'}
+                    </i> :
+                    <div className="w-6">
+                    </div>
+                  }
                   <i className={`material-symbols-outlined mr-1 text-zinc-500 ${item.expand && 'text-red-300'}`}>
                     { item.isFolder ? item.expand ? 'folder_open' : 'folder' : 'description'}
                   </i>
