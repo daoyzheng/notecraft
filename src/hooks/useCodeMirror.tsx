@@ -6,6 +6,9 @@ import { oneDark } from '@codemirror/theme-one-dark'
 import { languages } from '@codemirror/language-data'
 import { tags } from '@lezer/highlight'
 import { HighlightStyle, syntaxHighlighting } from '@codemirror/language'
+import { vim } from '@replit/codemirror-vim'
+// import {defaultKeymap, historyKeymap, history} from "@codemirror/commands"
+// import { keymap } from "@codemirror/view"
 import type React from 'react'
 
 const highlightStyle = HighlightStyle.define([
@@ -67,10 +70,14 @@ const useCodeMirror = <T extends Element>(props : Props) : [React.MutableRefObje
     return EditorState.create({
       doc: props.initialDoc,
       extensions: [
+        vim(),
         basicSetup,
         oneDark,
         theme,
         lineWrap,
+        // keymap.of([
+        //   ...defaultKeymap
+        // ]),
         syntaxHighlighting(highlightStyle),
         EditorView.updateListener.of(update => {
           if (update.changes) {
