@@ -54,6 +54,10 @@ const NotebookList = observer(({ notebookList }: Props) => {
     if (isCurrentItemChildOfGivenItem(item)) {
       setCurrentItem(newItem)
     }
+    if (currentItem && currentItem.id === item.id) {
+      setCurrentItem(newItem)
+    }
+    console.log({ newItem })
     replaceItem(newItem)
   }
   useNotebookListKeybind({
