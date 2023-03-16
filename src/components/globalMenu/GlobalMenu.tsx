@@ -97,10 +97,10 @@ const GlobalMenu = observer(() => {
               onCreateNewNotebook={handleCreateNewNotebook}
             />
           }
-          <IconWrapper
+          {/* <IconWrapper
             className="material-icons ml-2 cursor-pointer text-gray-400 rounded-sm border border-gray-400 bg-gray-700 hover:bg-gray-600"
             onClick={handleMinimizeAllNotebooks}
-          >minimize</IconWrapper>
+          >minimize</IconWrapper> */}
         </div>
         <NotebookList notebookList={notebookList}/>
       </div>
