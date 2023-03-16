@@ -1,8 +1,10 @@
+import { useParams } from "react-router-dom"
 import InputHint from "../components/inputHint/InputHint"
 import { menuOptions } from "../constants/globalMenu"
 import { possibleNoteDetailsStates, focusOptions } from "../constants/noteDetails"
-import { INotebook } from "../interfaces/note"
+import { IDirectoryItem } from "../interfaces/note"
 import GlobalNavigationStore from "../store/GlobalNavigationStore"
+import NotebookListStore from "../store/NotebookListStore"
 import NotebookStore from "../store/NotebookStore"
 
 const useKeybindingHints = () => {
@@ -12,18 +14,23 @@ const useKeybindingHints = () => {
   } = GlobalNavigationStore
   const {
     currentNote,
-    currentNotebook,
     notebookCurrentFocus,
     currentNoteDetailsState
   } = NotebookStore
+  const {
+    currentItem
+  } = NotebookListStore
+  const { itemId } = useParams()
   function getKeybindingHints () {
     if (isInGlobalMenu) {
-      if (!currentNotebook) return <GlobalMenuHints/>
-      return <NotebookSelectionHints currentNotebook={currentNotebook}/>
+      if (currentFocusedPage === menuOptions.notebookList) {
+        return <NotebookSelectionHints currentItem={currentItem} routeItemId={itemId}/>
+      }
+      return <GlobalMenuHints/>
     }
     else {
       switch(currentFocusedPage) {
-        case menuOptions.notebook: {
+        case menuOptions.notebookList: {
           if (notebookCurrentFocus === focusOptions.notelist) return <NotelistKeyHints/>
           else if (currentNote) {
             switch(currentNoteDetailsState) {
@@ -193,49 +200,41 @@ const GlobalMenuHints = () => {
   )
 }
 
-const NotebookSelectionHints = ({currentNotebook}: {currentNotebook: INotebook}) => {
+const NotebookSelectionHints = ({ currentItem, routeItemId }: { currentItem: IDirectoryItem|null, routeItemId: string|undefined}) => {
   return (
     <div className="flex gap-x-3 flex-wrap gap-y-1">
       <div className="flex items-center">
         <InputHint label="j"/><span className="mx-1">/</span><InputHint icon="keyboard_arrow_down"/>
-        <div className="ml-1 text-xs">: Next notebook</div>
+        <div className="ml-1 text-xs">: Next item</div>
       </div>
       <div className="flex items-center">
         <InputHint label="k"/><span className="mx-1">/</span><InputHint icon="keyboard_arrow_up"/>
-        <div className="ml-1 text-xs">: Prev notebook</div>
+        <div className="ml-1 text-xs">: Prev item</div>
       </div>
-      <div className="flex items-center">
-        <InputHint label="l"/><span className="mx-1">/</span><InputHint icon="keyboard_arrow_right"/>
-        <div className="ml-1 text-xs">: Enter notes selection</div>
-      </div>
+      {
+        currentItem && !currentItem.isFolder &&
+        <div className="flex items-center">
+          <InputHint label="l"/>
+          <span className="mx-1">/</span>
+          <InputHint icon="keyboard_arrow_right"/>
+          <span className="mx-1">/</span>
+          <InputHint label="Enter"/>
+          <div className="ml-1 text-xs">
+            { routeItemId && currentItem.id === Number(routeItemId) 
+            ? ': Enter notes selection'
+            : ': Select notebook'}
+          </div>
+        </div>
+      }
       <div className="flex items-center">
         <InputHint label="i"/>
         <div className="ml-1 text-xs">: New notebook</div>
       </div>
-      <div className="flex items-center">
-        <InputHint label="e"/>
-        <div className="ml-1 text-xs">: Toggle Expand</div>
-      </div>
-      <div className="flex items-center">
-        <InputHint label="t"/>
-        <div className="ml-1 text-xs">Expand to current notebook</div>
-      </div>
-      <div className="flex items-center">
-        <InputHint label="T"/>
-        <div className="ml-1 text-xs">Minimize all notebooks</div>
-      </div>
       {
-        currentNotebook.children.length > 0 &&
+        currentItem && currentItem.isFolder &&
         <div className="flex items-center">
           <InputHint label="Enter"/>
-          <div className="ml-1 text-xs">: Next level</div>
-        </div>
-      }
-      {
-        currentNotebook.parentNotebookId &&
-        <div className="flex items-center">
-          <InputHint label="Esc"/>
-          <div className="ml-1 text-xs">: Previous level</div>
+          <div className="ml-1 text-xs">: Toggle Expand</div>
         </div>
       }
     </div>

@@ -36,7 +36,7 @@ const useGlobalMenuKeybind = ({
     switch(e.key.toLocaleLowerCase()) {
       case 'j':
       case 'arrowdown': {
-        if (currentFocusedPage === menuOptions.notebookList) break
+        if (currentFocusedPage === menuOptions.notebookList) break 
         setCurrentFocusedPage(currentFocusedPage+1)
         navigate(getRouteFromFocus(currentFocusedPage+1))
         break
