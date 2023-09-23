@@ -34,18 +34,18 @@ const NewNotebookForm = ({ onBlur, blurException, onCreateNewNotebook }: Props) 
   function handleRootNotebookChange (e: ChangeEvent) {
     const { checked } = (e.target as HTMLInputElement)
     if (checked) {
-      setValue('parentNotebookId', null as never)
+      // setValue('parentNotebookId', null as never)
     }
     setIsRootNotebook(checked)
   }
 
   function getAllNotebooks(notebook: INotebook, allOptions: INotebook[]) {
     allOptions.push(notebook)
-    if (notebook.children) {
-      notebook.children.forEach(child => {
-        getAllNotebooks(child, allOptions)
-      })
-    }
+    // if (notebook.children) {
+    //   notebook.children.forEach(child => {
+    //     getAllNotebooks(child, allOptions)
+    //   })
+    // }
   }
 
   const options = useMemo(() => {
@@ -72,7 +72,7 @@ const NewNotebookForm = ({ onBlur, blurException, onCreateNewNotebook }: Props) 
             <div>Make root notebook</div>
             <input type="checkbox" defaultChecked onChange={handleRootNotebookChange} className="w-4 h-4"/>
           </div>
-          {
+          {/* {
             !isRootNotebook &&
             <Select
               className="mt-1"
@@ -83,7 +83,7 @@ const NewNotebookForm = ({ onBlur, blurException, onCreateNewNotebook }: Props) 
               options={options}
               label="Select a parent notebook"
             />
-          }
+          } */}
           <div className="flex justify-end mt-4 mb-1">
             <button type="submit" className="bg-blue-500 text-white px-2 rounded text-sm hover:bg-blue-600">Craft</button>
           </div>

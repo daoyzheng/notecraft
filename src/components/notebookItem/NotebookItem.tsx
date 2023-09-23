@@ -10,7 +10,7 @@ interface Props {
   className?: string
 }
 const NotebookItem = ({ className, notebook, isActive, onClick, onExpandNotebook }: Props) => {
-  const { isNotebookAncestorOfCurrentNotebook } = NotebookStore
+  // const { isNotebookAncestorOfCurrentNotebook } = NotebookStore
   const handleOnClick = useCallback(() => {
     onClick && onClick(notebook)
   }, [onClick])
@@ -20,7 +20,8 @@ const NotebookItem = ({ className, notebook, isActive, onClick, onExpandNotebook
   }, [onExpandNotebook])
 
   function isCurrentNotebookHidden(notebook: INotebook) {
-    return isNotebookAncestorOfCurrentNotebook(notebook) && !notebook.expand
+    // return isNotebookAncestorOfCurrentNotebook(notebook) && !notebook.expand
+    return false
   }
 
   return (
@@ -30,7 +31,7 @@ const NotebookItem = ({ className, notebook, isActive, onClick, onExpandNotebook
         ${isCurrentNotebookHidden(notebook) && 'bg-amber-500 hover:bg-amber-600'}`
       }
     >
-      {
+      {/* {
         notebook.children.length > 0 ?
         <div className="h-7 w-5 flex items-center">
           <button
@@ -39,7 +40,7 @@ const NotebookItem = ({ className, notebook, isActive, onClick, onExpandNotebook
           >{!notebook.expand ? 'keyboard_arrow_right' : 'keyboard_arrow_down'}</button>
         </div> :
         <div className="h-7 w-5 mr-1"/>
-      }
+      } */}
       <div
         className="ml-2 w-full rounded cursor-pointer flex items-center text-ellipsis max-w-48 truncate"
         onClick={handleOnClick}
