@@ -67,6 +67,7 @@ const GlobalMenu = observer(() => {
   return (
     <div className="justify-between flex flex-col h-full">
       <div>
+        <div>*[Work In Progress]*</div>
         <GlobalMenuItem
           isFocused={globalNavigationStore.currentFocusedPage === menuOptions.noteshall}
           onClick={handleNotesHallClick}
