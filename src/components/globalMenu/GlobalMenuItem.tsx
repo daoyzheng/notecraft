@@ -19,7 +19,7 @@ const GlobalMenuItem: FC<Props> = ({className, children, isFocused, onClick}) =>
       {
         isFocused ?
         <GlobalMenuItemIconWrapper>
-          <img src="/src/assets/icons/spiderman_icon.svg" alt="spiderman_blinker" width="24"/>
+          <img src="/icons/ironman_icon.svg" alt="spiderman_blinker" width="24"/>
         </GlobalMenuItemIconWrapper> :
         // <GlobalMenuItemIconWrapper
         //   className={`material-icons-outlined text-sm ${isFocused ? 'text-blue-300' : ''}`}
